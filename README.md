@@ -15,4 +15,5 @@ This project is a simple front-end starter template for building admin dashboard
 1. Clone the repository: git clone https://github.com/nase01/react-admin-dashboard
 2. cd react-admin-dashboard
 3. npm install
+4. npm run dev
    
