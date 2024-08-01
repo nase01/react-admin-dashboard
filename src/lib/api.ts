@@ -1,6 +1,8 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export async function signIn(user: { email: string; password: string }) {
 	try {
-		const response = await fetch("https://authninja-api.vercel.app/admin/auth/signin", {
+		const response = await fetch(`${API_BASE_URL}/admin/auth/signin`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -26,7 +28,7 @@ export async function getCurrentUser() {
 	try {
 		const jwt = localStorage.getItem('jwt');
 
-		const response = await fetch("https://authninja-api.vercel.app/admin/auth/user", {
+		const response = await fetch(`${API_BASE_URL}/admin/auth/user`, {
 			method: "GET",
 			headers: {
 				"Authorization": `Bearer ${jwt}`,
@@ -47,7 +49,7 @@ export async function getAllUsers() {
 	try {
 		const jwt = localStorage.getItem('jwt');
 
-		const response = await fetch("https://authninja-api.vercel.app/admin/admins?perPage=5&currentPage=1", {
+		const response = await fetch(`${API_BASE_URL}/admin/admins?perPage=5&currentPage=1`, {
 			method: "GET",
 			headers: {
 				"Authorization": `Bearer ${jwt}`,
