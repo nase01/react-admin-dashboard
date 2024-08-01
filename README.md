@@ -1,6 +1,6 @@
 # React Admin Dashboard
 
-This project is a front-end starter template for building admin dashboards with React. It includes essential features and tools to help you get started quickly and efficiently.
+This project is a simple front-end starter template for building admin dashboards with React. It includes essential features and tools to help you get started quickly and efficiently.
 
 ## Features
 
@@ -8,6 +8,7 @@ This project is a front-end starter template for building admin dashboards with 
 - **Tailwind CSS**: Pre-installed Tailwind CSS for rapid UI development.
 - **TanStack Query**: Integrated TanStack Query for data fetching and state management.
 - **ShadCN**: Pre-installed ShadCN for a set of utilities for creating consistent and reusable design elements.
+- **User Management**: CRUD Functionality reference
 
 ## Installation
 
