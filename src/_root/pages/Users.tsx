@@ -1,6 +1,8 @@
 const Users = () => {
   return (
-    <div>Users</div>
+    <div className="p-4">
+      <h2 className="font-bold" >Users</h2>
+    </div>
   )
 }
 
