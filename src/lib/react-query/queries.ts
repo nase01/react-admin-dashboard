@@ -5,6 +5,7 @@ import {
 
 import {
 	signIn,
+	signOut,
 	getCurrentUser,
 	getAllUsers
 } from "@/lib/api";
@@ -19,6 +20,12 @@ export const useSignIn = () => {
 		mutationFn: (user: { email: string; password: string }) =>
 			signIn(user),
 	});
+};
+
+export const useSignOut = () => {
+  return useMutation({
+    mutationFn: signOut,
+  });
 };
 
 export const useGetCurrentUser = () => {
