@@ -45,7 +45,7 @@ const SigninForm = () => {
     if (isLoggedIn) {
       form.reset();
 
-      navigate("/");
+      navigate("/dashboard");
     }
 
   };
