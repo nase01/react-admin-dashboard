@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import "@/globals.css";
 
-import { Home, About } from "@/_root/pages";
+import { Dashboard, Users } from "@/_root/pages";
 import RootLayout from "@/_root/RootLayout";
 
 import { Toaster } from "@/components/ui/toaster";
@@ -17,8 +17,8 @@ const App = () => {
           <Route path="/sign-in" element={<SigninForm />} />
         </Route>
         <Route element={<RootLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/users" element={<Users />} />
         </Route>
       </Routes>
 
