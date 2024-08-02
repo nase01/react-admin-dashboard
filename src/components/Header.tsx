@@ -1,10 +1,14 @@
 import { LogOut } from "lucide-react";
+import { signOut } from "@/lib/api";
 import { Button } from "./ui/button";
 
-
 const Header = () => {
-  const handleLogout = () => {
-    window.location.href = '/logout'; // Example redirect, replace with your logout logic
+  const handleLogout = async () => {
+    const result = await signOut();
+    
+    if (result.success) {
+      window.location.href = '/sign-in';
+    }
   };
 
   return (
