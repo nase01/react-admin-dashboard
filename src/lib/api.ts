@@ -24,6 +24,36 @@ export async function signIn(user: { email: string; password: string }) {
 	}
 }
 
+export async function signOut() {
+	try {
+		const token = localStorage.getItem('jwt');
+		if (!token) {
+			throw new Error('No token found');
+		}
+
+		/*
+		// TODO: Add signout endpoint on the backend
+		const response = await fetch(`${API_BASE_URL}/admin/auth/signout`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${token}`,
+			}
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.errors[0].detail);
+		}
+		*/
+
+		localStorage.removeItem('jwt');
+		return { success: true };
+	} catch (error) {
+		return { errors: [{ detail: (error as Error).message }] };
+	}
+}
+
 export async function getCurrentUser() {
 	try {
 		const jwt = localStorage.getItem('jwt');

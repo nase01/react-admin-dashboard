@@ -89,7 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       navigate("/sign-in");
     } else {
       (currentPath === "/sign-in" || currentPath === "/sign-up") 
-      && navigate("/");
+      && navigate("/dashboard");
     }
 
     checkAuthUser();
