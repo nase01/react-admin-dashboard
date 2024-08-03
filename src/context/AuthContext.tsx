@@ -86,8 +86,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       jwt  === null ||
       jwt  === undefined
     ) {
-      navigate("/sign-in");
-    } else {
+      (currentPath !== "/") && navigate("/sign-in");
+    } else { 
       (currentPath === "/sign-in" || currentPath === "/sign-up") 
       && navigate("/dashboard");
     }

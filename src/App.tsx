@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import "@/globals.css";
 
-import { Dashboard, Users } from "@/_root/pages";
+import { Dashboard, Users, Home } from "@/_root/pages";
 import RootLayout from "@/_root/RootLayout";
 
 import { Toaster } from "@/components/ui/toaster";
@@ -14,6 +14,7 @@ const App = () => {
     <main className="flex h-screen">
       <Routes>
         <Route element={<AuthLayout />}>
+          <Route path="/" element={<Home />} />
           <Route path="/sign-in" element={<SigninForm />} />
         </Route>
         <Route element={<RootLayout />}>
