@@ -54,6 +54,31 @@ export async function signOut() {
 	}
 }
 
+export async function sendPWResetToken(user: { email: string; accountType?: string }) {
+	const { email, accountType = "admin" } = user;
+
+	try {
+		const response = await fetch(`${API_BASE_URL}/admin/account/pwreset`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ email, accountType }),
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.errors[0].detail);
+		}
+
+		const data = await response.json();
+
+		return data;
+	} catch (error) {
+		return { errors: [{ detail: (error as Error).message }] };
+	}
+}
+
 export async function getCurrentUser() {
 	try {
 		const jwt = localStorage.getItem('jwt');

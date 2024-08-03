@@ -7,6 +7,7 @@ import RootLayout from "@/_root/RootLayout";
 
 import { Toaster } from "@/components/ui/toaster";
 import SigninForm from "@/_auth/forms/SigninForm";
+import ForgotPasswordForm from "@/_auth/forms/ForgotPasswordForm";
 import AuthLayout from "@/_auth/AuthLayout";
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route element={<AuthLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/sign-in" element={<SigninForm />} />
+          <Route path="/forgot-password" element={<ForgotPasswordForm />} />
         </Route>
         <Route element={<RootLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />

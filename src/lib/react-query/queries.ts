@@ -6,6 +6,7 @@ import {
 import {
 	signIn,
 	signOut,
+	sendPWResetToken,
 	getCurrentUser,
 	getAllUsers
 } from "@/lib/api";
@@ -26,6 +27,13 @@ export const useSignOut = () => {
   return useMutation({
     mutationFn: signOut,
   });
+};
+
+export const useSendPWResetToken = () => {
+	return useMutation({
+		mutationFn: (user: { email: string; accountType?: string; }) =>
+		sendPWResetToken(user),
+	});
 };
 
 export const useGetCurrentUser = () => {

@@ -52,10 +52,7 @@ const SigninForm = () => {
 
   return (
     <Form {...form}>
-      <div className="flex-center flex-col p-3 sm:w-420 min-w-[450px]">
-        <div className="flex justify-center items-center">
-          <img src="/assets/logo.svg" alt="logo" />
-        </div>
+      <div>
         <p className="flex justify-center items-center text-light-4 small-medium md:base-regular my-10">
           Welcome back! Please enter your details.
         </p>
