@@ -5,6 +5,7 @@ This project is a simple front-end starter template for building admin dashboard
 ## Features
 
 - **Authentication**: Integrated JWT authentication with external back-end API.
+- **Password Reset**: Forgot/Reset password functionality
 - **Tailwind CSS**: Pre-installed Tailwind CSS for rapid UI development.
 - **TanStack Query**: Integrated TanStack Query for data fetching and state management.
 - **ShadCN**: Pre-installed ShadCN for a set of utilities for creating consistent and reusable design elements.
