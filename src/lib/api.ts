@@ -54,8 +54,7 @@ export async function signOut() {
 	}
 }
 
-export async function sendPWResetToken(user: { email: string; accountType?: string }) {
-	const { email, accountType = "admin" } = user;
+export async function sendPWResetToken(email: string) {
 
 	try {
 		const response = await fetch(`${API_BASE_URL}/admin/account/pwreset`, {
@@ -63,7 +62,37 @@ export async function sendPWResetToken(user: { email: string; accountType?: stri
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ email, accountType }),
+			body: JSON.stringify({ email, "accountType": "admin" }),
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.errors[0].detail);
+		}
+
+		const data = await response.json();
+
+		return data;
+	} catch (error) {
+		return { errors: [{ detail: (error as Error).message }] };
+	}
+}
+
+export async function passwordReset(user: { email: string; newPassword: string; newPWConfirm: string; resetToken: string }) {
+
+	try {
+		const response = await fetch(`${API_BASE_URL}/admin/account/pwreset`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ 
+				"accountType": "admin",
+				"email": user.email,  
+				"newPassword": user.newPassword,  
+				"newPasswordConfirm": user.newPWConfirm,  
+				"token": user.resetToken,  
+			}),
 		});
 
 		if (!response.ok) {
