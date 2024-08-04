@@ -8,24 +8,28 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/shared/Loader";
-import { ForgotPasswordValidation } from "@/lib/validation";
+import { ForgotPWValidation } from "@/lib/validation";
 
 import { useSendPWResetToken } from "@/lib/react-query/queries";
+import { useState } from "react";
 
 const ForgotPasswordForm = () => {
 	const { toast } = useToast();
 	const navigate = useNavigate();
+  const [hasResetToken] = useState(false);
+
+  const validationSchema = ForgotPWValidation(hasResetToken);
 
 	const { mutateAsync: sendResetToken, isPending: isSendingPWResetToken } = useSendPWResetToken();
 
-	const form = useForm<z.infer<typeof ForgotPasswordValidation>>({
-    resolver: zodResolver(ForgotPasswordValidation),
+	const form = useForm<z.infer<typeof validationSchema>>({
+    resolver: zodResolver(validationSchema),
     defaultValues: {
       email: "",
     },
   });
 
-	const handleSendResetToken = async (user: z.infer<typeof ForgotPasswordValidation>) => {
+	const handleSendResetToken = async (user: z.infer<typeof validationSchema>) => {
     
     const response = await sendResetToken(user);
 		
