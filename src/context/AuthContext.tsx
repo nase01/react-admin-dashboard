@@ -86,10 +86,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       jwt  === null ||
       jwt  === undefined
     ) {
-      (currentPath !== "/") && navigate("/sign-in");
+      navigate("/sign-in");
     } else { 
-      (currentPath === "/sign-in" || currentPath === "/sign-up") 
-      && navigate("/dashboard");
+      (currentPath === "/" || currentPath === "/sign-in" || currentPath === "/sign-up") 
+      && navigate("/admin/dashboard");
     }
 
     checkAuthUser();

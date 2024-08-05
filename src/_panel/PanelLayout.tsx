@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import { Outlet } from "react-router-dom";
 
-const RootLayout = () => {
+const PanelLayout = () => {
   return (
     <div className="w-full md:flex">
       <section className="flex-1 h-full">
@@ -12,4 +12,4 @@ const RootLayout = () => {
   );
 };
 
-export default RootLayout;
+export default PanelLayout;
