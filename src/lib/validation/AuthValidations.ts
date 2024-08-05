@@ -3,7 +3,9 @@ import { strongPWOptions, confirmPWOptions  } from "./common/strongPWOptions";
 
 export const SigninValidation = z.object({
   email: z.string().email(),
-  password: z.string().min(8, { message: "Password must be at least 8 characters." }),
+  password: z.string().refine((data) => data.trim() !== "", {
+    message: "Password is empty"
+  }),
 });
 
 export const ForgotPWValidation = (hasResetToken: boolean) => {
@@ -18,7 +20,7 @@ export const ForgotPWValidation = (hasResetToken: boolean) => {
     return z.object({
       ...baseSchema,
       resetToken: z.string().refine((data) => data.trim() !== "", {
-        message: "Reset token is required.",
+        message: "Reset token is required",
       }),
       newPassword: strongPWOptions,
       newPWConfirm: confirmPWOptions,

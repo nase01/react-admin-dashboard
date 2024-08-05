@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/shared/Loader";
-import { ForgotPWValidation } from "@/lib/validation";
+import { ForgotPWValidation } from "@/lib/validation/AuthValidations";
 
 import { useSendPWResetToken, usePasswordReset } from "@/lib/react-query/queries";
 import { useState } from "react";
