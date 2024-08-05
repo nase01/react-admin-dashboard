@@ -10,6 +10,7 @@ This project is a simple front-end starter template for building admin dashboard
 - **TanStack Query**: Integrated TanStack Query for data fetching and state management.
 - **ShadCN**: Pre-installed ShadCN for a set of utilities for creating consistent and reusable design elements.
 - **User Management**: CRUD Functionality for reference
+- **Zod**: Integrated form validation library
 
 ## Installation
 
