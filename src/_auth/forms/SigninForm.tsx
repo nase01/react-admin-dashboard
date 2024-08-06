@@ -11,13 +11,11 @@ import Loader from "@/components/shared/Loader";
 
 import { SigninValidation } from "@/lib/validation/AuthValidations";
 import { useSignIn } from "@/lib/react-query/queries";
-import { useUserContext } from "@/context/AuthContext";
 
 const SigninForm = () => {
 
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { checkAuthUser } = useUserContext();
 
   // Query
   const { mutateAsync: signIn, isPending: isSigningIn } = useSignIn();
@@ -40,14 +38,8 @@ const SigninForm = () => {
       return;
     }
 
-    const isLoggedIn = await checkAuthUser();
-
-    if (isLoggedIn) {
-      form.reset();
-
-      navigate("/admin/dashboard");
-    }
-
+    navigate("/admin/dashboard");
+    
   };
 
   return (
