@@ -48,6 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(true);
 
     try {
+      if(jwt) {
         const currentAdmin = await getCurrentUser();
         if (currentAdmin) {
           setUser({
@@ -66,7 +67,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           
           return true;
         }
-      
+      }
+        
       return false;
 
     } catch (error) {
@@ -88,7 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     ) {
       navigate("/sign-in");
     } else { 
-      (currentPath === "/" || currentPath === "/sign-in" || currentPath === "/sign-up") 
+      (currentPath === "/" || currentPath === "/sign-in") 
       && navigate("/admin/dashboard");
     }
 
