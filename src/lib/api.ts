@@ -31,8 +31,6 @@ export async function signOut() {
 			throw new Error('No token found');
 		}
 
-		/*
-		// TODO: Add signout endpoint on the backend
 		const response = await fetch(`${API_BASE_URL}/admin/auth/signout`, {
 			method: "POST",
 			headers: {
@@ -45,8 +43,7 @@ export async function signOut() {
 			const errorData = await response.json();
 			throw new Error(errorData.errors[0].detail);
 		}
-		*/
-
+		
 		localStorage.removeItem('jwt');
 		return { success: true };
 	} catch (error) {
