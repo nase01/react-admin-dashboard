@@ -1,5 +1,5 @@
 const Loader = () => (
-	<div className="flex-center w-full">
+	<div className="flex items-center justify-center w-full h-[90%]">
 		<img
 			src="/assets/icons/loader.svg"
 			alt="loader"
