@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { User } from "@/types";
-import { getCurrentUser } from "@/lib/api";
+import { getCurrentUser } from "@/lib/api/UserApi";
 
 export const INITIAL_USER = {
   id: "",

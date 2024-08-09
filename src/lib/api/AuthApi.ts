@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { API_BASE_URL, getJwt } from '@/lib/utils';
 
 export async function signIn(user: { email: string; password: string }) {
 	try {
@@ -26,16 +26,13 @@ export async function signIn(user: { email: string; password: string }) {
 
 export async function signOut() {
 	try {
-		const token = localStorage.getItem('jwt');
-		if (!token) {
-			throw new Error('No token found');
-		}
+		const jwt = getJwt();
 
 		const response = await fetch(`${API_BASE_URL}/admin/auth/signout`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
-				"Authorization": `Bearer ${token}`,
+				"Authorization": `Bearer ${jwt}`,
 			}
 		});
 
@@ -104,45 +101,3 @@ export async function passwordReset(user: { email: string; newPassword: string; 
 		return { errors: [{ detail: (error as Error).message }] };
 	}
 }
-
-export async function getCurrentUser() {
-	try {
-		const jwt = localStorage.getItem('jwt');
-
-		const response = await fetch(`${API_BASE_URL}/admin/auth/user`, {
-			method: "GET",
-			headers: {
-				"Authorization": `Bearer ${jwt}`,
-				"Content-Type": "application/json",
-			},
-		});
-
-		const data = await response.json();
-		
-		return data.data.currentAdmin;
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-export async function getAllUsers() {
-	
-	try {
-		const jwt = localStorage.getItem('jwt');
-
-		const response = await fetch(`${API_BASE_URL}/admin/admins?perPage=5&currentPage=1`, {
-			method: "GET",
-			headers: {
-				"Authorization": `Bearer ${jwt}`,
-				"Content-Type": "application/json",
-			},
-		});
-
-		const data = await response.json();
-		
-		return data.data;
-	} catch (error) {
-		console.log(error);
-	}
-}
-    

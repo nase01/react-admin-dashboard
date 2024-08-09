@@ -3,14 +3,9 @@ import {
 	useQuery,
 } from "@tanstack/react-query";
 
-import {
-	signIn,
-	signOut,
-	sendPWResetToken,
-	passwordReset,
-	getCurrentUser,
-	getAllUsers
-} from "@/lib/api";
+import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
+import { getCurrentUser, getAllUsers} from "@/lib/api/UserApi";
+
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 
 // ============================================================
@@ -43,6 +38,10 @@ export const usePasswordReset = () => {
 		passwordReset(user),
 	});
 };
+
+// ============================================================
+// USER QUERIES
+// ============================================================
 
 export const useGetCurrentUser = () => {
 	return useQuery({
