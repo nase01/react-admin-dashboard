@@ -4,14 +4,14 @@ import { useGetAllUsers } from "@/lib/react-query/queries";
 import { User } from "@/types"
 
 const Users = () => {
-  const { data: usersData, isLoading } = useGetAllUsers();
+  const { data, isLoading } = useGetAllUsers();
 
   if (isLoading)
     return (
       <Loader />
     );
 
-  const users = usersData as User[];
+  const users = data as User[];
 
   return (
     <div className="p-4">
