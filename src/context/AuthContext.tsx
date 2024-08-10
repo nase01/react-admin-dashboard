@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import { User } from "@/types";
 import { getCurrentUser } from "@/lib/api/UserApi";
+import { getJwt } from '@/lib/utils';
 
 export const INITIAL_USER = {
   id: "",
@@ -42,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const jwt = localStorage.getItem('jwt');
+  const jwt = getJwt();
 
   const checkAuthUser = async () => {
     setIsLoading(true);
