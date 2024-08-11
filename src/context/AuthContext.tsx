@@ -92,7 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       navigate("/sign-in");
     } else { 
       (currentPath === "/" || currentPath === "/sign-in") 
-      && navigate("/admin/dashboard");
+      && navigate("/panel/dashboard");
     }
 
     checkAuthUser();
@@ -100,7 +100,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (user.role === "admin" && window.location.pathname === "/admin/users") {
+      if (user.role === "admin" && window.location.pathname === "/panel/users") {
+        navigate("/unauthorized");
+      } else if (!user.active) {
         navigate("/unauthorized");
       } else if (user.pwForceChange) {
         navigate("/panel/account-settings");
