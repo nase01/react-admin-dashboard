@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { User } from "@/types";
-import { getCurrentUser } from "@/lib/api/UserApi";
+import { getAllUsers, getCurrentUser } from "@/lib/api/UserApi";
 import { getJwt } from '@/lib/utils';
 
 export const INITIAL_USER = {
@@ -97,6 +97,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     checkAuthUser();
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (user.role === "admin" && window.location.pathname === "/admin/users") {
+        navigate("/unauthorized");
+      } else if (user.pwForceChange) {
+        navigate("/panel/account-settings");
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const value = {
     user,
