@@ -38,7 +38,7 @@ const SigninForm = () => {
       return;
     }
 
-    navigate("/admin/dashboard");
+    navigate("/panel/dashboard");
     
   };
 

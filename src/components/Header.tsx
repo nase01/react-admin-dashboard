@@ -23,8 +23,8 @@ const Header = () => {
   };
 
   const links: NavLink[] = [
-    { route: "/admin/dashboard", label: "Dashboard" },
-    { route: "/admin/users", label: "Users" },
+    { route: "/panel/dashboard", label: "Dashboard" },
+    { route: "/panel/users", label: "Users" },
   ];
 
   return (

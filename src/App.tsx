@@ -21,8 +21,8 @@ const App = () => {
           <Route path="/forgot-password" element={<ForgotPasswordForm />} />
         </Route>
         <Route element={<PanelLayout />}>
-          <Route path="/admin/dashboard" element={<Dashboard />} />
-          <Route path="/admin/users" element={<Users />} />
+          <Route path="/panel/dashboard" element={<Dashboard />} />
+          <Route path="/panel/users" element={<Users />} />
         </Route>
       </Routes>
 
