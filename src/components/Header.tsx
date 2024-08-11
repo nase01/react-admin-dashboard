@@ -4,7 +4,7 @@ import { LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { useSignOut } from "@/lib/react-query/queries";
 import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
-import { NavLink } from "@/types";
+import { navLinks } from "@/constants";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -22,16 +22,11 @@ const Header = () => {
     navigate("/sign-in");
   };
 
-  const links: NavLink[] = [
-    { route: "/panel/dashboard", label: "Dashboard" },
-    { route: "/panel/users", label: "Users" },
-  ];
-
   return (
     <div className="flex justify-between items-center p-4 bg-slate-950 text-white">
       <h1 className="text-xl font-bold">RAD</h1>
       <ul className="flex-grow flex justify-center space-x-4 text-white">
-        {links.map((link) => (
+        {navLinks.map((link) => (
           <li key={link.route}>
             <a
               href={link.route}
