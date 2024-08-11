@@ -2,6 +2,8 @@ export type NavLink = {
 	imgURL?: string;
 	route: string;
 	label: string;
+	requiresAuth: boolean;
+	requiresRole: string[];
 };
 
 export type User = {

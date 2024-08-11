@@ -5,6 +5,8 @@ import { Button } from "./ui/button";
 import { useSignOut } from "@/lib/react-query/queries";
 import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
 import { navLinks } from "@/constants";
+import { useEffect } from "react";
+import { updatePageTitle } from "@/lib/utils";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -22,19 +24,25 @@ const Header = () => {
     navigate("/sign-in");
   };
 
+  useEffect(() => {
+    updatePageTitle(location); 
+  }, [location.pathname]);
+
   return (
     <div className="flex justify-between items-center p-4 bg-slate-950 text-white">
       <h1 className="text-xl font-bold">RAD</h1>
       <ul className="flex-grow flex justify-center space-x-4 text-white">
-        {navLinks.map((link) => (
-          <li key={link.route}>
-            <a
-              href={link.route}
-              className={`hover:underline ${location.pathname === link.route ? "underline" : ""}`}
-            >
-              {link.label}
-            </a>
-          </li>
+        {navLinks
+          .filter((link) => link.requiresAuth)
+          .map((link) => (
+            <li key={link.route}>
+              <a
+                href={link.route}
+                className={`hover:underline ${location.pathname === link.route ? "underline" : ""}`}
+              >
+                {link.label}
+              </a>
+            </li>
         ))}
       </ul>
       <Button onClick={(e) => handleSignOut(e)} size="icon" className="rounded-full">
