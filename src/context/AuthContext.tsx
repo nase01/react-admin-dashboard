@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { User } from "@/types";
-import { getAllUsers, getCurrentUser } from "@/lib/api/UserApi";
+import { getCurrentUser } from "@/lib/api/UserApi";
 import { getJwt } from '@/lib/utils';
 
 export const INITIAL_USER = {
