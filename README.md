@@ -12,7 +12,8 @@ This project is a simple front-end starter template for building admin dashboard
 - **User Management**: Added CRUD Functionality for your reference.
 - **Zod**: Integrated form validation library.
 - **Security Check**: Check if the user have access to a certain page, needs to update password, inactive and with IP restrictions.
-- **Customm Error**: Customizable unauthorized and not found page with automatic redirection.
+- **Custom Error**: Customizable unauthorized and not found page with automatic redirection.
+- **Organized File/Folder Structure**: Easy to read, scalable, reusable and maintanable code base.
 
 ## Installation
 
