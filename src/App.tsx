@@ -10,8 +10,10 @@ import Dashboard from "@/_panel/pages/Dashboard";
 import Users from "@/_panel/pages/Users";
 
 import Unauthorized from "./_error/pages/Unauthorized";
+import NotFound from "./_error/pages/NotFound";
 
 import "@/globals.css";
+
 
 const App = () => {
   return (
@@ -27,6 +29,7 @@ const App = () => {
           <Route path="/panel/users" element={<Users />} />
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Toaster />

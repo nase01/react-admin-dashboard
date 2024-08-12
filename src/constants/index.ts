@@ -21,7 +21,13 @@ export const navLinks: NavLink[] = [
   },
   { 
     route: "/unauthorized", 
-    label: "Unauthorized" ,
+    label: "Error 401" ,
+    requiresAuth: false,
+    requiresRole: [],
+  },
+  { 
+    route: "*", 
+    label: "Error 404", 
     requiresAuth: false,
     requiresRole: [],
   },
