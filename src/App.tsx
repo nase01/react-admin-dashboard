@@ -9,6 +9,8 @@ import PanelLayout from "@/_panel/PanelLayout";
 import Dashboard from "@/_panel/pages/Dashboard";
 import Users from "@/_panel/pages/Users";
 
+import Unauthorized from "./_error/pages/Unauthorized";
+
 import "@/globals.css";
 
 const App = () => {
@@ -24,6 +26,7 @@ const App = () => {
           <Route path="/panel/dashboard" element={<Dashboard />} />
           <Route path="/panel/users" element={<Users />} />
         </Route>
+        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
 
       <Toaster />
