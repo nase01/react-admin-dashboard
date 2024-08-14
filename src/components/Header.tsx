@@ -13,7 +13,7 @@ const Header = () => {
   const location = useLocation();
   const { setUser, setIsAuthenticated } = useUserContext();
   const { mutate: signOut } = useSignOut();
-
+  
   const handleSignOut = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -33,7 +33,7 @@ const Header = () => {
       <h1 className="text-xl font-bold">RAD</h1>
       <ul className="flex-grow flex justify-center space-x-4 text-white">
         {navLinks
-          .filter((link) => link.requiresAuth)
+          .filter((link) => !link.hidden)
           .map((link) => (
             <li key={link.route}>
               <a

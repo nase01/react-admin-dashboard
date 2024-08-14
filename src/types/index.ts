@@ -3,7 +3,8 @@ export type NavLink = {
 	route: string;
 	label: string;
 	requiresAuth: boolean;
-	requiresRole: string[];
+	restrictions: string[];
+	hidden: boolean;
 };
 
 export type User = {

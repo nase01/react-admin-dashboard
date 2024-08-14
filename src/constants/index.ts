@@ -1,34 +1,50 @@
 import { NavLink } from "@/types";
 
+/*
+  * Setup
+  - Set hidden to false to hide it from navigation bar
+  - Role Restrictions:
+    > [] = Allowed all roles
+    > ["admin"] = Allowed admin and super users
+    > ["super"] = Allowed super users only
+        
+  * Note: Super user's automatically have access to all pages
+*/
+
 export const navLinks: NavLink[] = [
   { 
     route: "/sign-in", 
     label: "Signin",
     requiresAuth: false,
-    requiresRole: [],
+    restrictions: [],
+    hidden: true
   },
   { 
     route: "/panel/dashboard", 
     label: "Dashboard",
     requiresAuth: true,
-    requiresRole: [],
+    restrictions: [],
+    hidden: false
   },
   { 
     route: "/panel/users", 
     label: "Users",
     requiresAuth: true,
-    requiresRole: [],
+    restrictions: ["super"],
+    hidden: false 
   },
   { 
     route: "/unauthorized", 
     label: "Error 401" ,
-    requiresAuth: false,
-    requiresRole: [],
+    requiresAuth: true,
+    restrictions: [],
+    hidden: true
   },
   { 
     route: "*", 
     label: "Error 404", 
-    requiresAuth: false,
-    requiresRole: [],
+    requiresAuth: true,
+    restrictions: [],
+    hidden: true
   },
 ];
