@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { User } from "@/types";
 import { getCurrentUser } from "@/lib/api/UserApi";
 import { getJwt } from '@/lib/utils';
+import { signOut } from "@/lib/api/AuthApi";
 
 export const INITIAL_USER = {
   id: "",
@@ -102,10 +103,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (isAuthenticated) {
       if (user.role === "admin" && window.location.pathname === "/panel/users") {
         navigate("/unauthorized");
+
       } else if (!user.active) {
-        navigate("/unauthorized");
+        signOut();
+        setIsAuthenticated(false);
+        setUser(INITIAL_USER);
+        navigate("/sign-in");
+
       } else if (user.pwForceChange) {
         navigate("/panel/account-settings");
+        
       }
     }
   }, [isAuthenticated, user, navigate]);
