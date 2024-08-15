@@ -5,6 +5,7 @@ import { User } from "@/types";
 import { getCurrentUser } from "@/lib/api/UserApi";
 import { getJwt } from '@/lib/utils';
 import { signOut } from "@/lib/api/AuthApi";
+import { navLinks } from "@/constants";
 
 export const INITIAL_USER = {
   id: "",
@@ -68,6 +69,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setIsAuthenticated(true);
           
           return true;
+        } else {
+          navigate("/sign-in");
         }
       }
         
@@ -85,11 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const currentPath = window.location.pathname;
 
-    if (
-      jwt  === "[]" ||
-      jwt  === null ||
-      jwt  === undefined
-    ) {
+    if (jwt  === "[]" || jwt  === null || jwt  === undefined ) {
       navigate("/sign-in");
     } else { 
       (currentPath === "/" || currentPath === "/sign-in") 
@@ -101,18 +100,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (user.role === "admin" && window.location.pathname === "/panel/users") {
-        navigate("/unauthorized");
+      const currentRoute = window.location.pathname;
+      const currentNavLink = navLinks.find(link => link.route === currentRoute);
 
-      } else if (!user.active) {
-        signOut();
-        setIsAuthenticated(false);
-        setUser(INITIAL_USER);
-        navigate("/sign-in");
-
-      } else if (user.pwForceChange) {
-        navigate("/panel/account-settings");
+      if (currentNavLink) {
+        const allowedRoles = currentNavLink.restrictions;
         
+        const hasAccess = 
+          user.role === "super" || // Super user always has access
+          allowedRoles.length === 0 || // No restrictions, anyone can access
+          allowedRoles.includes(user.role); // User's role is in the allowed list
+
+        if (!hasAccess) {
+          navigate("/unauthorized");
+        } else if (!user.active) {
+          signOut();
+          setIsAuthenticated(false);
+          setUser(INITIAL_USER);
+          navigate("/sign-in");
+        } else if (user.pwForceChange) {
+          navigate("/panel/account-settings");
+        }
       }
     }
   }, [isAuthenticated, user, navigate]);
