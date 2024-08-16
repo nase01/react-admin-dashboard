@@ -6,13 +6,32 @@ import { useSignOut } from "@/lib/react-query/queries";
 import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
 import { navLinks } from "@/constants";
 import { useEffect } from "react";
-import { updatePageTitle } from "@/lib/utils";
+import { getJwtPayload, updatePageTitle } from "@/lib/utils";
+
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { setUser, setIsAuthenticated } = useUserContext();
   const { mutate: signOut } = useSignOut();
+  const jwtPayload = getJwtPayload();
+
+  const filteredLinks = navLinks.filter((link) => {
+    if (link.hidden) return false;
+    if (!link.requiresAuth) return true;
+
+    if (!jwtPayload) return false;
+
+    const { role } = jwtPayload;
+    const { restrictions } = link;
+
+    if (role === 'super') return true;
+
+    if (restrictions.length === 0) return true;
+    if (restrictions.includes(role)) return true;
+
+    return false;
+  });
   
   const handleSignOut = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -32,9 +51,7 @@ const Header = () => {
     <div className="flex justify-between items-center p-4 bg-slate-950 text-white">
       <h1 className="text-xl font-bold">RAD</h1>
       <ul className="flex-grow flex justify-center space-x-4 text-white">
-        {navLinks
-          .filter((link) => !link.hidden)
-          .map((link) => (
+        {filteredLinks.map((link) => (
             <li key={link.route}>
               <a
                 href={link.route}
