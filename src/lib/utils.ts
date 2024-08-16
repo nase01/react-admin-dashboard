@@ -1,7 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
+import { jwtDecode } from "jwt-decode";
 import { twMerge } from "tailwind-merge";
 import { navLinks } from "@/constants";
 import { Location } from "react-router-dom";
+import { JwtPayload } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -9,6 +11,20 @@ export function cn(...inputs: ClassValue[]) {
 
 export const getJwt = (): string | null => {
 	return localStorage.getItem('jwt');
+};
+
+export const getJwtPayload = (): JwtPayload | null => {
+  const token = getJwt();
+
+  if (!token) {
+    return null;
+  }
+  try {
+    return jwtDecode<JwtPayload>(token);
+  } catch (error) {
+    console.error('Invalid token:', error);
+    return null;
+  }
 };
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;

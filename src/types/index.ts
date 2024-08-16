@@ -18,3 +18,14 @@ export type User = {
 	ip: string;
 	ipWhitelist: string[];
 };
+
+export interface JwtPayload {
+  id: number;
+  accountType: string;
+  email: string;
+  role: string;
+  ip: string;
+  userAgent: string;
+  iat: number;
+  exp: number;
+}
