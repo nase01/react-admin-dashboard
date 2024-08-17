@@ -47,3 +47,24 @@ export const updatePageTitle = (location: Location) => {
 
   document.title = title;
 };
+
+export const getNavLinks = () => {
+  const jwtPayload = getJwtPayload();
+
+  return navLinks.filter((link) => {
+    if (link.hidden) return false;
+    if (!link.requiresAuth) return true;
+
+    if (!jwtPayload) return false;
+
+    const { role } = jwtPayload;
+    const { restrictions } = link;
+
+    if (role === "super") return true;
+
+    if (restrictions.length === 0) return true;
+    if (restrictions.includes(role)) return true;
+
+    return false;
+  });
+};
