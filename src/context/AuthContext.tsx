@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import { User } from "@/types";
 import { getCurrentUser } from "@/lib/api/UserApi";
-import { getJwt } from '@/lib/utils';
+import { getJwt, getJwtPayload } from '@/lib/utils';
 import { signOut } from "@/lib/api/AuthApi";
 import { navLinks } from "@/constants";
 
@@ -39,6 +39,8 @@ type IContextType = {
 };
 
 const AuthContext = createContext<IContextType>(INITIAL_STATE);
+
+const jwtPayload = getJwtPayload();
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -113,7 +115,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (!hasAccess) {
           navigate("/unauthorized");
-        } else if (!user.active) {
+        } else if (!user.active || jwtPayload?.role != user.role) {
           signOut();
           setIsAuthenticated(false);
           setUser(INITIAL_USER);
