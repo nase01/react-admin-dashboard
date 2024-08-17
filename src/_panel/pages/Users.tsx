@@ -1,12 +1,12 @@
 
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
-import { useGetAllUsers } from "@/lib/react-query/queries";
+import { useGetUsers } from "@/lib/react-query/queries";
 import { User } from "@/types"
 import { Trash, Pencil, ArrowLeft, ArrowRight } from "lucide-react";
 
 const Users = () => {
-  const { data, isLoading } = useGetAllUsers();
+  const { data, isLoading } = useGetUsers();
 
   if (isLoading)
     return (

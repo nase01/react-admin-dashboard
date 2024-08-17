@@ -4,7 +4,7 @@ import {
 } from "@tanstack/react-query";
 
 import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
-import { getCurrentUser, getAllUsers} from "@/lib/api/UserApi";
+import { getCurrentUser, getUsers} from "@/lib/api/UserApi";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 
@@ -50,10 +50,10 @@ export const useGetCurrentUser = () => {
 	});
 };
 
-export const useGetAllUsers = () => {
+export const useGetUsers = () => {
 	return useQuery({
 		queryKey: [QUERY_KEYS.GET_ALL_USERS],
-		queryFn: getAllUsers,
+		queryFn: getUsers,
 	});
 };
   

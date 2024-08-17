@@ -20,7 +20,7 @@ export async function getCurrentUser() {
 	}
 }
 
-export async function getAllUsers() {
+export async function getUsers() {
 	
 	try {
 		const jwt = getJwt();
