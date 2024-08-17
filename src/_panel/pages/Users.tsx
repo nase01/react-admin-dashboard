@@ -8,7 +8,7 @@ import Loader from "@/components/shared/Loader";
 import Pagination from '@/components/shared/Pagination';
 
 const Users = () => {
-  const perPage = 1; 
+  const perPage = 5; 
   const [currentPage, setCurrentPage] = useState(1);
   const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(perPage, currentPage);
   const { data: usersCount, isLoading: isfetchingUsersCount } = useGetUsersCount();
