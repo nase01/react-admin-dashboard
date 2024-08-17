@@ -52,7 +52,7 @@ export const useGetCurrentUser = () => {
 
 export const useGetUsers = () => {
 	return useQuery({
-		queryKey: [QUERY_KEYS.GET_ALL_USERS],
+		queryKey: [QUERY_KEYS.GET_USERS],
 		queryFn: getUsers,
 	});
 };
