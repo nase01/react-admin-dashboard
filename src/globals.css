@@ -67,3 +67,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.rounded-button {
+  @apply rounded-full w-9 h-9 flex items-center justify-center
+}
