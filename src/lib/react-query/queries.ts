@@ -4,7 +4,7 @@ import {
 } from "@tanstack/react-query";
 
 import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
-import { getCurrentUser, getUsers} from "@/lib/api/UserApi";
+import { getCurrentUser, getUsers, getUsersCount} from "@/lib/api/UserApi";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 
@@ -50,10 +50,17 @@ export const useGetCurrentUser = () => {
 	});
 };
 
-export const useGetUsers = () => {
+export const useGetUsersCount = () => {
 	return useQuery({
-		queryKey: [QUERY_KEYS.GET_USERS],
-		queryFn: getUsers,
+		queryKey: [QUERY_KEYS.GET_USERS_COUNT],
+		queryFn: getUsersCount,
 	});
 };
-  
+
+export const useGetUsers = (perPage: number, currentPage: number) => {
+	return useQuery({
+		queryKey: [QUERY_KEYS.GET_USERS, perPage, currentPage],
+		queryFn: () => getUsers(perPage, currentPage)
+	});
+};
+

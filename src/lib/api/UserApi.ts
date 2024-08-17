@@ -20,12 +20,35 @@ export async function getCurrentUser() {
 	}
 }
 
-export async function getUsers() {
+export async function getUsers(perPage: number, currentPage: number) {
 	
 	try {
 		const jwt = getJwt();
 
-		const response = await fetch(`${API_BASE_URL}/admin/admins?perPage=5&currentPage=1`, {
+		const response = await fetch(`${API_BASE_URL}/admin/admins
+			?perPage=${perPage}
+			&currentPage=${currentPage}`, {
+			method: "GET",
+			headers: {
+				"Authorization": `Bearer ${jwt}`,
+				"Content-Type": "application/json",
+			},
+		});
+
+		const data = await response.json();
+		
+		return data.data; 
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export async function getUsersCount() {
+	
+	try {
+		const jwt = getJwt();
+
+		const response = await fetch(`${API_BASE_URL}/admin/admins/count`, {
 			method: "GET",
 			headers: {
 				"Authorization": `Bearer ${jwt}`,

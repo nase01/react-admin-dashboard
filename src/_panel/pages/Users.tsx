@@ -1,28 +1,34 @@
+import { useState } from 'react';
+import { User } from "@/types";
+import { Trash, Pencil } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useGetUsers, useGetUsersCount } from "@/lib/react-query/queries";
 
 import Loader from "@/components/shared/Loader";
-import { Button } from "@/components/ui/button";
-import { useGetUsers } from "@/lib/react-query/queries";
-import { User } from "@/types"
-import { Trash, Pencil, ArrowLeft, ArrowRight } from "lucide-react";
+import Pagination from '@/components/shared/Pagination';
 
 const Users = () => {
-  const { data, isLoading } = useGetUsers();
+  const perPage = 1; 
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(perPage, currentPage);
+  const { data: usersCount, isLoading: isfetchingUsersCount } = useGetUsersCount();
 
-  if (isLoading)
-    return (
-      <Loader />
-    );
+  if (isfetchingUsersData || isfetchingUsersCount) return <Loader />;
 
-  const users = data as User[];
+  const data = usersData as User[];
+  const totalUsersCount = usersCount?.count || 0;
+  const totalPages = Math.ceil(totalUsersCount / perPage);
 
   return (
     <div className="p-4">
       <h2 className="font-bold text-slate-900 text-2xl">Users</h2>
       <div className="mt-3 max-w-[500px]">
+
         <div className="text-right items-center">
           <Button size="sm">New</Button>
         </div>
-        {users?.map((user: User) => (
+
+        {data?.map((user: User) => (
           <div key={user.id} className="flex justify-between items-center my-2 bg-slate-100 border border-slate-200 p-3 rounded-lg">
             <div className="text-xl">{user.name} ({user.role})</div>
             <div className="flex space-x-2">
@@ -35,13 +41,17 @@ const Users = () => {
             </div>
           </div>
         ))}
-        <div className="flex justify-between items-center">
-          <Button className="rounded-button" variant="outline" size="icon"><ArrowLeft /></Button>
-          <Button className="rounded-button" variant="outline" size="icon"><ArrowRight /></Button>
-        </div>
+
+        {totalPages > 0 && (
+          <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            onPageChange={setCurrentPage} 
+          />
+        )}
       </div>
     </div>
   )
 }
 
-export default Users
+export default Users;
