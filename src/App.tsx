@@ -8,6 +8,7 @@ import ForgotPasswordForm from "@/_auth/forms/ForgotPasswordForm";
 import PanelLayout from "@/_panel/PanelLayout";
 import Dashboard from "@/_panel/pages/Dashboard";
 import Users from "@/_panel/pages/Users";
+import UserCreate from "@/_panel/pages/UserCreate";
 
 import Unauthorized from "./_error/pages/Unauthorized";
 import NotFound from "./_error/pages/NotFound";
@@ -27,6 +28,7 @@ const App = () => {
         <Route element={<PanelLayout />}>
           <Route path="/panel/dashboard" element={<Dashboard />} />
           <Route path="/panel/users" element={<Users />} />
+          <Route path="/panel/users/create" element={<UserCreate />} />
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />

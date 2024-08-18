@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { User } from "@/types";
 import { Trash, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount } from "@/lib/react-query/queries";
 
+
 import Loader from "@/components/shared/Loader";
 import Pagination from '@/components/shared/Pagination';
 
 const Users = () => {
+  const navigate = useNavigate();
+
   const perPage = 5; 
   const [currentPage, setCurrentPage] = useState(1);
   const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(perPage, currentPage);
@@ -19,13 +23,17 @@ const Users = () => {
   const totalUsersCount = usersCount?.count || 0;
   const totalPages = Math.ceil(totalUsersCount / perPage);
 
+  const goToUsersCreate = () => {
+    navigate('/panel/users/create');
+  }
+
   return (
     <div className="p-4">
       <h2 className="font-bold text-slate-900 text-2xl">Users</h2>
       <div className="mt-3 max-w-[500px]">
 
         <div className="text-right items-center">
-          <Button size="sm">New</Button>
+          <Button type="button" onClick={goToUsersCreate} size="sm">New</Button>
         </div>
 
         {data?.map((user: User) => (

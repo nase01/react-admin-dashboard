@@ -34,6 +34,13 @@ export const navLinks: NavLink[] = [
     hidden: false 
   },
   { 
+    route: "/panel/users/create", 
+    label: "Create User",
+    requiresAuth: true,
+    restrictions: ["super"],
+    hidden: true 
+  },
+  { 
     route: "/unauthorized", 
     label: "Error 401" ,
     requiresAuth: true,

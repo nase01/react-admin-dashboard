@@ -16,8 +16,19 @@ export type User = {
 	active: boolean;
 	pwForceChange: boolean;
 	ip: string;
-	ipWhitelist: string[];
+	ipWhitelist: [];
 };
+
+export interface UserDTO {
+	name: string;
+	email: string;
+	password: string;
+	passwordConfirm: string;
+	ipWhitelist: string[];
+	role: string;
+	active: boolean;
+	pwForceChange: boolean;
+}
 
 export interface JwtPayload {
   id: number;
