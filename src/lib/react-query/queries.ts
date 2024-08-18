@@ -4,9 +4,10 @@ import {
 } from "@tanstack/react-query";
 
 import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
-import { getCurrentUser, getUsers, getUsersCount} from "@/lib/api/UserApi";
+import { createUser, getCurrentUser, getUsers, getUsersCount} from "@/lib/api/UserApi";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
+import { UserDTO } from "@/types";
 
 // ============================================================
 // AUTH QUERIES
@@ -61,6 +62,13 @@ export const useGetUsers = (perPage: number, currentPage: number) => {
 	return useQuery({
 		queryKey: [QUERY_KEYS.GET_USERS, perPage, currentPage],
 		queryFn: () => getUsers(perPage, currentPage)
+	});
+};
+
+export const useCreateUser = () => {
+	return useMutation({
+		mutationFn: (user: UserDTO) =>
+			createUser(user),
 	});
 };
 

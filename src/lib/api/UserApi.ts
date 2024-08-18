@@ -1,4 +1,5 @@
 import { API_BASE_URL, getJwt } from '@/lib/utils';
+import { UserDTO } from '@/types';
 
 export async function getCurrentUser() {
 	try {
@@ -61,5 +62,38 @@ export async function getUsersCount() {
 		return data.data; 
 	} catch (error) {
 		console.log(error);
+	}
+}
+
+export async function createUser(user: UserDTO) {
+	try {
+
+		const updatedUser: UserDTO = {
+			...user,
+			ipWhitelist: user.ipWhitelist ?? [],
+		};
+
+		const jwt = getJwt();
+
+		const response = await fetch(`${API_BASE_URL}/admin/admins`, {
+			method: "POST",
+			headers: {
+				"Authorization": `Bearer ${jwt}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(updatedUser),
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.errors[0].detail);
+		}
+
+		const data = await response.json();
+		
+		return data.data; 
+
+	} catch (error) {
+		return { errors: [{ detail: (error as Error).message }] };
 	}
 }
