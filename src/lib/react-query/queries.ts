@@ -7,7 +7,6 @@ import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/Auth
 import { createUser, getCurrentUser, getUsers, getUsersCount} from "@/lib/api/UserApi";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
-import { UserDTO } from "@/types";
 
 // ============================================================
 // AUTH QUERIES
