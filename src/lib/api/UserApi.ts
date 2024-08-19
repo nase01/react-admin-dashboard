@@ -65,15 +65,21 @@ export async function getUsersCount() {
 	}
 }
 
-export async function createUser(user: UserDTO) {
+export async function createUser(user: any) {
 	try {
+		const jwt = getJwt();
+		
+		const ipWhitelistArray: string[] = user.ipWhitelist
+			? user.ipWhitelist
+				.split('\n')
+				.map((ip: string) => ip.trim()) // Trim whitespace
+				.filter((ip: string) => ip !== "") // Filter out empty strings
+			: [];
 
 		const updatedUser: UserDTO = {
 			...user,
-			ipWhitelist: user.ipWhitelist ?? [],
+			ipWhitelist: ipWhitelistArray,
 		};
-
-		const jwt = getJwt();
 
 		const response = await fetch(`${API_BASE_URL}/admin/admins`, {
 			method: "POST",

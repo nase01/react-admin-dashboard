@@ -9,21 +9,28 @@ export const UserValidation = z.object({
   password: strongPWOptions,
   passwordConfirm: confirmPWOptions,
 
-  // Todo: Fix bug on ipWhiteList
-  ipWhitelist: z.array(
-    z.string().refine((ip) => {
+  ipWhitelist: z.string().nullable().refine((data) => {
+    if (data !== null && typeof data === "string" && data.trim() !== "") {
+      const ipAddresses = data.trim().split("\n");
+
+      // Check for duplicate IPs
+      const uniqueIPs = new Set(ipAddresses);
+
+      if (uniqueIPs.size !== ipAddresses.length) {
+        return false; // There are duplicate IPs
+      }
+
+      // Check for valid IP addresses using Zod's built-in validation
       const ipv4 = z.string().ip({ version: "v4" });
       const ipv6 = z.string().ip({ version: "v6" });
-      return ipv4.safeParse(ip).success || ipv6.safeParse(ip).success;
-    }, {
-      message: "Invalid IP address."
-    })
-  ).default([]).refine((ipList) => {
-    const uniqueIPs = new Set(ipList);
-    return uniqueIPs.size === ipList.length;
+
+      return ipAddresses.every((ipAddress) => ipv4.safeParse(ipAddress).success || ipv6.safeParse(ipAddress).success);
+    }
+
+    return true; // Validation passes if the value is null, empty, or not a string
   }, {
-    message: "Duplicate IP addresses found."
-  }),
+    message: "Invalid IP address or duplicate IPs."
+  }).optional(),
 
   role: z.enum(["admin", "super"]),
   active: z.boolean().default(false),

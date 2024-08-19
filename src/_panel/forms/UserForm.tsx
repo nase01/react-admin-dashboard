@@ -35,7 +35,7 @@ const UserForm = () => {
       email: "",
       password: "",
       passwordConfirm: "",
-      ipWhitelist: [],
+      ipWhitelist: "",
       role: "admin",
       active: true,
       pwForceChange: true

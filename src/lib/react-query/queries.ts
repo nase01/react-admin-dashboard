@@ -67,7 +67,7 @@ export const useGetUsers = (perPage: number, currentPage: number) => {
 
 export const useCreateUser = () => {
 	return useMutation({
-		mutationFn: (user: UserDTO) =>
+		mutationFn: (user: any) =>
 			createUser(user),
 	});
 };
