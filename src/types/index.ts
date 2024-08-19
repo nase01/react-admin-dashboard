@@ -16,21 +16,15 @@ export type User = {
 	active: boolean;
 	pwForceChange: boolean;
 	ip: string;
-	ipWhitelist: [];
+	ipWhitelist: string[];
 };
 
-export interface UserDTO {
-	name: string;
-	email: string;
+export type UserDTO = Omit<User, "id" | "accountType" | "ip"> & {
 	password: string;
 	passwordConfirm: string;
-	ipWhitelist: string[];
-	role: string;
-	active: boolean;
-	pwForceChange: boolean;
-}
+};
 
-export interface JwtPayload {
+export type JwtPayload = {
   id: number;
   accountType: string;
   email: string;
