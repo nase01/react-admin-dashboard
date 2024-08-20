@@ -104,22 +104,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (isAuthenticated) {
       const currentRoute = window.location.pathname;
       const currentNavLink = navLinks.find(link => link.route === currentRoute);
-
+      const ipWhitelist = user.ipWhitelist
+      
       if (currentNavLink) {
         const allowedRoles = currentNavLink.restrictions;
         
         const hasAccess = 
-          user.role === "super" || // Super user always has access
-          allowedRoles.length === 0 || // No restrictions, anyone can access
-          allowedRoles.includes(user.role); // User's role is in the allowed list
+          user.role === "super" || 
+          allowedRoles.length === 0 || 
+          allowedRoles.includes(user.role); 
+
+        const isIpAllowed = 
+          !ipWhitelist || 
+          ipWhitelist.length === 0 || 
+          ipWhitelist.includes(user.ip);
 
         if (!hasAccess) {
           navigate("/unauthorized");
-        } else if (!user.active || jwtPayload?.role != user.role) {
-          signOut();
-          setIsAuthenticated(false);
-          setUser(INITIAL_USER);
-          navigate("/sign-in");
+        } else if (
+          !user.active || 
+          jwtPayload?.role != user.role || 
+          !isIpAllowed) {
+            signOut();
+            setIsAuthenticated(false);
+            setUser(INITIAL_USER);
+            navigate("/sign-in");
         } else if (user.pwForceChange) {
           navigate("/panel/account-settings");
         }
