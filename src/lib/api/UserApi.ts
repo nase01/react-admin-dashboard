@@ -103,3 +103,24 @@ export async function createUser(user: any) {
 		return { errors: [{ detail: (error as Error).message }] };
 	}
 }
+
+export async function getUserById(userId: string) {
+	
+	try {
+		const jwt = getJwt();
+
+		const response = await fetch(`${API_BASE_URL}/admin/admins/${userId}`, {
+			method: "GET",
+			headers: {
+				"Authorization": `Bearer ${jwt}`,
+				"Content-Type": "application/json",
+			},
+		});
+
+		const data = await response.json();
+		
+		return data.data; 
+	} catch (error) {
+		console.log(error);
+	}
+}
