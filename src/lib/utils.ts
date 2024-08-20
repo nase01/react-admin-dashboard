@@ -36,9 +36,9 @@ export const updatePageTitle = (location: Location) => {
     
     // Handle wildcard route for 404
     if (link.route === "*") {
-      return location.pathname !== "/" && !navLinks.some(navLink => navLink.route === location.pathname);
+      return location.pathname !== "/" && !navLinks.some(navLink => matchRoute(navLink.route, location.pathname));
     }
-    return link.route === location.pathname;
+    return matchRoute(link.route, location.pathname);
   });
 
   if (matchingLink) {
@@ -67,4 +67,13 @@ export const getNavLinks = () => {
 
     return false;
   });
+};
+
+const matchRoute = (routePattern: string, path: string): boolean => {
+  const pattern = routePattern
+    .replace(/:[^\s/]+/g, '[^/]+') // Replace dynamic segments with regex patterns
+    .replace(/\*/g, '.*'); // Handle wildcard
+
+  const regex = new RegExp(`^${pattern}$`);
+  return regex.test(path);
 };
