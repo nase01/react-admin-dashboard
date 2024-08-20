@@ -27,6 +27,10 @@ const Users = () => {
     navigate('/panel/users/create');
   }
 
+  const goToUsersEdit = (id: any) => {
+    navigate(`/panel/users/edit/${id}`);
+  }
+
   return (
     <div className="p-4">
       <h2 className="font-bold text-slate-900 text-2xl">Users</h2>
@@ -40,7 +44,7 @@ const Users = () => {
           <div key={user.id} className="flex justify-between items-center my-2 bg-slate-100 border border-slate-200 p-3 rounded-lg">
             <div className="text-xl">{user.name} ({user.role})</div>
             <div className="flex space-x-2">
-              <Button className="rounded-button" variant="outline" size="icon">
+              <Button onClick={() => goToUsersEdit(user.id)} className="rounded-button" variant="outline" size="icon">
                 <Pencil className="text-green-700"  />
               </Button>
               <Button className="rounded-button" variant="outline" size="icon">
