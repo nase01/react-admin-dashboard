@@ -21,12 +21,14 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-const UserForm = () => {
+const UserForm: React.FC<{ userId: string }> = ({ userId }) => {
 
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const { mutateAsync: createUser, isPending: isLoading } = useCreateUser();
+
+  console.log("Editing user with ID:", userId);
 
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
