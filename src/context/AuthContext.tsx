@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import { User } from "@/types";
 import { getCurrentUser } from "@/lib/api/UserApi";
-import { getJwt, getJwtPayload } from '@/lib/utils';
+import { getJwt, getJwtPayload, matchRoute } from '@/lib/utils';
 import { signOut } from "@/lib/api/AuthApi";
 import { navLinks } from "@/constants";
 
@@ -103,7 +103,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (isAuthenticated) {
       const currentRoute = window.location.pathname;
-      const currentNavLink = navLinks.find(link => link.route === currentRoute);
+      
+      const currentNavLink = navLinks.find(link => matchRoute(link.route, currentRoute)); 
       const ipWhitelist = user.ipWhitelist
       
       if (currentNavLink) {
