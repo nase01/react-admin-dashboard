@@ -71,9 +71,17 @@ export const getNavLinks = () => {
 
 export const matchRoute = (routePattern: string, path: string): boolean => {
   const pattern = routePattern
-    .replace(/:[^\s/]+/g, '[^/]+') // Replace dynamic segments with regex patterns
-    .replace(/\*/g, '.*'); // Handle wildcard
-
+    .replace(/:[^\s/]+/g, '[^/]+') 
+    .replace(/\*/g, '.*'); 
   const regex = new RegExp(`^${pattern}$`);
   return regex.test(path);
+};
+
+export const parseIPWhitelist = (ipWhitelist?: string): string[] => {
+  return ipWhitelist
+    ? ipWhitelist
+      .split('\n')                  
+      .map((ip: string) => ip.trim()) 
+      .filter((ip: string) => ip !== "") 
+    : [];                           
 };
