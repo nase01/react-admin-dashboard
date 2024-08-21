@@ -6,8 +6,8 @@ export const UserValidation = z.object({
     message: "Name is required."
   }),
   email: z.string().email(),
-  password: strongPWOptions,
-  passwordConfirm: confirmPWOptions,
+  password: strongPWOptions.optional(),
+  passwordConfirm: confirmPWOptions.optional(),
 
   ipWhitelist: z.string().nullable().refine((data) => {
     if (data !== null && typeof data === "string" && data.trim() !== "") {
