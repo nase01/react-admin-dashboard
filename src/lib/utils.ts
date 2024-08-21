@@ -69,7 +69,7 @@ export const getNavLinks = () => {
   });
 };
 
-const matchRoute = (routePattern: string, path: string): boolean => {
+export const matchRoute = (routePattern: string, path: string): boolean => {
   const pattern = routePattern
     .replace(/:[^\s/]+/g, '[^/]+') // Replace dynamic segments with regex patterns
     .replace(/\*/g, '.*'); // Handle wildcard
