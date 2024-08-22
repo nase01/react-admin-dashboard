@@ -1,4 +1,4 @@
-import { API_BASE_URL, getJwt } from '@/lib/utils';
+import { API_BASE_URL, getJwt, parseIPWhitelist } from '@/lib/utils';
 import { UserDTO } from '@/types';
 
 export async function getCurrentUser() {
@@ -69,12 +69,8 @@ export async function createUser(user: any) {
 	try {
 		const jwt = getJwt();
 		
-		const ipWhitelistArray: string[] = user.ipWhitelist
-			? user.ipWhitelist
-				.split('\n')
-				.map((ip: string) => ip.trim()) // Trim whitespace
-				.filter((ip: string) => ip !== "") // Filter out empty strings
-			: [];
+		// Convert ipWhitelist from string to array
+		const ipWhitelistArray: string[] = parseIPWhitelist(user.ipWhitelist);
 
 		const updatedUser: UserDTO = {
 			...user,
@@ -122,5 +118,40 @@ export async function getUserById(userId: string) {
 		return data.data; 
 	} catch (error) {
 		console.log(error);
+	}
+}
+
+export async function editUser(userId: string, userData: any) {
+	try {
+		const jwt = getJwt();
+		
+		// Convert ipWhitelist from string to array
+		const ipWhitelistArray: string[] = parseIPWhitelist(userData.ipWhitelist);
+
+		const updatedUser: UserDTO = {
+			...userData,
+			ipWhitelist: ipWhitelistArray,
+		};
+
+		const response = await fetch(`${API_BASE_URL}/admin/admins/${userId}`, {
+			method: "PUT",
+			headers: {
+				"Authorization": `Bearer ${jwt}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(updatedUser),
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.errors[0].detail);
+		}
+
+		const data = await response.json();
+		
+		return data.data; 
+
+	} catch (error) {
+		return { errors: [{ detail: (error as Error).message }] };
 	}
 }

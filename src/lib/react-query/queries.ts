@@ -4,7 +4,7 @@ import {
 } from "@tanstack/react-query";
 
 import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
-import { createUser, getCurrentUser, getUserById, getUsers, getUsersCount} from "@/lib/api/UserApi";
+import { createUser, editUser, getCurrentUser, getUserById, getUsers, getUsersCount} from "@/lib/api/UserApi";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 
@@ -71,10 +71,16 @@ export const useCreateUser = () => {
 	});
 };
 
+export const useEditUser = () => {
+	return useMutation({
+		mutationFn: ({ id, user }: { id: string; user: any }) =>
+      editUser(id, user),
+	});
+};
+
 export const useGetUserById = (userId: string) => {
 	return useQuery({
 		queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
 		queryFn: () => getUserById(userId)
 	});
 };
-

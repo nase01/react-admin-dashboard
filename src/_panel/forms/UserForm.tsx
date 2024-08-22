@@ -10,7 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/shared/Loader";
 
 import { UserValidation } from "@/lib/validation/UserValidations";
-import { useCreateUser } from "@/lib/react-query/queries";
+import { useCreateUser, useEditUser } from "@/lib/react-query/queries";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -20,19 +20,29 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { User } from "@/types";
 
-const UserForm: React.FC<{ userId: string }> = ({ userId }) => {
+const UserForm: React.FC<{ userId: string, userData: User }> = ({ userId, userData }) => {
 
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const { mutateAsync: createUser, isPending: isLoading } = useCreateUser();
+  const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUser();
+  const { mutateAsync: editUser, isPending: isUpdatingUser } = useEditUser();
 
-  console.log("Editing user with ID:", userId);
-
+  const isProcessing = isCreatingUser || isUpdatingUser;
+    
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
-    defaultValues: {
+    defaultValues: userData ? {
+      name: userData.name,
+      email: userData.email,
+      ipWhitelist: "", 
+      // role: userData.role, // Todo fix type
+      active: userData.active,
+      pwForceChange: userData.pwForceChange
+    }
+    : {
       name: "",
       email: "",
       password: "",
@@ -41,21 +51,22 @@ const UserForm: React.FC<{ userId: string }> = ({ userId }) => {
       role: "admin",
       active: true,
       pwForceChange: true
-    }
+    } 
   });
 
-  const handleSubmitUser = async (user: z.infer<typeof UserValidation>) => {
+  const handleSubmitAction = async (formData: z.infer<typeof UserValidation>) => {
     
-    const response = await createUser(user);
-    
+    const response = userId /* id of user to be edited */
+    ? await editUser({ id: userId, user: formData })
+    : await createUser(formData);
+
     if (response?.errors) {
-      toast({ title: response.errors[0].detail });
-      
-      return;
+        toast({ title: response.errors[0].detail });
+        return;
     }
 
     navigate("/panel/users");
-    
+
   };
 
   const handleCancel = () => {
@@ -65,7 +76,7 @@ const UserForm: React.FC<{ userId: string }> = ({ userId }) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmitUser)}
+        onSubmit={form.handleSubmit(handleSubmitAction)}
         className="flex flex-col gap-5 w-full mt-4"
       >
         <FormField
@@ -96,33 +107,37 @@ const UserForm: React.FC<{ userId: string }> = ({ userId }) => {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="shad-form_label">* Password:</FormLabel>
-              <FormControl>
-                <Input type="password" className="shad-input" {...field} />
-              </FormControl>
-              <FormMessage className="shad-form_message"  />
-            </FormItem>
-          )}
-        />
+        {!userData && (
+          <>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="shad-form_label">* Password:</FormLabel>
+                  <FormControl>
+                    <Input type="password" className="shad-input" {...field} />
+                  </FormControl>
+                  <FormMessage className="shad-form_message"  />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="passwordConfirm"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="shad-form_label">* Confirm Password:</FormLabel>
-              <FormControl>
-                <Input type="password" className="shad-input" {...field} />
-              </FormControl>
-              <FormMessage className="shad-form_message"  />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name="passwordConfirm"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="shad-form_label">* Confirm Password:</FormLabel>
+                  <FormControl>
+                    <Input type="password" className="shad-input" {...field} />
+                  </FormControl>
+                  <FormMessage className="shad-form_message"  />
+                </FormItem>
+              )}
+            />
+          </>
+        )}
 
         <div className="flex justify-center items-center gap-6">
           <FormField
@@ -196,11 +211,11 @@ const UserForm: React.FC<{ userId: string }> = ({ userId }) => {
         </div>
         
         <div className="flex justify-between items-center my-5">
-          <Button type="button" onClick={handleCancel} disabled={isLoading} size="lg" variant="outline">Cancel</Button>
-          <Button disabled={isLoading} size="lg" className="shad-button mt-3">
-            {isLoading ? (
+          <Button type="button" onClick={handleCancel} disabled={isProcessing} size="lg" variant="outline">Cancel</Button>
+          <Button disabled={isProcessing} size="lg" className="shad-button mt-3">
+            {isProcessing ? (
               <Loader />
-            ) : "Create"}
+            ) : !userData && !userId ? "Create" : "Update"}
           </Button>
         </div>
 
