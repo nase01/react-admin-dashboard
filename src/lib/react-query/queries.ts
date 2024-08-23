@@ -1,6 +1,7 @@
 import {
 	useMutation,
 	useQuery,
+	useQueryClient
 } from "@tanstack/react-query";
 
 import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
@@ -72,15 +73,22 @@ export const useCreateUser = () => {
 };
 
 export const useEditUser = () => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: ({ id, user }: { id: string; user: any }) =>
       editUser(id, user),
+			onSuccess: (data) => {
+				queryClient.invalidateQueries({
+					queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id], /* Refetch updated user data */
+				});
+			}
 	});
 };
 
 export const useGetUserById = (userId: string) => {
 	return useQuery({
 		queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
-		queryFn: () => getUserById(userId)
+		queryFn: () => getUserById(userId),
+		enabled: !!userId,
 	});
 };
