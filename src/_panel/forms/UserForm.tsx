@@ -31,14 +31,14 @@ const UserForm: React.FC<{ userId: string, userData: User }> = ({ userId, userDa
   const { mutateAsync: editUser, isPending: isUpdatingUser } = useEditUser();
 
   const isProcessing = isCreatingUser || isUpdatingUser;
-    
+  
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
     defaultValues: userData ? {
       name: userData.name,
       email: userData.email,
-      ipWhitelist: "", 
-      // role: userData.role, // Todo fix type
+      ipWhitelist: userData.ipWhitelist?.join("\n") || "", // Convert array to newline-separated string, 
+      role: userData.role as "admin" | "super", 
       active: userData.active,
       pwForceChange: userData.pwForceChange
     }
@@ -177,6 +177,7 @@ const UserForm: React.FC<{ userId: string, userData: User }> = ({ userId, userDa
                 <Textarea
                   placeholder=""
                   className="shad-textarea"
+                  value={field.value || ""}
                   onChange={(e) => field.onChange(e.target.value)}
                   onBlur={field.onBlur}
                 />
