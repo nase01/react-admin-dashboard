@@ -31,19 +31,27 @@ const UserForm: React.FC<{ userId: string, userData: User }> = ({ userId, userDa
   const { mutateAsync: editUser, isPending: isUpdatingUser } = useEditUser();
 
   const isProcessing = isCreatingUser || isUpdatingUser;
-
+  
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
-      defaultValues: {
-      name: userData?.name || "",
-      email: userData?.email || "",
+    defaultValues: userData ? {
+      name: userData.name,
+      email: userData.email,
+      ipWhitelist: userData.ipWhitelist?.join("\n") || "",
+      role: userData.role as "admin" | "super", 
+      active: userData.active,
+      pwForceChange: userData.pwForceChange
+    }
+    : {
+      name: "",
+      email: "",
       password: "",
       passwordConfirm: "",
-      ipWhitelist: userData?.ipWhitelist?.join("\n") || "", 
-      role: (userData?.role as "admin" | "super") || "admin", 
-      active: userData?.active ?? true, 
-      pwForceChange: userData?.pwForceChange ?? true,
-  }
+      ipWhitelist: "",
+      role: "admin",
+      active: true,
+      pwForceChange: true
+    } 
   });
 
   const handleSubmitAction = async (formData: z.infer<typeof UserValidation>) => {
