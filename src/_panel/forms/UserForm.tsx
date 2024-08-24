@@ -22,7 +22,12 @@ import {
 } from "@/components/ui/select";
 import { User } from "@/types";
 
-const UserForm: React.FC<{ userId: string, userData: User }> = ({ userId, userData }) => {
+interface UserFormProps {
+  userId?: string;  
+  userData?: User; 
+}
+
+const UserForm: React.FC<UserFormProps> = ({ userId, userData }) => {
 
   const { toast } = useToast();
   const navigate = useNavigate();
