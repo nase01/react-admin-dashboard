@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "@/types";
-import { Trash, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
-
 
 import Loader from "@/components/shared/Loader";
 import Pagination from '@/components/shared/Pagination';
 import { toast } from "@/components/ui/use-toast";
+import BtnDeleteUser from "@/components/BtnDeleteUser";
 
 const Users = () => {
   const navigate = useNavigate();
@@ -61,13 +61,11 @@ const Users = () => {
                 variant="outline" size="icon">
                   <Pencil className="text-green-700"  />
               </Button>
-              <Button onClick={() => handleDeleteUser(user.id)} 
-                disabled={isDeleting} 
-                className="rounded-button" 
-                variant="outline" 
-                size="icon">
-                  <Trash className="text-red-700"/>
-              </Button>
+              
+              <BtnDeleteUser 
+                onClick={() => handleDeleteUser(user.id)} 
+                isDeleting={isDeleting} 
+              />
             </div>
           </div>
         ))}
