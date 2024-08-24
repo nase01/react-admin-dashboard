@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { User } from "@/types";
 import { Trash, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useGetUsers, useGetUsersCount } from "@/lib/react-query/queries";
+import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
 
 import Loader from "@/components/shared/Loader";
 import Pagination from '@/components/shared/Pagination';
+import { toast } from "@/components/ui/use-toast";
 
 const Users = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(perPage, currentPage);
   const { data: usersCount, isLoading: isfetchingUsersCount } = useGetUsersCount();
+  const { mutateAsync: deleteUsers, isPending: isDeleting } = useDeleteUsers();
 
   if (isfetchingUsersData || isfetchingUsersCount) return <Loader />;
 
@@ -26,6 +28,18 @@ const Users = () => {
   const goToUsersCreate = () => {
     navigate('/panel/users/create');
   }
+
+  const handleDeleteUser = async (ids: string) => {
+    
+    const response = await deleteUsers([ids])
+    
+    if (response?.errors) {
+      toast({ title: response.errors[0].detail });
+      return;
+    }
+
+    toast({ title: "User successfully delete" });
+  };
 
   return (
     <div className="p-4">
@@ -40,11 +54,19 @@ const Users = () => {
           <div key={user.id} className="flex justify-between items-center my-2 bg-slate-100 border border-slate-200 p-3 rounded-lg">
             <div className="text-xl">{user.name} ({user.role})</div>
             <div className="flex space-x-2">
-              <Button onClick={() => window.location.href = `/panel/users/edit/${user.id}`} className="rounded-button" variant="outline" size="icon">
-                <Pencil className="text-green-700"  />
+              <Button
+                onClick={() => window.location.href = `/panel/users/edit/${user.id}`} 
+                disabled={isDeleting} 
+                className="rounded-button" 
+                variant="outline" size="icon">
+                  <Pencil className="text-green-700"  />
               </Button>
-              <Button className="rounded-button" variant="outline" size="icon">
-                <Trash className="text-red-700"/>
+              <Button onClick={() => handleDeleteUser(user.id)} 
+                disabled={isDeleting} 
+                className="rounded-button" 
+                variant="outline" 
+                size="icon">
+                  <Trash className="text-red-700"/>
               </Button>
             </div>
           </div>

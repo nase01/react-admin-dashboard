@@ -6,6 +6,6 @@ export enum QUERY_KEYS {
 	GET_USERS_COUNT = "getUsersCount",
 	CREATE_USER = "createUser",
 	EDIT_USER = "editUser",
-	
+	DELETE_USERS = "deleteUsers",
 }
   

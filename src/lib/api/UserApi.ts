@@ -155,3 +155,30 @@ export async function editUser(userId: string, userData: any) {
 		return { errors: [{ detail: (error as Error).message }] };
 	}
 }
+
+export async function deleteUsers(ids: string[]) {
+	try {
+		const jwt = getJwt();
+
+		const response = await fetch(`${API_BASE_URL}/admin/admins`, {
+			method: "DELETE",
+			headers: {
+				"Authorization": `Bearer ${jwt}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ ids }),
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.errors[0].detail);
+		}
+
+		const data = await response.json();
+		
+		return data.data; 
+
+	} catch (error) {
+		return { errors: [{ detail: (error as Error).message }] };
+	}
+}

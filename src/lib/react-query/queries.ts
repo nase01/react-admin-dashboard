@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 
 import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
-import { createUser, editUser, getCurrentUser, getUserById, getUsers, getUsersCount} from "@/lib/api/UserApi";
+import { createUser, deleteUsers, editUser, getCurrentUser, getUserById, getUsers, getUsersCount} from "@/lib/api/UserApi";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 
@@ -91,4 +91,19 @@ export const useGetUserById = (userId: string) => {
 		queryFn: () => getUserById(userId),
 		enabled: !!userId,
 	});
+};
+
+export const useDeleteUsers = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (ids: string[]) => deleteUsers(ids),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_USERS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
+  });
 };
