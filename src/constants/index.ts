@@ -62,3 +62,13 @@ export const navLinks: NavLink[] = [
     hidden: true
   },
 ];
+
+export const toastConfig = {
+  position: "bottom-center" as const,
+  duration: 3000,
+  style: {
+    padding: "14px",
+    background: "#0f172a",
+    color: "#fff",
+  }
+};

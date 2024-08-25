@@ -6,17 +6,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/shared/Loader";
 
 import { SigninValidation } from "@/lib/validation/AuthValidations";
 import { useSignIn } from "@/lib/react-query/queries";
 import { useEffect } from "react";
 import { updatePageTitle } from "@/lib/utils";
+import toast from "react-hot-toast";
+import { toastConfig } from "@/constants";
 
 const SigninForm = () => {
   const location = useLocation();
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   
@@ -35,7 +35,7 @@ const SigninForm = () => {
     const response = await signIn(user);
     
     if (response?.errors) {
-      toast({ title: response.errors[0].detail });
+      toast.error(response.errors[0].detail, toastConfig);
       
       return;
     }

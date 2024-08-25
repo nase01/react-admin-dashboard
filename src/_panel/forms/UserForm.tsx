@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/shared/Loader";
 
 import { UserValidation } from "@/lib/validation/UserValidations";
@@ -21,6 +20,8 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { User } from "@/types";
+import toast from "react-hot-toast";
+import { toastConfig } from "@/constants";
 
 interface UserFormProps {
   userId?: string;  
@@ -28,8 +29,6 @@ interface UserFormProps {
 }
 
 const UserForm: React.FC<UserFormProps> = ({ userId, userData }) => {
-
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUser();
@@ -66,10 +65,15 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData }) => {
     : await createUser(formData);
 
     if (response?.errors) {
-        toast({ title: response.errors[0].detail });
+        toast.error(response.errors[0].detail, toastConfig);
         return;
     }
 
+    const successMessage = userId 
+    ? "User successfully updated"
+    : "User successfully created";
+
+    toast.success(successMessage, toastConfig);
     navigate("/panel/users");
 
   };

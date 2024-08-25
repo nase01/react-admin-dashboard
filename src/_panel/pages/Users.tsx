@@ -7,8 +7,9 @@ import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query
 
 import Loader from "@/components/shared/Loader";
 import Pagination from '@/components/shared/Pagination';
-import { toast } from "@/components/ui/use-toast";
 import BtnDeleteUser from "@/components/BtnDeleteUser";
+import { toastConfig } from "@/constants";
+import toast from "react-hot-toast";
 
 const Users = () => {
   const navigate = useNavigate();
@@ -34,11 +35,11 @@ const Users = () => {
     const response = await deleteUsers([ids])
     
     if (response?.errors) {
-      toast({ title: response.errors[0].detail });
+      toast.error(response.errors[0].detail, toastConfig);
       return;
     }
 
-    toast({ title: "User successfully delete" });
+    toast.success("User successfully deleted", toastConfig);
   };
 
   return (

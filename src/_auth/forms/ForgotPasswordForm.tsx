@@ -6,15 +6,15 @@ import { Link } from "react-router-dom";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/shared/Loader";
 import { ForgotPWValidation } from "@/lib/validation/AuthValidations";
 
 import { useSendPWResetToken, usePasswordReset } from "@/lib/react-query/queries";
 import { useState } from "react";
+import { toastConfig } from "@/constants";
+import toast from "react-hot-toast";
 
 const ForgotPasswordForm = () => {
-	const { toast } = useToast();
   const [isTokenSent, setIsTokenSent] = useState(false);
   const [hasResetToken, setHasResetToken] = useState(false);
 
@@ -38,12 +38,12 @@ const ForgotPasswordForm = () => {
       const response = await passwordReset(user);
 		
       if (response?.errors) {
-        toast({ title: response.errors[0].detail });
+        toast.error(response.errors[0].detail, toastConfig);
         
         return;
       }
       
-      toast({ title: "Password has been reset" });
+      toast.success("Password has been reset", toastConfig);
       form.reset();
 
     } else {
@@ -56,13 +56,13 @@ const ForgotPasswordForm = () => {
     const response = await sendPWResetToken(email);
 		
     if (response?.errors) {
-      toast({ title: response.errors[0].detail });
+      toast.error(response.errors[0].detail, toastConfig);
       
       return;
     }
     
     setIsTokenSent(true);
-		toast({ title: `Password reset token sent to this email ${email}` });
+    toast.success(`Password reset token sent to this email ${email}`, toastConfig);
 
   };
 
