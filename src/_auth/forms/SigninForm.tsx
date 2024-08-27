@@ -1,7 +1,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -17,9 +17,6 @@ import { toastConfig } from "@/constants";
 
 const SigninForm = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-
-  
   const { mutateAsync: signIn, isPending: isSigningIn } = useSignIn();
 
   const form = useForm<z.infer<typeof SigninValidation>>({
@@ -40,7 +37,7 @@ const SigninForm = () => {
       return;
     }
 
-    navigate("/panel/dashboard");
+    window.location.href = "/panel/dashboard"
     
   };
 
