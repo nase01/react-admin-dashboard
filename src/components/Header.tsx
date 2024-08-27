@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 import { LogOut } from "lucide-react";
 import { Button } from "./ui/button";
@@ -35,12 +35,12 @@ const Header = () => {
       <ul className="flex-grow flex justify-center space-x-4 text-white">
         {navLinks.map((link) => (
             <li key={link.route}>
-              <a
-                href={link.route}
+              <Link
+                to={link.route}
                 className={`hover:underline ${location.pathname === link.route ? "underline" : ""}`}
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
         ))}
       </ul>
