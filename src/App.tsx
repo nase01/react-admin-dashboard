@@ -10,12 +10,12 @@ import Dashboard from "@/_panel/pages/Dashboard";
 import Users from "@/_panel/pages/Users";
 import UserCreate from "@/_panel/pages/UserCreate";
 import UserEdit from "@/_panel/pages/UserEdit";
+import AccountSettings from "@/_panel/pages/AccountSettings";
 
-import Unauthorized from "./_error/pages/Unauthorized";
-import NotFound from "./_error/pages/NotFound";
+import Unauthorized from "@/_error/pages/Unauthorized";
+import NotFound from "@/_error/pages/NotFound";
 
 import "@/globals.css";
-
 
 const App = () => {
   return (
@@ -31,6 +31,7 @@ const App = () => {
           <Route path="/panel/users" element={<Users />} />
           <Route path="/panel/users/create" element={<UserCreate />} />
           <Route path="/panel/users/edit/:id" element={<UserEdit />} />
+          <Route path="/panel/account-settings" element={<AccountSettings />} />
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />
