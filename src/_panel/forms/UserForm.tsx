@@ -26,14 +26,14 @@ import { toastConfig } from "@/constants";
 interface UserFormProps {
   userId?: string;  
   userData?: User; 
+  ownAccount?: boolean;
 }
 
-const UserForm: React.FC<UserFormProps> = ({ userId, userData }) => {
+const UserForm: React.FC<UserFormProps> = ({ userId, userData, ownAccount = false }) => {
   const navigate = useNavigate();
-
   const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUser();
   const { mutateAsync: editUser, isPending: isUpdatingUser } = useEditUser();
-
+  
   const isProcessing = isCreatingUser || isUpdatingUser;
   
   const form = useForm<z.infer<typeof UserValidation>>({
@@ -116,6 +116,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData }) => {
           )}
         />
 
+
         {!userData && (
           <>
             <FormField
@@ -131,7 +132,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData }) => {
                 </FormItem>
               )}
             />
-
+            
             <FormField
               control={form.control}
               name="passwordConfirm"
@@ -148,33 +149,35 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData }) => {
           </>
         )}
 
-        <div className="flex justify-center items-center gap-6">
-          <FormField
-            control={form.control}
-            name="pwForceChange"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-2 space-y-0.5">
-                <FormControl>
-                  <Checkbox className="shad-checkbox" checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-                <FormLabel className="ml-2 mb-1 shad-form_label">PW Force Change</FormLabel>
-              </FormItem>
-            )}
-          />
+        {!ownAccount  && (
+          <div className="flex justify-center items-center gap-6">
+            <FormField
+              control={form.control}
+              name="pwForceChange"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-2 space-y-0.5">
+                  <FormControl>
+                    <Checkbox className="shad-checkbox" checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <FormLabel className="ml-2 mb-1 shad-form_label">PW Force Change</FormLabel>
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="active"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-2 space-y-0.5">
-                <FormControl>
-                  <Checkbox className="shad-checkbox" checked={field.value} onCheckedChange={field.onChange}   />
-                </FormControl>
-                <FormLabel className="ml-2 mb-1 shad-form_label">Active</FormLabel>
-              </FormItem>
-            )}
-          />
-        </div>
+            <FormField
+              control={form.control}
+              name="active"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-2 space-y-0.5">
+                  <FormControl>
+                    <Checkbox className="shad-checkbox" checked={field.value} onCheckedChange={field.onChange}   />
+                  </FormControl>
+                  <FormLabel className="ml-2 mb-1 shad-form_label">Active</FormLabel>
+                </FormItem>
+              )}
+            />
+          </div>
+        )}
 
         <FormField
           control={form.control}
@@ -196,32 +199,36 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData }) => {
           )}
         />
 
-        <div className="max-w-[50%]">
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="shad-form_label">* Role:</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value} >
-                  <FormControl>
-                    <SelectTrigger  className="shad-select" >
-                      <SelectValue placeholder="Choose..." />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="shad-select">
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="super">Super</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage className="shad-form_message" />
-              </FormItem>
-            )}
-          />
-        </div>
+        {!ownAccount  && (
+          <div className="max-w-[50%]">
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="shad-form_label">* Role:</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value} >
+                    <FormControl>
+                      <SelectTrigger  className="shad-select" >
+                        <SelectValue placeholder="Choose..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="shad-select">
+                      <SelectItem value="admin">Admin</SelectItem>
+                      <SelectItem value="super">Super</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage className="shad-form_message" />
+                </FormItem>
+              )}
+            />
+          </div>
+        )}
         
-        <div className="flex justify-between items-center my-5">
-          <Button type="button" onClick={handleCancel} disabled={isProcessing} size="lg" variant="outline">Cancel</Button>
+        <div className={`flex ${!ownAccount ? 'justify-between' : 'justify-end'} items-center my-5`}>
+          {!ownAccount  && (
+            <Button type="button" onClick={handleCancel} disabled={isProcessing} size="lg" variant="outline">Cancel</Button>
+          )}
           <Button disabled={isProcessing} size="lg" className="shad-button mt-3">
             {isProcessing ? (
               <Loader />
