@@ -29,7 +29,7 @@ const BtnDeleteUser: React.FC<BtnDeleteUserProps> = ({ onClick, isDeleting }) =>
   };
   
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !isDeleting && setIsOpen(open)}>
+    <Dialog open={isOpen} onOpenChange={(open: boolean | ((prevState: boolean) => boolean)) => !isDeleting && setIsOpen(open)}>
       <DialogTrigger className="rounded-button border border-input bg-background hover:bg-accent hover:text-accent-foreground" onClick={() => setIsOpen(true)} disabled={isDeleting}>
         <Trash className="text-red-700" />
       </DialogTrigger>
