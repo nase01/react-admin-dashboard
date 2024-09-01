@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
 
 import { UserValidation } from "@/lib/validation/UserValidations";
-import { useCreateUser, useEditUser } from "@/lib/react-query/queries";
+import { useAccountUpdate, useCreateUser, useEditUser } from "@/lib/react-query/queries";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -33,8 +33,9 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, ownAccount = fals
   const navigate = useNavigate();
   const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUser();
   const { mutateAsync: editUser, isPending: isUpdatingUser } = useEditUser();
+  const { mutateAsync: accountUpdate, isPending: isUpdatingAccount } = useAccountUpdate();
   
-  const isProcessing = isCreatingUser || isUpdatingUser;
+  const isProcessing = isCreatingUser || isUpdatingUser || isUpdatingAccount;
   
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
@@ -60,7 +61,8 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, ownAccount = fals
 
   const handleSubmitAction = async (formData: z.infer<typeof UserValidation>) => {
     
-    const response = userId /* id of user to be edited */
+    const response = ownAccount
+    ? await accountUpdate({ user: formData }) : userId 
     ? await editUser({ id: userId, user: formData })
     : await createUser(formData);
 
@@ -69,12 +71,13 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, ownAccount = fals
         return;
     }
 
-    const successMessage = userId 
+    const successMessage = ownAccount
+    ? "Account successfully updated" : userId
     ? "User successfully updated"
     : "User successfully created";
 
     toast.success(successMessage, toastConfig);
-    navigate("/panel/users");
+    !ownAccount && navigate("/panel/users");
 
   };
 
