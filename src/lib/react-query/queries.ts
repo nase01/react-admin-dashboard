@@ -6,8 +6,10 @@ import {
 
 import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
 import { createUser, deleteUsers, editUser, getCurrentUser, getUserById, getUsers, getUsersCount} from "@/lib/api/UserApi";
+import { accountUpdate } from "@/lib/api/Account";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
+
 
 // ============================================================
 // AUTH QUERIES
@@ -106,4 +108,20 @@ export const useDeleteUsers = () => {
       });
     },
   });
+};
+
+// ============================================================
+// ACCOUNT QUERIES
+// ============================================================
+export const useAccountUpdate = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: ({ user }: { user: any }) =>
+			accountUpdate(user),
+			onSuccess: () => {
+				queryClient.invalidateQueries({
+					queryKey: [QUERY_KEYS.GET_CURRENT_USER], /* Refetch updated user data */
+				});
+			}
+	});
 };

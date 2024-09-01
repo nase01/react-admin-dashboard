@@ -7,5 +7,8 @@ export enum QUERY_KEYS {
 	CREATE_USER = "createUser",
 	EDIT_USER = "editUser",
 	DELETE_USERS = "deleteUsers",
+
+	// ACCOUNT KEYS
+	ACCOUNT_UPDATE = "accountUpdate",
 }
   
