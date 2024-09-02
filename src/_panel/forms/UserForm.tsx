@@ -26,10 +26,10 @@ import { toastConfig } from "@/constants";
 interface UserFormProps {
   userId?: string;  
   userData?: User; 
-  ownAccount?: boolean;
+  userAction?: 'user-create' | 'user-edit' | 'account-edit';
 }
 
-const UserForm: React.FC<UserFormProps> = ({ userId, userData, ownAccount = false }) => {
+const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "user-create" }) => {
   const navigate = useNavigate();
   const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUser();
   const { mutateAsync: editUser, isPending: isUpdatingUser } = useEditUser();
@@ -61,23 +61,23 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, ownAccount = fals
 
   const handleSubmitAction = async (formData: z.infer<typeof UserValidation>) => {
     
-    const response = ownAccount
+    const response = userAction === "account-edit"
     ? await accountUpdate({ user: formData }) : userId 
     ? await editUser({ id: userId, user: formData })
     : await createUser(formData);
 
     if (response?.errors) {
-        toast.error(response.errors[0].detail, toastConfig);
-        return;
+      toast.error(response.errors[0].detail, toastConfig);
+      return;
     }
 
-    const successMessage = ownAccount
+    const successMessage = userAction === "account-edit"
     ? "Account successfully updated" : userId
     ? "User successfully updated"
     : "User successfully created";
 
     toast.success(successMessage, toastConfig);
-    !ownAccount && navigate("/panel/users");
+    userAction !== "account-edit" && navigate("/panel/users");
 
   };
 
@@ -152,7 +152,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, ownAccount = fals
           </>
         )}
 
-        {!ownAccount  && (
+        {userAction !== "account-edit"  && (
           <div className="flex justify-center items-center gap-6">
             <FormField
               control={form.control}
@@ -202,7 +202,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, ownAccount = fals
           )}
         />
 
-        {!ownAccount  && (
+        {userAction !== "account-edit"  && (
           <div className="max-w-[50%]">
             <FormField
               control={form.control}
@@ -228,8 +228,8 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, ownAccount = fals
           </div>
         )}
         
-        <div className={`flex ${!ownAccount ? 'justify-between' : 'justify-end'} items-center my-5`}>
-          {!ownAccount  && (
+        <div className={`flex ${userAction !== "account-edit" ? 'justify-between' : 'justify-end'} items-center my-5`}>
+          {userAction !== "account-edit"  && (
             <Button type="button" onClick={handleCancel} disabled={isProcessing} size="lg" variant="outline">Cancel</Button>
           )}
           <Button disabled={isProcessing} size="lg" className="shad-button mt-3">

@@ -21,7 +21,7 @@ const UserEdit = () => {
       <h2 className="font-bold text-slate-900 text-2xl">Edit User</h2>
       <div className="mt-3 max-w-[500px]">
 				{ userData 
-          ? <UserForm  userId={userId} userData={userData} /> 
+          ? <UserForm  userId={userId} userData={userData} userAction="user-edit" /> 
           : "Error: Failed to fetch user data." 
         }
       </div>

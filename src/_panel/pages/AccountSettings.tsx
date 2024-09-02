@@ -12,7 +12,7 @@ const AccountSettings = () => {
       <h2 className="font-bold text-slate-900 text-2xl">Account Settings</h2>
       <div className="mt-3 max-w-[500px]">
 				{ currentUser 
-          ? <UserForm  userId={currentUser.id} userData={currentUser} ownAccount /> 
+          ? <UserForm  userId={currentUser.id} userData={currentUser} userAction="account-edit" /> 
           : "Error: Failed to fetch user data." 
         }
       </div>
