@@ -120,7 +120,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
         />
 
 
-        {!userData && (
+        {userAction === "user-create" && (
           <>
             <FormField
               control={form.control}
