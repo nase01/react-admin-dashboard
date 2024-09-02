@@ -116,7 +116,7 @@ export const useDeleteUsers = () => {
 export const useAccountUpdate = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: ({ user }: { user: any }) =>
+		mutationFn: (user: any ) =>
 			accountUpdate(user),
 			onSuccess: () => {
 				queryClient.invalidateQueries({

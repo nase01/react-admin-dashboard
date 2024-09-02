@@ -62,7 +62,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
   const handleSubmitAction = async (formData: z.infer<typeof UserValidation>) => {
     
     const response = userAction === "account-edit"
-    ? await accountUpdate({ user: formData }) : userId 
+    ? await accountUpdate(formData) : userId 
     ? await editUser({ id: userId, user: formData })
     : await createUser(formData);
 
