@@ -49,10 +49,17 @@ export const navLinks: NavLink[] = [
   },
   { 
     route: "/panel/account-settings", 
-    label: "Account Settings",
+    label: "Settings",
     requiresAuth: true,
     restrictions: [],
-    hidden: true 
+    hidden: false 
+  },
+  { 
+    route: "/panel/account-pwchange", 
+    label: "Change Password",
+    requiresAuth: true,
+    restrictions: [],
+    hidden: false 
   },
   { 
     route: "/unauthorized", 
