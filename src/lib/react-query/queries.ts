@@ -6,7 +6,7 @@ import {
 
 import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
 import { createUser, deleteUsers, editUser, getCurrentUser, getUserById, getUsers, getUsersCount} from "@/lib/api/UserApi";
-import { accountUpdate } from "@/lib/api/Account";
+import { accountPWChange, accountUpdate } from "@/lib/api/Account";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 
@@ -118,6 +118,19 @@ export const useAccountUpdate = () => {
 	return useMutation({
 		mutationFn: (user: any ) =>
 			accountUpdate(user),
+			onSuccess: () => {
+				queryClient.invalidateQueries({
+					queryKey: [QUERY_KEYS.GET_CURRENT_USER], /* Refetch updated user data */
+				});
+			}
+	});
+};
+
+export const useAccountPWChange = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (user: any ) =>
+			accountPWChange(user),
 			onSuccess: () => {
 				queryClient.invalidateQueries({
 					queryKey: [QUERY_KEYS.GET_CURRENT_USER], /* Refetch updated user data */

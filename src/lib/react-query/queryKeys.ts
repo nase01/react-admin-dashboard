@@ -10,5 +10,6 @@ export enum QUERY_KEYS {
 
 	// ACCOUNT KEYS
 	ACCOUNT_UPDATE = "accountUpdate",
+	ACCOUNT_PW_CHANGE = "accountPWChange",
 }
   
