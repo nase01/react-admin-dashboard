@@ -11,9 +11,10 @@ import { AccountValidation } from "@/lib/validation/AccountValidations";
 import { useAccountPWChange } from "@/lib/react-query/queries";
 import toast from "react-hot-toast";
 import { toastConfig } from "@/constants";
-
+import { useUserContext } from "@/context/AuthContext";
 
 const ChangePWForm = () => {
+  const { setUser, user } = useUserContext();
   const { mutateAsync: accountPWChange, isPending: isLoading } = useAccountPWChange();
 
   const form = useForm<z.infer<typeof AccountValidation>>({
@@ -35,7 +36,13 @@ const ChangePWForm = () => {
     }
 
     toast.success("Password successfully changed", toastConfig);
+    form.reset();
     
+    setUser({
+      ...user, // Spread the existing user details
+      pwForceChange: false, // Clear forced password change after success
+    });
+
   };
 
   return (
