@@ -131,7 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setUser(INITIAL_USER);
             navigate("/sign-in");
         } else if (user.pwForceChange) {
-          navigate("/panel/account-settings");
+          navigate("/panel/account-pwchange");
         }
       }
     }
