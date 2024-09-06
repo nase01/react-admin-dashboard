@@ -20,7 +20,7 @@ import "@/globals.css";
 
 const App = () => {
   return (
-    <main className="flex h-screen">
+    <main>
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path="/" element={<SigninForm />} />
