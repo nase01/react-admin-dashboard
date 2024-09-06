@@ -6,7 +6,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import { QueryProvider } from "@/lib/react-query/QueryProvider";
 
 import App from "@/App";
-import { ToasterProvider } from "./components/ToasterProvider";
+import { ToasterProvider } from "@/components/ToasterProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryProvider>
         <AuthProvider>
             <ToasterProvider />
-            <App />
+            <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+              <App />
+            </ThemeProvider>
         </AuthProvider>
       </QueryProvider>
     </BrowserRouter>

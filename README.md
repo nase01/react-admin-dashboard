@@ -14,6 +14,7 @@ This project is a simple front-end starter template for building admin dashboard
 - **Security Check**: Check if the user have access to a certain page, needs to update password, inactive and with IP restrictions.
 - **Custom Error**: Customizable unauthorized and not found page with automatic redirection.
 - **Organized File/Folder Structure**: Easy to read, scalable, reusable and maintanable code base.
+- **Light/Dark Mode**: Can switch between light and dark theme.
 
 ## Installation
 
