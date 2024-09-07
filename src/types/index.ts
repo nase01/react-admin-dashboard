@@ -1,10 +1,16 @@
 export type NavLink = {
-	imgURL?: string;
+	icon?: React.ComponentType;
 	route: string;
 	label: string;
 	requiresAuth: boolean;
 	restrictions: string[];
 	hidden: boolean;
+	subMenu?: SubMenuItem[];
+};
+
+export type SubMenuItem = {
+	label: string;
+	route: string;
 };
 
 export type User = {

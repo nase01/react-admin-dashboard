@@ -9,7 +9,6 @@ body,
 :root {
   height: 100%;
   font-family: 'Inter', sans-serif;
-  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 ::-webkit-scrollbar {
@@ -131,5 +130,22 @@ body,
   
   .shad-button {
     @apply h-10 !important;
+  }
+}
+
+.skeleton-loader {
+  background-color: #e1e1e1;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
   }
 }
