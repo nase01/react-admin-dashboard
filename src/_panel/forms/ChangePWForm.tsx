@@ -5,13 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Loader from "@/components/shared/Loader";
 
 import { AccountValidation } from "@/lib/validation/AccountValidations";
 import { useAccountPWChange } from "@/lib/react-query/queries";
 import toast from "react-hot-toast";
 import { toastConfig } from "@/constants";
 import { useUserContext } from "@/context/AuthContext";
+import { Icons } from "@/components/ui/icons";
 
 const ChangePWForm = () => {
   const { setUser, user } = useUserContext();
@@ -95,9 +95,8 @@ const ChangePWForm = () => {
 
         <div className="flex justify-end items-center my-5">
           <Button disabled={isLoading} size="lg" className="shad-button mt-3">
-            {isLoading ? (
-              <Loader />
-            ) : "Update" }
+          { isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> }
+          Update
           </Button>
         </div>
 

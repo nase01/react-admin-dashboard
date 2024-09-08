@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Loader from "@/components/shared/Loader";
 
 import { UserValidation } from "@/lib/validation/UserValidations";
 import { useAccountUpdate, useCreateUser, useEditUser } from "@/lib/react-query/queries";
@@ -22,6 +21,7 @@ import {
 import { User } from "@/types";
 import toast from "react-hot-toast";
 import { toastConfig } from "@/constants";
+import { Icons } from "@/components/ui/icons";
 
 interface UserFormProps {
   userId?: string;  
@@ -233,9 +233,8 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
             <Button type="button" onClick={handleCancel} disabled={isProcessing} size="lg" variant="outline">Cancel</Button>
           )}
           <Button disabled={isProcessing} size="lg" className="shad-button mt-3">
-            {isProcessing ? (
-              <Loader />
-            ) : !userData && !userId ? "Create" : "Update"}
+            { isProcessing && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> }
+            { !userData && !userId ? "Create" : "Update" }
           </Button>
         </div>
 

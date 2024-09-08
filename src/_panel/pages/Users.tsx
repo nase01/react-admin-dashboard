@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "@/types";
-import { Pencil } from "lucide-react";
+import { Pencil, UserPlus2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
@@ -10,6 +10,7 @@ import Pagination from '@/components/shared/Pagination';
 import BtnDeleteUser from "@/components/BtnDeleteUser";
 import { toastConfig } from "@/constants";
 import toast from "react-hot-toast";
+import { Heading } from "@/components/Heading";
 
 const Users = () => {
   const navigate = useNavigate();
@@ -43,16 +44,22 @@ const Users = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="font-bold text-slate-900 text-2xl">Users</h2>
-      <div className="mt-3 max-w-[500px]">
-
-        <div className="text-right items-center">
-          <Button type="button" onClick={goToUsersCreate} size="sm">New</Button>
-        </div>
-
+    <>
+      <div className="flex justify-between items-start">
+        <Heading
+          title="Users"
+          description="Manage system users"
+          icon={Users2}
+        />
+        <Button onClick={goToUsersCreate} variant="secondary" className="shad-button gap-2">
+          <UserPlus2 />
+          <span className="max-md:hidden">Add User</span>
+        </Button>
+      </div>
+      
+      <div className="mt-10">
         {data?.map((user: User) => (
-          <div key={user.id} className="flex justify-between items-center my-2 bg-slate-100 border border-slate-200 p-3 rounded-lg">
+          <div key={user.id} className="flex justify-between items-center my-3  border border-slate-200 p-3 rounded-lg">
             <div className="text-xl">{user.name} ({user.role})</div>
             <div className="flex space-x-2">
               <Button
@@ -79,7 +86,7 @@ const Users = () => {
           />
         )}
       </div>
-    </div>
+    </>
   )
 }
 

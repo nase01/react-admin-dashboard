@@ -1,6 +1,8 @@
 import { useGetCurrentUser } from "@/lib/react-query/queries";
 import Loader from "@/components/shared/Loader";
 import ChangePWForm from "../forms/ChangePWForm";
+import { Heading } from "@/components/Heading";
+import { LockKeyhole } from "lucide-react";
 
 const AccountPWChange = () => {
   const { data: currentUser } = useGetCurrentUser();
@@ -8,9 +10,13 @@ const AccountPWChange = () => {
 	if (!currentUser) return <Loader />;
   
 	return (
-    <div className="p-4">
-      <h2 className="font-bold text-slate-900 text-2xl">Password Change</h2>
-      <div className="mt-3 max-w-[550px]">  
+    <div>
+      <Heading
+        title="Password Change"
+        description="Change your own password"
+        icon={LockKeyhole}
+      />
+      <div className="mt-10 max-w-[1050px]">  
       
         {currentUser && currentUser.pwForceChange && (
           <div className="mt-2 p-3 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">

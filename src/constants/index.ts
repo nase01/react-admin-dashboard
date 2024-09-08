@@ -4,7 +4,7 @@ import {
   LockKeyhole,
   Settings,
   UserCog,
-  Users,
+  Users2,
 } from "lucide-react";
 
 /*
@@ -47,7 +47,7 @@ export const navLinks: NavLink[] = [
   { 
     route: "/panel/users", 
     label: "Users",
-    icon: Users,
+    icon: Users2,
     requiresAuth: true,
     restrictions: ["super"],
     hidden: false

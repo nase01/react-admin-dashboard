@@ -1,19 +1,15 @@
 
-import Loader from "@/components/shared/Loader";
-import { useGetCurrentUser } from "@/lib/react-query/queries";
+import { Heading } from "@/components/Heading";
+import { LayoutDashboard } from "lucide-react";
 
 const Dashboard = () => {
-  const { data: currentUser } = useGetCurrentUser();
-  
-  if (!currentUser)
-    return (
-      <Loader />
-    );
-
   return (
-    <div className="p-4">
-      <h2 className="font-bold text-slate-900 text-2xl">Dashboard</h2>
-      <div className="mt-3">Welcome {currentUser.name} ({currentUser.role})</div>
+    <div>
+      <Heading
+        title="Dashboard"
+        description="System's data summary and analytics"
+        icon={LayoutDashboard}
+      />
     </div>
   )
 }
