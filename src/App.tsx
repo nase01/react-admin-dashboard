@@ -32,8 +32,8 @@ const App = () => {
           <Route path="/panel/users" element={<Users />} />
           <Route path="/panel/users/create" element={<UserCreate />} />
           <Route path="/panel/users/edit/:id" element={<UserEdit />} />
-          <Route path="/panel/account-settings" element={<AccountSettings />} />
-          <Route path="/panel/account-pwchange" element={<AccountPWChange />} />
+          <Route path="/panel/settings/account" element={<AccountSettings />} />
+          <Route path="/panel/settings/pwchange" element={<AccountPWChange />} />
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />

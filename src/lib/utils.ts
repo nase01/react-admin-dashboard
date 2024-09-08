@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { twMerge } from "tailwind-merge";
 import { navLinks } from "@/constants";
 import { Location } from "react-router-dom";
-import { JwtPayload } from "@/types";
+import { JwtPayload, NavLink, SubMenuItem } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -32,17 +32,45 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const updatePageTitle = (location: Location) => {
   let title = "RAD";
 
-  const matchingLink = navLinks.find((link) => {
-    
-    // Handle wildcard route for 404
-    if (link.route === "*") {
-      return location.pathname !== "/" && !navLinks.some(navLink => matchRoute(navLink.route, location.pathname));
-    }
-    return matchRoute(link.route, location.pathname);
-  });
+  const findMatchingLink = (links: NavLink[]): NavLink | undefined => {
+    return links.find((link: NavLink) => {
+
+      // Handle wildcard route for 404
+      if (link.route === "*") {
+        return (
+          location.pathname !== "/" &&
+          !navLinks.some((navLink: NavLink) =>
+            matchRoute(navLink.route, location.pathname)
+          )
+        );
+      }
+
+      // Check if the route matches or any subMenu route matches
+      return (
+        matchRoute(link.route, location.pathname) ||
+        (link.subMenu &&
+          link.subMenu.some((subLink: SubMenuItem) =>
+            matchRoute(subLink.route, location.pathname)
+          ))
+      );
+    });
+  };
+
+  // Find the matching link or submenu link
+  const matchingLink = findMatchingLink(navLinks);
 
   if (matchingLink) {
-    title = `${matchingLink.label} - ${title}`;
+    
+    // Check if the location matches a subMenu item
+    const matchingSubLink = matchingLink.subMenu?.find((subLink: SubMenuItem) =>
+      matchRoute(subLink.route, location.pathname)
+    );
+
+    if (matchingSubLink) {
+      title = `${matchingSubLink.label} - ${title}`;
+    } else {
+      title = `${matchingLink.label} - ${title}`;
+    }
   }
 
   document.title = title;

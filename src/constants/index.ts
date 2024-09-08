@@ -1,7 +1,9 @@
 import { NavLink } from "@/types";
 import {
   LayoutDashboard,
-  UserCircle2,
+  LockKeyhole,
+  Settings,
+  UserCog,
   Users,
 } from "lucide-react";
 
@@ -65,20 +67,22 @@ export const navLinks: NavLink[] = [
     hidden: true
   },
   { 
-    route: "/panel/account", 
-    label: "My Account",
-    icon: UserCircle2,
+    route: "/panel/settings", 
+    label: "Settings",
+    icon: Settings,
     requiresAuth: true,
     restrictions: [],
     hidden: false,
     subMenu: [
       { 
-        route: "/panel/account-settings", 
+        route: "/panel/settings/account", 
         label: "Account Settings",
+        icon: UserCog,
       },
       { 
-        route: "/panel/account-pwchange", 
-        label: "Change Password",
+        route: "/panel/settings/pwchange", 
+        label: "Password Change",
+        icon: LockKeyhole
       }
     ]
   },

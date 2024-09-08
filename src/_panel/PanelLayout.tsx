@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import SidebarMobile from "@/components/SidebarMobile";
 import { ToggleProvider } from "@/components/ToggleProvider";
 import { Outlet } from "react-router-dom";
 
@@ -8,7 +9,7 @@ const PanelLayout = () => {
     <ToggleProvider>
       <div className="w-full">
         <Navbar />
-        {/* SidebarMobile */}
+        <SidebarMobile />
         <section className="w-full pb-10 md:flex">
           <Sidebar />
           <div className="p-12 max-lg:p-6 flex-1">

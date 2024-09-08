@@ -60,6 +60,7 @@ const ChangePWForm = () => {
               <FormControl>
                 <Input type="password" className="shad-input" {...field} />
               </FormControl>
+              <FormMessage className="shad-form_message"  />
             </FormItem>
           )}
         />

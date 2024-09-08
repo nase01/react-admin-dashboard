@@ -38,7 +38,7 @@ const Navbar = () => {
         <Button
           onClick={() => setSidebarExpanded((curr) => !curr)}
           variant="outline"
-          className={`rounded-full border-none transition-all duration-300 ${
+          className={`rounded-full border-none transition-all bg-transparent text-black dark:text-white duration-300 ${
             sidebarExpanded && "rotate-180"
           }`}
           size="icon"

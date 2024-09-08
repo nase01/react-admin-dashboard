@@ -11,6 +11,7 @@ export type NavLink = {
 export type SubMenuItem = {
 	label: string;
 	route: string;
+	icon?: React.ComponentType;
 };
 
 export type User = {
