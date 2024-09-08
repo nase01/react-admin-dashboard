@@ -17,17 +17,15 @@ const Unauthorized = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-50 w-full">
-			<div className="m-5 p-10 max-w-[650px] bg-white border border-red-700 shadow-lg rounded-lg">
-				<h2 className="mb-5 text-2xl font-extrabold text-red-700">404</h2>
-				It seems the page <b>"{location.pathname}"</b> you want to access  does not exist.
-				<div className="mt-10">
-					<Button size="sm" onClick={handleBackToDashboard}>
-						<ArrowLeftCircle className="mr-2 text-red-300" size={16} /> Back to Dashboard
-					</Button>
-				</div>
+		<div className="m-5 p-10 max-w-[650px] border border-red-700 shadow-lg rounded-lg">
+			<h2 className="mb-5 text-2xl font-extrabold text-red-700">404</h2>
+			It seems the page <b>"{location.pathname}"</b> you want to access  does not exist.
+			<div className="mt-10">
+				<Button size="sm" onClick={handleBackToDashboard}>
+					<ArrowLeftCircle className="mr-2" size={16} /> Back to Dashboard
+				</Button>
 			</div>
-    </div>
+		</div>
   )
 }
 

@@ -13,10 +13,12 @@ import UserEdit from "@/_panel/pages/UserEdit";
 import AccountSettings from "@/_panel/pages/AccountSettings";
 import AccountPWChange from "@/_panel/pages/AccountPWChange";
 
+import ErrorLayout from "@/_error/ErrorLayout";
 import Unauthorized from "@/_error/pages/Unauthorized";
 import NotFound from "@/_error/pages/NotFound";
 
 import "@/globals.css";
+
 
 const App = () => {
   return (
@@ -35,8 +37,10 @@ const App = () => {
           <Route path="/panel/settings/account" element={<AccountSettings />} />
           <Route path="/panel/settings/pwchange" element={<AccountPWChange />} />
         </Route>
-        <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="*" element={<NotFound />} />
+        <Route element={<ErrorLayout />}>
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
 
       <Toaster />
