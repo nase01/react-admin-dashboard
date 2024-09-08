@@ -5,7 +5,7 @@ import { Pencil, UserPlus2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
-import Loader from "@/components/shared/Loader";
+import Loader2 from "@/components/shared/Loader2";
 import Pagination from '@/components/shared/Pagination';
 import BtnDeleteUser from "@/components/BtnDeleteUser";
 import { toastConfig } from "@/constants";
@@ -21,7 +21,7 @@ const Users = () => {
   const { data: usersCount, isLoading: isfetchingUsersCount } = useGetUsersCount();
   const { mutateAsync: deleteUsers, isPending: isDeleting } = useDeleteUsers();
 
-  if (isfetchingUsersData || isfetchingUsersCount) return <Loader />;
+  if (isfetchingUsersData || isfetchingUsersCount) return <Loader2 />;
 
   const data = usersData as User[];
   const totalUsersCount = usersCount?.count || 0;

@@ -1,5 +1,5 @@
 import { useGetCurrentUser } from "@/lib/react-query/queries";
-import Loader from "@/components/shared/Loader";
+import Loader2 from "@/components/shared/Loader2";
 import ChangePWForm from "../forms/ChangePWForm";
 import { Heading } from "@/components/Heading";
 import { LockKeyhole } from "lucide-react";
@@ -7,7 +7,7 @@ import { LockKeyhole } from "lucide-react";
 const AccountPWChange = () => {
   const { data: currentUser } = useGetCurrentUser();
 
-	if (!currentUser) return <Loader />;
+	if (!currentUser) return <Loader2 />;
   
 	return (
     <div>

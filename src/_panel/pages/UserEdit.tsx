@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import UserForm from "../forms/UserForm"
 import { useGetUserById } from "@/lib/react-query/queries";
-import Loader from "@/components/shared/Loader";
+import Loader2 from "@/components/shared/Loader2";
 
 
 const UserEdit = () => {
@@ -14,7 +14,7 @@ const UserEdit = () => {
 	: { data: undefined, isLoading: false };
 
 
-	if (isFetchingUserData) return <Loader />;
+	if (isFetchingUserData) return <Loader2 />;
 
   return (
     <div className="p-4">
