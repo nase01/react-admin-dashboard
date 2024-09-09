@@ -48,11 +48,9 @@ const SidebarMobile = () => {
         <nav className="h-full flex flex-col">
         <div className="flex items-center justify-between p-3" >
             <img
-              src="/assets/logo.svg"
-              className="h-6 w-auto"
+              src="/assets/logo.png"
+              className="h-8 w-auto"
               alt="logo"
-              width="130"
-              height="36"
             />
             <Button
               onClick={() => setMobileMenuToggle((curr) => !curr)}

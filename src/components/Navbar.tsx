@@ -26,13 +26,11 @@ const Navbar = () => {
         }`}
       >
         <img
-          src="/assets/logo.svg"
+          src="/assets/logo.png"
           className={`overflow-hidden transition-all h-6 ${
-            sidebarExpanded ? "w-auto" : "w-0"
+            sidebarExpanded ? "h-8 w-auto" : "w-0"
           }`}
           alt="logo"
-          width="130"
-          height="36"
         />
 
         <Button
