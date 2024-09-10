@@ -15,10 +15,10 @@ const ModalUser = ({ userAction = "user-create" } : UserFormProps) => {
 	const myAction = userAction === "user-create" ? "Create User" 
 	: userAction !== "account-edit" ? "Edit User" : "Account Settings";
 
-  const { modalIsOpen, setModalIsOpen } = useMobileMenuToggle();
+  const { modalIsLoading, modalIsOpen, setModalIsOpen } = useMobileMenuToggle();
 
   return (
-    <Dialog open={modalIsOpen} onOpenChange={() => setModalIsOpen(false) } >
+    <Dialog open={modalIsOpen} onOpenChange={(open: boolean | ((prevState: boolean) => boolean)) => !modalIsLoading && setModalIsOpen(open)}>
       <Button onClick={() => setModalIsOpen(true)} variant="secondary" className="shad-button gap-2">
         <UserPlus2 />
         <span className="max-md:hidden">{myAction}</span>

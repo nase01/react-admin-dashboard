@@ -29,9 +29,10 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
   const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUser();
   const { mutateAsync: editUser, isPending: isUpdatingUser } = useEditUser();
   const { mutateAsync: accountUpdate, isPending: isUpdatingAccount } = useAccountUpdate();
-  const { setModalIsOpen } = useMobileMenuToggle();
+  const { setModalIsOpen, setModalIsLoading } = useMobileMenuToggle();
   
   const isProcessing = isCreatingUser || isUpdatingUser || isUpdatingAccount;
+  setModalIsLoading(isProcessing);
   
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
@@ -74,6 +75,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
 
     toast.success(successMessage, toastConfig);
     setModalIsOpen(false);
+    setModalIsLoading(false);
     
     userAction !== "account-edit" && navigate("/panel/users");
 
