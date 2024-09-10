@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Trash } from "lucide-react"
 import { useEffect, useState } from "react";
-import Loader from "@/components/shared/Loader";
+import { Icons } from "@/components/ui/icons";
 
 interface BtnDeleteUserProps {
   onClick: () => void;
@@ -41,9 +41,7 @@ const BtnDeleteUser: React.FC<BtnDeleteUserProps> = ({ onClick, isDeleting }) =>
         <div className="mt-3 flex justify-between items-center gap-2">
           <Button variant="outline" onClick={handleClose} disabled={isDeleting}>Cancel</Button>
           <Button variant="destructive" onClick={onClick}  disabled={isDeleting}>
-            {isDeleting ? (
-              <Loader />
-            ) : "Confirm"}
+            {isDeleting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> } Confirm
           </Button>
         </div>
       </DialogContent>
