@@ -16,7 +16,7 @@ import {
 import { useGetCurrentUser } from "@/lib/react-query/queries";
 import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
 import { signOut } from "@/lib/api/AuthApi";
-import { updatePageTitle } from "@/lib/utils";
+import { ucFirst, updatePageTitle } from "@/lib/utils";
 import Loader from "@/components/shared/Loader";
 
 const UserNav = () => {
@@ -53,7 +53,7 @@ const UserNav = () => {
           <>
             <DropdownMenuLabel className="font-normal p-2">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-lg font-medium leading-none">{currentUser.name}</p>
+                  <p className="text-lg font-medium leading-none">{currentUser.name} ({ucFirst(currentUser.role)})</p>
                   <p className="text-sm leading-none text-muted-foreground">
                     {currentUser.email}
                   </p>
