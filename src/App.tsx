@@ -8,7 +8,6 @@ import ForgotPasswordForm from "@/_auth/forms/ForgotPasswordForm";
 import PanelLayout from "@/_panel/PanelLayout";
 import Dashboard from "@/_panel/pages/Dashboard";
 import Users from "@/_panel/pages/Users";
-import UserCreate from "@/_panel/pages/UserCreate";
 import UserEdit from "@/_panel/pages/UserEdit";
 import AccountSettings from "@/_panel/pages/AccountSettings";
 import AccountPWChange from "@/_panel/pages/AccountPWChange";
@@ -32,7 +31,6 @@ const App = () => {
         <Route element={<PanelLayout />}>
           <Route path="/panel/dashboard" element={<Dashboard />} />
           <Route path="/panel/users" element={<Users />} />
-          <Route path="/panel/users/create" element={<UserCreate />} />
           <Route path="/panel/users/edit/:id" element={<UserEdit />} />
           <Route path="/panel/settings/account" element={<AccountSettings />} />
           <Route path="/panel/settings/pwchange" element={<AccountPWChange />} />

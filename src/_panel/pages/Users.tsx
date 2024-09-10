@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { User } from "@/types";
-import { Pencil, UserPlus2, Users2 } from "lucide-react";
+import { Pencil, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
@@ -11,10 +10,9 @@ import BtnDeleteUser from "@/components/BtnDeleteUser";
 import { toastConfig } from "@/constants";
 import toast from "react-hot-toast";
 import { Heading } from "@/components/Heading";
+import ModalUser from "@/components/ModalUser";
 
 const Users = () => {
-  const navigate = useNavigate();
-
   const perPage = 5; 
   const [currentPage, setCurrentPage] = useState(1);
   const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(perPage, currentPage);
@@ -26,10 +24,6 @@ const Users = () => {
   const data = usersData as User[];
   const totalUsersCount = usersCount?.count || 0;
   const totalPages = Math.ceil(totalUsersCount / perPage);
-
-  const goToUsersCreate = () => {
-    navigate('/panel/users/create');
-  }
 
   const handleDeleteUser = async (ids: string) => {
     
@@ -51,10 +45,7 @@ const Users = () => {
           description="Manage system users"
           icon={Users2}
         />
-        <Button onClick={goToUsersCreate} variant="secondary" className="shad-button gap-2">
-          <UserPlus2 />
-          <span className="max-md:hidden">Add User</span>
-        </Button>
+        <ModalUser />
       </div>
       
       <div className="mt-10">

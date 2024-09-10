@@ -68,9 +68,15 @@ export const useGetUsers = (perPage: number, currentPage: number) => {
 };
 
 export const useCreateUser = () => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (user: any) =>
 			createUser(user),
+			onSuccess: () => {
+				queryClient.invalidateQueries({
+					queryKey: [QUERY_KEYS.GET_USERS], /* Refetch updated user data */
+				});
+			}
 	});
 };
 

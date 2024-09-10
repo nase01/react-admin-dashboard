@@ -31,6 +31,12 @@ export type UserDTO = Omit<User, "id" | "accountType" | "ip"> & {
 	passwordConfirm: string;
 };
 
+export interface UserFormProps {
+	userId?: string;  
+	userData?: User; 
+	userAction?: "user-create" | "user-edit" | "account-edit";
+}
+
 export type JwtPayload = {
   id: number;
   accountType: string;

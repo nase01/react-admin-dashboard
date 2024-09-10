@@ -18,22 +18,18 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { User } from "@/types";
+import { UserFormProps } from "@/types";
 import toast from "react-hot-toast";
 import { toastConfig } from "@/constants";
 import { Icons } from "@/components/ui/icons";
-
-interface UserFormProps {
-  userId?: string;  
-  userData?: User; 
-  userAction?: 'user-create' | 'user-edit' | 'account-edit';
-}
+import { useMobileMenuToggle } from "@/components/ToggleProvider";
 
 const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "user-create" }) => {
   const navigate = useNavigate();
   const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUser();
   const { mutateAsync: editUser, isPending: isUpdatingUser } = useEditUser();
   const { mutateAsync: accountUpdate, isPending: isUpdatingAccount } = useAccountUpdate();
+  const { setModalIsOpen } = useMobileMenuToggle();
   
   const isProcessing = isCreatingUser || isUpdatingUser || isUpdatingAccount;
   
@@ -77,12 +73,18 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
     : "User successfully created";
 
     toast.success(successMessage, toastConfig);
+    setModalIsOpen(false);
+    
     userAction !== "account-edit" && navigate("/panel/users");
 
   };
 
   const handleCancel = () => {
     navigate('/panel/users');
+  }
+
+  const handleClose = () => {
+    setModalIsOpen(false);
   }
 
   return (
@@ -229,9 +231,14 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
         )}
         
         <div className={`flex ${userAction !== "account-edit" ? 'justify-between' : 'justify-end'} items-center my-5`}>
-          {userAction !== "account-edit"  && (
+          {userAction === "user-edit" && (
             <Button type="button" onClick={handleCancel} disabled={isProcessing} size="lg" variant="outline">Cancel</Button>
           )}
+
+          {userAction === "user-create" && (
+            <Button type="button" onClick={handleClose} disabled={isProcessing} size="lg" variant="outline">Close</Button>
+          )}
+
           <Button disabled={isProcessing} size="lg" className="shad-button mt-3">
             { isProcessing && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> }
             { !userData && !userId ? "Create" : "Update" }
