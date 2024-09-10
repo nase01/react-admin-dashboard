@@ -82,16 +82,13 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
   };
 
   const handleCancel = () => {
-    navigate('/panel/users');
-  }
-
-  const handleClose = () => {
     setModalIsOpen(false);
   }
 
   useEffect(() => {
     setModalIsLoading(isProcessing);
   }, [isProcessing]);
+  
 
   return (
     <Form {...form}>
@@ -237,12 +234,8 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
         )}
         
         <div className={`flex ${userAction !== "account-edit" ? 'justify-between' : 'justify-end'} items-center my-5`}>
-          {userAction === "user-edit" && (
+          {userAction !== "account-edit" && (
             <Button type="button" onClick={handleCancel} disabled={isProcessing} size="lg" variant="outline">Cancel</Button>
-          )}
-
-          {userAction === "user-create" && (
-            <Button type="button" onClick={handleClose} disabled={isProcessing} size="lg" variant="outline">Close</Button>
           )}
 
           <Button disabled={isProcessing} size="lg" className="shad-button mt-3">
