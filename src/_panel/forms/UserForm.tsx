@@ -22,17 +22,18 @@ import { UserFormProps } from "@/types";
 import toast from "react-hot-toast";
 import { toastConfig } from "@/constants";
 import { Icons } from "@/components/ui/icons";
-import { useMobileMenuToggle } from "@/components/ToggleProvider";
+import { useModalIsOpen, useModalIsLoading } from "@/components/ToggleProvider";
+import { useEffect } from "react";
 
 const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "user-create" }) => {
   const navigate = useNavigate();
   const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUser();
   const { mutateAsync: editUser, isPending: isUpdatingUser } = useEditUser();
   const { mutateAsync: accountUpdate, isPending: isUpdatingAccount } = useAccountUpdate();
-  const { setModalIsOpen, setModalIsLoading } = useMobileMenuToggle();
-  
+  const { setModalIsOpen } = useModalIsOpen();
+  const { setModalIsLoading } = useModalIsLoading();
+
   const isProcessing = isCreatingUser || isUpdatingUser || isUpdatingAccount;
-  setModalIsLoading(isProcessing);
   
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
@@ -75,7 +76,6 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
 
     toast.success(successMessage, toastConfig);
     setModalIsOpen(false);
-    setModalIsLoading(false);
     
     userAction !== "account-edit" && navigate("/panel/users");
 
@@ -88,6 +88,10 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
   const handleClose = () => {
     setModalIsOpen(false);
   }
+
+  useEffect(() => {
+    setModalIsLoading(isProcessing);
+  }, [isProcessing]);
 
   return (
     <Form {...form}>
