@@ -53,13 +53,6 @@ export const navLinks: NavLink[] = [
     hidden: false
   },
   { 
-    route: "/panel/users/edit/:id", 
-    label: "Edit User",
-    requiresAuth: true,
-    restrictions: ["super"],
-    hidden: true
-  },
-  { 
     route: "/panel/settings", 
     label: "Settings",
     icon: Settings,

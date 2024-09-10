@@ -85,9 +85,9 @@ export const useEditUser = () => {
 	return useMutation({
 		mutationFn: ({ id, user }: { id: string; user: any }) =>
       editUser(id, user),
-			onSuccess: (data) => {
+			onSuccess: () => {
 				queryClient.invalidateQueries({
-					queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id], /* Refetch updated user data */
+					queryKey: [QUERY_KEYS.GET_USERS], /* Refetch updated user data */
 				});
 			}
 	});

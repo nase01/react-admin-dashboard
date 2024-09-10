@@ -4,32 +4,29 @@ import {
 	DialogHeader,
 	DialogTitle
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { UserPlus2 } from "lucide-react";
-import { useMobileMenuToggle } from "@/components/ToggleProvider";
+import { useModalIsLoading, useModalIsOpen } from "@/components/ToggleProvider";
 import UserForm from "@/_panel/forms/UserForm";
 import { UserFormProps } from "@/types";
 
-const ModalUser = ({ userAction = "user-create" } : UserFormProps) => {
+const ModalUser = ({ userId, userData, userAction = "user-create" } : UserFormProps) => {
 	
 	const myAction = userAction === "user-create" ? "Create User" 
 	: userAction !== "account-edit" ? "Edit User" : "Account Settings";
 
-  const { modalIsLoading, modalIsOpen, setModalIsOpen } = useMobileMenuToggle();
+  const { modalIsOpen, setModalIsOpen } = useModalIsOpen();
+  const { modalIsLoading } = useModalIsLoading();
 
   return (
     <Dialog open={modalIsOpen} onOpenChange={(open: boolean | ((prevState: boolean) => boolean)) => !modalIsLoading && setModalIsOpen(open)}>
-      <Button onClick={() => setModalIsOpen(true)} variant="secondary" className="shad-button gap-2">
-        <UserPlus2 />
-        <span className="max-md:hidden">{myAction}</span>
-      </Button>
-      <DialogContent className="max-h-full overflow-y-auto my-3">
+      <DialogContent 
+      onOpenAutoFocus={(e) => userData && e.preventDefault()}
+      aria-describedby={undefined} className="max-h-full overflow-y-auto my-3">
         <DialogHeader>
           <DialogTitle>
             {myAction}
           </DialogTitle>
         </DialogHeader>
-        <UserForm userAction={userAction} />
+        <UserForm  userId={userId} userData={userData} userAction={userAction} /> 
       </DialogContent>
     </Dialog>
   )

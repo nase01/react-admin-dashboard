@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { User } from "@/types";
-import { Pencil, Users2 } from "lucide-react";
+import { Pencil, UserPlus2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
@@ -11,10 +11,13 @@ import { toastConfig } from "@/constants";
 import toast from "react-hot-toast";
 import { Heading } from "@/components/Heading";
 import ModalUser from "@/components/ModalUser";
+import { useModalIsOpen } from "@/components/ToggleProvider";
 
 const Users = () => {
   const perPage = 5; 
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedUser, setSelectedUser] = useState<User | undefined>(undefined);
+  const { modalIsOpen, setModalIsOpen } = useModalIsOpen();
   const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(perPage, currentPage);
   const { data: usersCount, isLoading: isfetchingUsersCount } = useGetUsersCount();
   const { mutateAsync: deleteUsers, isPending: isDeleting } = useDeleteUsers();
@@ -37,6 +40,11 @@ const Users = () => {
     toast.success("User successfully deleted", toastConfig);
   };
 
+  const openModal = (user?: User) => {
+    setSelectedUser(user);
+    setModalIsOpen(true);
+  };
+
   return (
     <>
       <div className="flex justify-between items-start">
@@ -45,7 +53,10 @@ const Users = () => {
           description="Manage system users"
           icon={Users2}
         />
-        <ModalUser />
+        <Button onClick={() => openModal()} variant="secondary" className="shad-button gap-2">
+          <UserPlus2 />
+          <span className="max-md:hidden"> Create User</span>
+        </Button>
       </div>
       
       <div className="mt-10">
@@ -53,14 +64,10 @@ const Users = () => {
           <div key={user.id} className="flex justify-between items-center my-3  border border-slate-200 p-3 rounded-lg">
             <div className="text-xl">{user.name} ({user.role})</div>
             <div className="flex space-x-2">
-              <Button
-                onClick={() => window.location.href = `/panel/users/edit/${user.id}`} 
-                disabled={isDeleting} 
-                className="rounded-button" 
-                variant="outline" size="icon">
-                  <Pencil className="text-green-700"  />
+              <Button onClick={() => openModal(user)} className="rounded-button" variant="outline" size="icon">
+                <Pencil className="text-green-700"  />
               </Button>
-              
+
               <BtnDeleteUser 
                 onClick={() => handleDeleteUser(user.id)} 
                 isDeleting={isDeleting} 
@@ -77,6 +84,15 @@ const Users = () => {
           />
         )}
       </div>
+
+      {modalIsOpen && (
+        <ModalUser
+          userId={selectedUser?.id}
+          userData={selectedUser}
+          userAction={selectedUser ? "user-edit" : "user-create"}
+        />
+      )}
+
     </>
   )
 }

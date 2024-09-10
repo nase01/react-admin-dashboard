@@ -113,3 +113,8 @@ export const parseIPWhitelist = (ipWhitelist?: string): string[] => {
       .filter((ip: string) => ip !== "") 
     : [];                           
 };
+
+export const ucFirst = (word: string) => {
+  if (!word) return '';
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};
