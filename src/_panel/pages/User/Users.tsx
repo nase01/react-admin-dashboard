@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { User } from "@/types";
-import { Pencil, UserPlus2, Users2 } from "lucide-react";
+import { UserPlus2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
@@ -12,6 +12,9 @@ import toast from "react-hot-toast";
 import { Heading } from "@/components/Heading";
 import ModalUser from "@/components/ModalUser";
 import { useModalIsOpen } from "@/components/ToggleProvider";
+
+import { columns } from "@/_panel/pages/User/Columns";
+import { DataTable } from "@/components/shared/DataTable";
 
 const Users = () => {
   const perPage = 5; 
@@ -58,33 +61,12 @@ const Users = () => {
           <span className="max-md:hidden"> Create User</span>
         </Button>
       </div>
-      
-      <div className="mt-10">
-        {data?.map((user: User) => (
-          <div key={user.id} className="flex justify-between items-center my-3  border border-slate-200 p-3 rounded-lg">
-            <div className="text-xl">{user.name} ({user.role})</div>
-            <div className="flex space-x-2">
-              <Button onClick={() => openModal(user)} className="rounded-button" variant="outline" size="icon">
-                <Pencil className="text-green-700"  />
-              </Button>
-
-              <BtnDeleteUser 
-                onClick={() => handleDeleteUser(user.id)} 
-                isDeleting={isDeleting} 
-              />
-            </div>
-          </div>
-        ))}
-
-        {totalPages > 0 && (
-          <Pagination 
-            currentPage={currentPage} 
-            totalPages={totalPages} 
-            onPageChange={setCurrentPage} 
-          />
-        )}
+      <div className="py-10">
+        <DataTable 
+          columns={columns(openModal, handleDeleteUser)} 
+          data={data}
+        />
       </div>
-
       {modalIsOpen && (
         <ModalUser
           userId={selectedUser?.id}

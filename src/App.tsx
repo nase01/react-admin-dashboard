@@ -7,7 +7,7 @@ import ForgotPasswordForm from "@/_auth/forms/ForgotPasswordForm";
 
 import PanelLayout from "@/_panel/PanelLayout";
 import Dashboard from "@/_panel/pages/Dashboard";
-import Users from "@/_panel/pages/Users";
+import Users from "@/_panel/pages/User/Users";
 import AccountSettings from "@/_panel/pages/AccountSettings";
 import AccountPWChange from "@/_panel/pages/AccountPWChange";
 
