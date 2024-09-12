@@ -17,7 +17,7 @@ import { User } from "@/types";
 
 export const columns = (
   openModal: (user?: User) => void,
-  handleDeleteUser: (id: string) => void
+  openModalDelete: (id: string[]) => void
 ): ColumnDef<User>[] => [
   {
     id: "select",
@@ -94,7 +94,7 @@ export const columns = (
 							Edit
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => handleDeleteUser(rowData.id)}>
+              onClick={() => openModalDelete([rowData.id])}>
               Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
