@@ -6,16 +6,16 @@ import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query
 
 import Loader2 from "@/components/shared/Loader2";
 import Pagination from '@/components/shared/Pagination';
-import BtnDeleteUser from "@/components/BtnDeleteUser";
 import { toastConfig } from "@/constants";
 import toast from "react-hot-toast";
 import { Heading } from "@/components/Heading";
 import ModalUser from "@/components/ModalUser";
-import { useModalDeleteIsOpen, useModalIsOpen } from "@/components/ToggleProvider";
+import { useModalConfirmIsOpen, useModalIsOpen } from "@/components/ToggleProvider";
 
 import { columns } from "@/_panel/pages/User/Columns";
 import { DataTable } from "@/components/shared/DataTable";
-import ModalDelete from "@/components/ModalDelete";
+import DialogConfirm from "@/components/shared/ModalConfirm";
+import ModalConfirm from "@/components/shared/ModalConfirm";
 
 const Users = () => {
   const perPage = 5; 
@@ -23,7 +23,7 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState<User | undefined>(undefined);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { modalIsOpen, setModalIsOpen } = useModalIsOpen();
-  const { modalDeleteIsOpen, setModalDeleteIsOpen } = useModalDeleteIsOpen();
+  const { modalConfirmIsOpen, setModalConfirmIsOpen } = useModalConfirmIsOpen();
   
   const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(perPage, currentPage);
   const { data: usersCount, isLoading: isfetchingUsersCount } = useGetUsersCount();
@@ -36,7 +36,6 @@ const Users = () => {
   const totalPages = Math.ceil(totalUsersCount / perPage);
 
   const handleDeleteUser = async (ids: string[]) => {
-    console.log(ids)
     const response = await deleteUsers(ids)
     
     if (response?.errors) {
@@ -45,7 +44,7 @@ const Users = () => {
     }
 
     toast.success("User successfully deleted", toastConfig);
-    setModalIsOpen(false);
+    setModalConfirmIsOpen(false);
   };
 
   const openModal = (user?: User) => {
@@ -53,9 +52,10 @@ const Users = () => {
     setModalIsOpen(true);
   };
 
-  const openModalDelete = (ids: string[]) => {
+  const openModalConfirm = (ids: string[], user?: User) => {
     setSelectedIds(ids);
-    setModalDeleteIsOpen(true);
+    setSelectedUser(user);
+    setModalConfirmIsOpen(true);
   };
 
   return (
@@ -73,7 +73,7 @@ const Users = () => {
       </div>
       <div className="py-10">
         <DataTable 
-          columns={columns(openModal, openModalDelete)} 
+          columns={columns(openModal, openModalConfirm)} 
           data={data}
         />
       </div>
@@ -85,11 +85,13 @@ const Users = () => {
         />
       )}
 
-      {modalDeleteIsOpen && (
-        <ModalDelete
+      {modalConfirmIsOpen && (
+        <ModalConfirm
+          title={selectedUser ? `Delete User ${selectedUser.name}` : "Delete Selected User's"} 
+          message="This data will be permanently lost, Are you sure you want to do this action?"
           onConfirm={() => handleDeleteUser(selectedIds)}
-          isDeleting={isDeleting}
-          message="Your data will be permanently lost, Are you sure you want to do this action?"
+          isLoading={isDeleting}
+          action="delete"
         />
       )}
 

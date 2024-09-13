@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { Edit, MoreHorizontal, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +17,7 @@ import { User } from "@/types";
 
 export const columns = (
   openModal: (user?: User) => void,
-  openModalDelete: (id: string[]) => void
+  openModalConfirm: (id: string[], user?: User) => void
 ): ColumnDef<User>[] => [
   {
     id: "select",
@@ -89,13 +89,14 @@ export const columns = (
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem
+            <DropdownMenuItem className="cursor-pointer"
               onClick={() => openModal(rowData)}>
-							Edit
+							<Edit className="mr-2 w-4 text-main"/> Edit
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => openModalDelete([rowData.id])}>
-              Delete</DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer"
+              onClick={() => openModalConfirm([rowData.id], rowData)}>
+              <Trash className="mr-2 w-4 text-danger"/> Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
