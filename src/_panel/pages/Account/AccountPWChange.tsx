@@ -1,6 +1,6 @@
 import { useGetCurrentUser } from "@/lib/react-query/queries";
 import Loader2 from "@/components/shared/Loader2";
-import ChangePWForm from "../forms/ChangePWForm";
+import ChangePWForm from "../../forms/ChangePWForm";
 import { Heading } from "@/components/Heading";
 import { LockKeyhole } from "lucide-react";
 

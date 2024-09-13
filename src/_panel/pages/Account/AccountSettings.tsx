@@ -1,4 +1,4 @@
-import UserForm from "../forms/UserForm"
+import UserForm from "../../forms/UserForm"
 import { useGetCurrentUser } from "@/lib/react-query/queries";
 import Loader2 from "@/components/shared/Loader2";
 import { Heading } from "@/components/Heading";
