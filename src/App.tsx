@@ -8,8 +8,8 @@ import ForgotPasswordForm from "@/_auth/forms/ForgotPasswordForm";
 import PanelLayout from "@/_panel/PanelLayout";
 import Dashboard from "@/_panel/pages/Dashboard/Dashboard";
 import Users from "@/_panel/pages/User/Users";
-import AccountSettings from "@/_panel/pages/Account/AccountSettings";
-import AccountPWChange from "@/_panel/pages/Account/AccountPWChange";
+import AccountSettings from "@/_panel/pages/Settings/AccountSettings";
+import AccountPWChange from "@/_panel/pages/Settings/AccountPWChange";
 
 import ErrorLayout from "@/_error/ErrorLayout";
 import Unauthorized from "@/_error/pages/Unauthorized";
