@@ -9,6 +9,11 @@ const ToggleContext = createContext<{
     setActiveSubMenu: React.Dispatch<React.SetStateAction<string>>;
     modalIsOpen: boolean;
     setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    
+    modalConfirmIsOpen: boolean;
+    setModalConfirmIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    
+    
     modalIsLoading: boolean;
     setModalIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 } | undefined>(undefined);
@@ -18,6 +23,7 @@ export function ToggleProvider({ children }: { children: ReactNode }) {
   const [mobileMenuToggle, setMobileMenuToggle] = useState(true);
   const [activeSubMenu, setActiveSubMenu] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalConfirmIsOpen, setModalConfirmIsOpen] = useState(false);
   const [modalIsLoading, setModalIsLoading] = useState(false);
 
   return (
@@ -26,6 +32,7 @@ export function ToggleProvider({ children }: { children: ReactNode }) {
       mobileMenuToggle, setMobileMenuToggle,
       activeSubMenu, setActiveSubMenu,
       modalIsOpen, setModalIsOpen,
+      modalConfirmIsOpen, setModalConfirmIsOpen,
       modalIsLoading, setModalIsLoading
     }}>
       {children}
@@ -58,6 +65,14 @@ export function useActiveSubMenu() {
 }
 
 export function useModalIsOpen() {
+  const context = useContext(ToggleContext);
+  if (context === undefined) {
+    throw new Error("useModalIsOpen must be used within an ToggleProvider");
+  }
+  return context;
+}
+
+export function useModalConfirmIsOpen() {
   const context = useContext(ToggleContext);
   if (context === undefined) {
     throw new Error("useModalIsOpen must be used within an ToggleProvider");
