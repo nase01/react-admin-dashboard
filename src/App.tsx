@@ -6,17 +6,16 @@ import SigninForm from "@/_auth/forms/SigninForm";
 import ForgotPasswordForm from "@/_auth/forms/ForgotPasswordForm";
 
 import PanelLayout from "@/_panel/PanelLayout";
-import Dashboard from "@/_panel/pages/Dashboard";
+import Dashboard from "@/_panel/pages/Dashboard/Dashboard";
 import Users from "@/_panel/pages/User/Users";
-import AccountSettings from "@/_panel/pages/AccountSettings";
-import AccountPWChange from "@/_panel/pages/AccountPWChange";
+import AccountSettings from "@/_panel/pages/Settings/AccountSettings";
+import AccountPWChange from "@/_panel/pages/Settings/AccountPWChange";
 
 import ErrorLayout from "@/_error/ErrorLayout";
 import Unauthorized from "@/_error/pages/Unauthorized";
 import NotFound from "@/_error/pages/NotFound";
 
 import "@/globals.css";
-
 
 const App = () => {
   return (
