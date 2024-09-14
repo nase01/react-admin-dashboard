@@ -21,13 +21,13 @@ export async function getCurrentUser() {
 	}
 }
 
-export async function getUsers(perPage: number, currentPage: number) {
+export async function getUsers(pageSize: number, currentPage: number) {
 	
 	try {
 		const jwt = getJwt();
 
 		const response = await fetch(`${API_BASE_URL}/admin/admins
-			?perPage=${perPage}
+			?perPage=${pageSize}
 			&currentPage=${currentPage}`, {
 			method: "GET",
 			headers: {

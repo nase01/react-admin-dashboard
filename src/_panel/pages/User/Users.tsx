@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { User } from "@/types";
-import { Download, Trash2, UserPlus2, Users2 } from "lucide-react";
+import { Trash2, UserPlus2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
 import Loader2 from "@/components/shared/Loader2";
-import Pagination from '@/components/shared/Pagination';
+import CustomPagination from "@/components/shared/CustomPagination";
 import { toastConfig } from "@/constants";
 import toast from "react-hot-toast";
 import { Heading } from "@/components/Heading";
@@ -14,26 +14,25 @@ import { useModalConfirmIsOpen, useModalIsOpen } from "@/components/ToggleProvid
 
 import { columns } from "@/_panel/pages/User/Columns";
 import { DataTable } from "@/components/shared/DataTable";
-import DialogConfirm from "@/components/shared/ModalConfirm";
 import ModalConfirm from "@/components/shared/ModalConfirm";
 
 const Users = () => {
-  const perPage = 5; 
+  const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState<User | undefined>(undefined);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { modalIsOpen, setModalIsOpen } = useModalIsOpen();
   const { modalConfirmIsOpen, setModalConfirmIsOpen } = useModalConfirmIsOpen();
   
-  const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(perPage, currentPage);
+  const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(pageSize, currentPage);
   const { data: usersCount, isLoading: isfetchingUsersCount } = useGetUsersCount();
   const { mutateAsync: deleteUsers, isPending: isDeleting } = useDeleteUsers();
 
   if (isfetchingUsersData || isfetchingUsersCount) return <Loader2 />;
-
+  
   const data = usersData as User[];
   const totalUsersCount = usersCount?.count || 0;
-  const totalPages = Math.ceil(totalUsersCount / perPage);
+  const totalPages = Math.ceil(totalUsersCount / pageSize);
 
   const handleDeleteUser = async (ids: string[]) => {
     const response = await deleteUsers(ids)
@@ -78,6 +77,8 @@ const Users = () => {
     }
   }
 
+  console.log(pageSize)
+  
   return (
     <>
       <div className="flex justify-between items-start">
@@ -105,6 +106,21 @@ const Users = () => {
           columns={columns(openModal, openModalConfirm, getCheckedRows)} 
           data={data}
         />
+        <div className="flex items-center justify-between px-2 mt-4">
+          <div className="flex-1 text-sm text-muted-foreground">
+            {
+              `Total Users: ${totalUsersCount} ${selectedIds.length > 0 
+              ? "(" + selectedIds.length + " Selected)" : "" }`  
+            }
+          </div>
+          <CustomPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            pageSize={pageSize}
+            onSizeChange={setPageSize}
+          />
+        </div>
       </div>
       {modalIsOpen && (
         <ModalUser
