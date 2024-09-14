@@ -58,6 +58,20 @@ const Users = () => {
     setModalConfirmIsOpen(true);
   };
 
+  const getCheckedRows = (id: string) => {
+    if (id === "") {
+      setSelectedIds([]); 
+    } else {
+      setSelectedIds((prevSelectedIds) => {
+        if (prevSelectedIds.includes(id)) {
+          return prevSelectedIds.filter((selectedId) => selectedId !== id); 
+        } else {
+          return [...prevSelectedIds, id]; 
+        }
+      });
+    }
+  }
+
   return (
     <>
       <div className="flex justify-between items-start">
@@ -73,7 +87,7 @@ const Users = () => {
       </div>
       <div className="py-10">
         <DataTable 
-          columns={columns(openModal, openModalConfirm)} 
+          columns={columns(openModal, openModalConfirm, getCheckedRows)} 
           data={data}
         />
       </div>
