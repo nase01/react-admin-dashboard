@@ -24,7 +24,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./DataTableViewOptions";
 import { DataTablePagination } from "./DataTablePagination";
-
+import { Button } from "../ui/button";
+import { Download } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -70,6 +71,9 @@ export function DataTable<TData, TValue>({
           />
         </div>
         <DataTableViewOptions table={table} />
+        <Button  variant="ghost" size="sm"  className="ml-auto h-8 lg:flex">
+          <Download className="h-4 w-4" />
+        </Button>
       </div>
       <div className="rounded-lg border">
         <Table>
