@@ -60,10 +60,10 @@ export const useGetUsersCount = () => {
 	});
 };
 
-export const useGetUsers = (perPage: number, currentPage: number) => {
+export const useGetUsers = (pageSize: number, currentPage: number) => {
 	return useQuery({
-		queryKey: [QUERY_KEYS.GET_USERS, perPage, currentPage],
-		queryFn: () => getUsers(perPage, currentPage)
+		queryKey: [QUERY_KEYS.GET_USERS, pageSize, currentPage],
+		queryFn: () => getUsers(pageSize, currentPage)
 	});
 };
 
@@ -75,6 +75,9 @@ export const useCreateUser = () => {
 			onSuccess: () => {
 				queryClient.invalidateQueries({
 					queryKey: [QUERY_KEYS.GET_USERS], /* Refetch updated user data */
+				});
+				queryClient.invalidateQueries({
+					queryKey: [QUERY_KEYS.GET_USERS_COUNT],
 				});
 			}
 	});
@@ -109,8 +112,8 @@ export const useDeleteUsers = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_USERS],
       });
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+			queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_USERS_COUNT],
       });
     },
   });

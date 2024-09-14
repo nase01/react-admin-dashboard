@@ -23,7 +23,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./DataTableViewOptions";
-import { DataTablePagination } from "./DataTablePagination";
+// import { DataTablePagination } from "./DataTablePagination";
 import { Button } from "../ui/button";
 import { Download } from "lucide-react";
 
@@ -46,6 +46,7 @@ export function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
@@ -119,7 +120,10 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {
+        // Client-Side Pagination
+        // <DataTablePagination table={table} />
+      }
     </div>
   );
 }
