@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { User } from "@/types";
-import { UserPlus2, Users2 } from "lucide-react";
+import { Download, Trash2, UserPlus2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
@@ -44,19 +44,39 @@ const Users = () => {
     }
 
     toast.success("User successfully deleted", toastConfig);
+
+    // Clear State
     setModalConfirmIsOpen(false);
+    setSelectedIds([]);
+    setSelectedUser(undefined);
   };
 
+  // Open ModalUser
   const openModal = (user?: User) => {
     setSelectedUser(user);
     setModalIsOpen(true);
   };
 
+  // Open ModelConfirm
   const openModalConfirm = (ids: string[], user?: User) => {
     setSelectedIds(ids);
     setSelectedUser(user);
     setModalConfirmIsOpen(true);
   };
+
+  const getCheckedRows = (id: string) => {
+    if (id === "") {
+      setSelectedIds([]); 
+    } else {
+      setSelectedIds((prevSelectedIds) => {
+        if (prevSelectedIds.includes(id)) {
+          return prevSelectedIds.filter((selectedId) => selectedId !== id); 
+        } else {
+          return [...prevSelectedIds, id]; 
+        }
+      });
+    }
+  }
 
   return (
     <>
@@ -66,14 +86,23 @@ const Users = () => {
           description="Manage system users"
           icon={Users2}
         />
-        <Button onClick={() => openModal()} variant="secondary" className="shad-button gap-2">
-          <UserPlus2 />
-          <span className="max-md:hidden"> Create User</span>
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={() => openModal()} variant="secondary" className="shad-button gap-2">
+            <UserPlus2 className="w-5" />
+            <span className="max-md:hidden"> Create User</span>
+          </Button>
+          <Button  
+            variant="secondary" 
+            disabled={selectedIds.length === 0} 
+            onClick={() => openModalConfirm(selectedIds)}
+            className="shad-button gap-2">
+            <Trash2 className="text-danger hover:text-danger w-5" />
+          </Button>
+        </div>
       </div>
       <div className="py-10">
         <DataTable 
-          columns={columns(openModal, openModalConfirm)} 
+          columns={columns(openModal, openModalConfirm, getCheckedRows)} 
           data={data}
         />
       </div>
@@ -87,8 +116,10 @@ const Users = () => {
 
       {modalConfirmIsOpen && (
         <ModalConfirm
-          title={selectedUser ? `Delete User ${selectedUser.name}` : "Delete Selected User's"} 
-          message="This data will be permanently lost, Are you sure you want to do this action?"
+          title={selectedUser ? `Delete User ${selectedUser.name}` : "Bulk Delete"} 
+          message={selectedUser 
+            ? "This data will be permanently lost, Are you sure you want to do this action?" 
+            : `You have selected ${selectedIds.length} user(s) for deletion, and their data will be permanently lost. Are you sure you want to proceed?`} 
           onConfirm={() => handleDeleteUser(selectedIds)}
           isLoading={isDeleting}
           action="delete"

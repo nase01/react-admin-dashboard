@@ -17,7 +17,8 @@ import { User } from "@/types";
 
 export const columns = (
   openModal: (user?: User) => void,
-  openModalConfirm: (id: string[], user?: User) => void
+  openModalConfirm: (id: string[], user?: User) => void,
+  getCheckedRows: (id: string) => void
 ): ColumnDef<User>[] => [
   {
     id: "select",
@@ -27,7 +28,18 @@ export const columns = (
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value) => {
+          table.toggleAllPageRowsSelected(!!value)
+
+          setTimeout(() => {
+            const selectedIds = table
+              .getSelectedRowModel()
+              .rows.map((row) => getCheckedRows(row.original.id));
+
+            selectedIds.length === 0 && getCheckedRows(""); 
+            
+          }, 0);
+        }}
         aria-label="Select all"
         className="translate-y-[2px] shad-checkbox"
       />
@@ -35,7 +47,10 @@ export const columns = (
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onCheckedChange={(value) => {
+          row.toggleSelected(!!value)
+          getCheckedRows(row.original.id)
+        }}
         aria-label="Select row"
         className="translate-y-[2px] shad-checkbox"
       />
