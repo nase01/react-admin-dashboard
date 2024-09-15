@@ -18,7 +18,8 @@ import { User } from "@/types";
 export const columns = (
   openModal: (user?: User) => void,
   openModalConfirm: (id: string[], user?: User) => void,
-  getCheckedRows: (id: string) => void
+  getCheckedRows: (id: string) => void,
+  selectedIds: string | string[]
 ): ColumnDef<User>[] => [
   {
     id: "select",
@@ -29,16 +30,19 @@ export const columns = (
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
         onCheckedChange={(value) => {
-          table.toggleAllPageRowsSelected(!!value)
-
+          table.toggleAllPageRowsSelected(!!value);
+          /* 
+            Clearing getCheckedRows before selecting all rows, 
+            you're ensuring that the previous selections are reset, 
+            and then you accurately pass the selected rows again after 
+            toggling the "Select All" checkbox.
+          */
+          getCheckedRows(""); 
+          
           setTimeout(() => {
-            const selectedIds = table
-              .getSelectedRowModel()
-              .rows.map((row) => getCheckedRows(row.original.id));
-
-            selectedIds.length === 0 && getCheckedRows(""); 
-            
+            table.getSelectedRowModel().rows.map((row) => getCheckedRows(row.original.id));
           }, 0);
+
         }}
         aria-label="Select all"
         className="translate-y-[2px] shad-checkbox"
@@ -46,7 +50,7 @@ export const columns = (
     ),
     cell: ({ row }) => (
       <Checkbox
-        checked={row.getIsSelected()}
+        checked={selectedIds.includes(row.original.id)}
         onCheckedChange={(value) => {
           row.toggleSelected(!!value)
           getCheckedRows(row.original.id)

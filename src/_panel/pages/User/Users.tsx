@@ -44,25 +44,26 @@ const Users = () => {
 
     toast.success("User successfully deleted", toastConfig);
 
-    // Clear State
+    // Reset states after deletion
     setModalConfirmIsOpen(false);
     setSelectedIds([]);
     setSelectedUser(undefined);
   };
 
-  // Open ModalUser
+  // Open ModalUser for Creating and Editing
   const openModal = (user?: User) => {
     setSelectedUser(user);
     setModalIsOpen(true);
   };
 
-  // Open ModelConfirm
+  // Open ModalConfirm for Deletion
   const openModalConfirm = (ids: string[], user?: User) => {
     setSelectedIds(ids);
     setSelectedUser(user);
     setModalConfirmIsOpen(true);
   };
 
+  // Add or Remove checked rows data id to the selectedIds 
   const getCheckedRows = (id: string) => {
     if (id === "") {
       setSelectedIds([]); 
@@ -77,8 +78,6 @@ const Users = () => {
     }
   }
 
-  console.log(pageSize)
-  
   return (
     <>
       <div className="flex justify-between items-start">
@@ -101,18 +100,22 @@ const Users = () => {
           </Button>
         </div>
       </div>
+
       <div className="py-10">
         <DataTable 
-          columns={columns(openModal, openModalConfirm, getCheckedRows)} 
+          columns={columns(openModal, openModalConfirm, getCheckedRows, selectedIds)} 
+          checkedRows={selectedIds}
           data={data}
         />
         <div className="flex items-center justify-between px-2 mt-4">
           <div className="flex-1 text-sm text-muted-foreground">
             {
-              `Total Users: ${totalUsersCount} ${selectedIds.length > 0 
+              `Total Records: ${totalUsersCount} ${selectedIds.length > 0 
               ? "(" + selectedIds.length + " Selected)" : "" }`  
             }
           </div>
+
+          {/* For server-side pagination */}
           <CustomPagination
             currentPage={currentPage}
             totalPages={totalPages}
@@ -122,6 +125,7 @@ const Users = () => {
           />
         </div>
       </div>
+
       {modalIsOpen && (
         <ModalUser
           userId={selectedUser?.id}
@@ -132,10 +136,9 @@ const Users = () => {
 
       {modalConfirmIsOpen && (
         <ModalConfirm
-          title={selectedUser ? `Delete User ${selectedUser.name}` : "Bulk Delete"} 
-          message={selectedUser 
-            ? "This data will be permanently lost, Are you sure you want to do this action?" 
-            : `You have selected ${selectedIds.length} user(s) for deletion, and their data will be permanently lost. Are you sure you want to proceed?`} 
+          title={`Delete User${selectedIds.length > 1 ? "s" : ""}`}
+          message={`You have selected ${selectedIds.length} user${selectedIds.length > 1 ? "s" : ""} 
+          for deletion, and their data will be permanently lost. Are you sure you want to proceed?`}
           onConfirm={() => handleDeleteUser(selectedIds)}
           isLoading={isDeleting}
           action="delete"

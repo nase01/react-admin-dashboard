@@ -29,18 +29,22 @@ import { Download } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[],
+  checkedRows: String[]
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  checkedRows
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
 
+
+  console.log(columns)
 
   const table = useReactTable({
     data,
@@ -101,7 +105,8 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={checkedRows.includes((row.original as { id: string }).id ) ? "selected" : undefined }
+                  data-row-index={row.id}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="py-2" key={cell.id}>
