@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { User } from "@/types";
 import { Trash2, UserPlus2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,10 +27,16 @@ const Users = () => {
   const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(pageSize, currentPage);
   const { data: usersCount, isLoading: isfetchingUsersCount } = useGetUsersCount();
   const { mutateAsync: deleteUsers, isPending: isDeleting } = useDeleteUsers();
+ 
+  useEffect(() => {
+    if (!modalConfirmIsOpen) {
+      setSelectedIds([]);
+    }
+  }, [modalConfirmIsOpen]);
 
   if (isfetchingUsersData || isfetchingUsersCount) return <Loader2 />;
   
-  const data = usersData as User[];
+  const data = usersData as User[] || [];
   const totalUsersCount = usersCount?.count || 0;
   const totalPages = Math.ceil(totalUsersCount / pageSize);
 
