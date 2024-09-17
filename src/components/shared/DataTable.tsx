@@ -22,21 +22,29 @@ import {
 } from "@/components/ui/table";
 
 import { Input } from "@/components/ui/input";
+import Loader from "@/components/shared/Loader";
 import { DataTableViewOptions } from "./DataTableViewOptions";
 // import { DataTablePagination } from "./DataTablePagination";
 import { Button } from "../ui/button";
 import { Download } from "lucide-react";
 
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
-  checkedRows: String[]
+  checkedRows: String[],
+  search: string; 
+  setSearch: (value: string) => void;
+  isLoading: Boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  checkedRows
+  checkedRows,
+  search,
+  setSearch,
+  isLoading
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -64,11 +72,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center justify-between">
         <div className="flex flex-1 items-center space-x-2">
           <Input
-            placeholder="Search name..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
+            placeholder="Search name or email..."
+            value={search} // Bind to the search input
+            onChange={(event) => setSearch(event.target.value)} // Update search state
             className="h-8 w-[150px] lg:w-[250px] shad-input"
           />
         </div>
@@ -115,7 +121,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  {isLoading ? <Loader /> : search !== "" ? `No search results for ${search}` : "No results." }
                 </TableCell>
               </TableRow>
             )}
