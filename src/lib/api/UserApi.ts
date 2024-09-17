@@ -26,11 +26,13 @@ export async function getUsers(pageSize: number, currentPage: number, search?: a
 	try {
 		const jwt = getJwt();
 
+		const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
+
 		const response = await fetch(`${API_BASE_URL}/admin/admins
 			?perPage=${pageSize}
 			&currentPage=${currentPage}
-			${search !== "" && `&search=${search}`}
-			&sort=createdAt`, {
+			&sort=createdAt
+			${searchParam}`, {
 			method: "GET",
 			headers: {
 				"Authorization": `Bearer ${jwt}`,
@@ -51,9 +53,9 @@ export async function getUsersCount(search?: any) {
 	try {
 		const jwt = getJwt();
 		
-		const queryParam = search ? `?search=${encodeURIComponent(search)}` : "";
+		const searchParam = search ? `?search=${encodeURIComponent(search)}` : "";
 	
-		const response = await fetch(`${API_BASE_URL}/admin/admins/count${queryParam}`, {
+		const response = await fetch(`${API_BASE_URL}/admin/admins/count${searchParam}`, {
 			method: "GET",
 			headers: {
 				"Authorization": `Bearer ${jwt}`,
