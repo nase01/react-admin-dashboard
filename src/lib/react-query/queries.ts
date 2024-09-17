@@ -53,17 +53,17 @@ export const useGetCurrentUser = () => {
 	});
 };
 
-export const useGetUsersCount = () => {
+export const useGetUsersCount = (search?: any) => {
 	return useQuery({
-		queryKey: [QUERY_KEYS.GET_USERS_COUNT],
-		queryFn: getUsersCount,
+		queryKey: [QUERY_KEYS.GET_USERS_COUNT, search],
+		queryFn:  () => getUsersCount(search),
 	});
 };
 
-export const useGetUsers = (pageSize: number, currentPage: number) => {
+export const useGetUsers = (pageSize: number, currentPage: number, search?: any) => {
 	return useQuery({
-		queryKey: [QUERY_KEYS.GET_USERS, pageSize, currentPage],
-		queryFn: () => getUsers(pageSize, currentPage)
+		queryKey: [QUERY_KEYS.GET_USERS, pageSize, currentPage, search],
+		queryFn: () => getUsers(pageSize, currentPage, search)
 	});
 };
 

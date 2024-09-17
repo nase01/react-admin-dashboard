@@ -21,14 +21,16 @@ export async function getCurrentUser() {
 	}
 }
 
-export async function getUsers(pageSize: number, currentPage: number) {
+export async function getUsers(pageSize: number, currentPage: number, search?: any) {
 	
 	try {
 		const jwt = getJwt();
 
 		const response = await fetch(`${API_BASE_URL}/admin/admins
 			?perPage=${pageSize}
-			&currentPage=${currentPage}`, {
+			&currentPage=${currentPage}
+			${search !== "" && `&search=${search}`}
+			&sort=createdAt`, {
 			method: "GET",
 			headers: {
 				"Authorization": `Bearer ${jwt}`,
@@ -44,12 +46,14 @@ export async function getUsers(pageSize: number, currentPage: number) {
 	}
 }
 
-export async function getUsersCount() {
+export async function getUsersCount(search?: any) {
 	
 	try {
 		const jwt = getJwt();
-
-		const response = await fetch(`${API_BASE_URL}/admin/admins/count`, {
+		
+		const queryParam = search ? `?search=${encodeURIComponent(search)}` : "";
+	
+		const response = await fetch(`${API_BASE_URL}/admin/admins/count${queryParam}`, {
 			method: "GET",
 			headers: {
 				"Authorization": `Bearer ${jwt}`,

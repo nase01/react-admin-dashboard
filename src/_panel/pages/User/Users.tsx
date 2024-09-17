@@ -19,12 +19,13 @@ import ModalConfirm from "@/components/shared/ModalConfirm";
 const Users = () => {
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
   const [selectedUser, setSelectedUser] = useState<User | undefined>(undefined);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { modalIsOpen, setModalIsOpen } = useModalIsOpen();
   const { modalConfirmIsOpen, setModalConfirmIsOpen } = useModalConfirmIsOpen();
   
-  const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(pageSize, currentPage);
+  const { data: usersData, isLoading: isfetchingUsersData } = useGetUsers(pageSize, currentPage, search);
   const { data: usersCount, isLoading: isfetchingUsersCount } = useGetUsersCount();
   const { mutateAsync: deleteUsers, isPending: isDeleting } = useDeleteUsers();
  
