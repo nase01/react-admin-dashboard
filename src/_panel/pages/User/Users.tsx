@@ -15,6 +15,7 @@ import { columns } from "@/_panel/pages/User/Columns";
 import { DataTable } from "@/components/shared/DataTable";
 import ModalConfirm from "@/components/shared/ModalConfirm";
 import useDebounce from "@/hooks/useDebounce";
+import Tooltip from "@/components/shared/Tooltip";
 
 const Users = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -95,17 +96,21 @@ const Users = () => {
           icon={Users2}
         />
         <div className="flex gap-2">
-          <Button onClick={() => openModal()} variant="secondary" className="shad-button gap-2">
-            <UserPlus2 className="w-5" />
-            <span className="max-md:hidden"> Create User</span>
-          </Button>
-          <Button  
-            variant="secondary" 
-            disabled={selectedIds.length === 0} 
-            onClick={() => openModalConfirm(selectedIds)}
-            className="shad-button gap-2">
-            <Trash2 className="text-danger hover:text-danger w-5" />
-          </Button>
+          <Tooltip message={"Create User"}>
+            <Button onClick={() => openModal()} variant="secondary" className="shad-button gap-2">
+              <UserPlus2 className="w-5" />
+              <span className="max-md:hidden"> Create User</span>
+            </Button>
+          </Tooltip>
+          <Tooltip message={"Delete User(s)"}>
+            <Button  
+              variant="secondary" 
+              disabled={selectedIds.length === 0} 
+              onClick={() => openModalConfirm(selectedIds)}
+              className="shad-button gap-2">
+              <Trash2 className="text-danger hover:text-danger w-5" />
+            </Button>
+          </Tooltip>
         </div>
       </div>
 
