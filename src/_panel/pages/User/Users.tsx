@@ -98,8 +98,7 @@ const Users = () => {
         <div className="flex gap-2">
           <Tooltip message={"Create User"}>
             <Button onClick={() => openModal()} variant="secondary" className="shad-button gap-2">
-              <UserPlus2 className="w-5" />
-              <span className="max-md:hidden"> Create User</span>
+              <UserPlus2  />
             </Button>
           </Tooltip>
           <Tooltip message={"Delete User(s)"}>
@@ -108,7 +107,7 @@ const Users = () => {
               disabled={selectedIds.length === 0} 
               onClick={() => openModalConfirm(selectedIds)}
               className="shad-button gap-2">
-              <Trash2 className="text-danger hover:text-danger w-5" />
+              <Trash2 className="text-danger hover:text-danger" />
             </Button>
           </Tooltip>
         </div>
