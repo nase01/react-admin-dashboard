@@ -15,6 +15,7 @@ This project is a simple front-end starter template for building admin dashboard
 - **Custom Error**: Customizable unauthorized and not found page with automatic redirection.
 - **Organized File/Folder Structure**: Easy to read, scalable, reusable and maintanable code base.
 - **Light/Dark Mode**: Can switch between light and dark theme.
+- **Server-side search and paginations**: Modified ShadCN data table to do a server-side search filtering and pagination for scalability.
 
 ## Installation
 
