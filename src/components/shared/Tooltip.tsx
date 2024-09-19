@@ -35,7 +35,7 @@ export default function Tooltip({ message, children, position = "top" }: Tooltip
     <div className="group relative flex">
       {children}
       <span
-        className={`absolute scale-0 transition-all rounded-md p-2 bg-indigo-50 dark:bg-slate-900 text-indigo-800 dark:text-white z-50 text-sm group-hover:scale-100 whitespace-nowrap ${positionClasses}`}
+        className={`absolute scale-0 transition-all rounded-md py-1 px-2 bg-indigo-50 dark:bg-slate-900 text-indigo-800 dark:text-white z-50 text-xs group-hover:scale-100 whitespace-nowrap ${positionClasses}`}
       >
         {message}
         <span className={`absolute w-0 h-0 border-8 border-transparent ${arrowClasses}`} ></span>
