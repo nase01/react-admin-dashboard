@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-import { DataTableColumnHeader } from "@/components/shared/DataTableHeader";
+import { DataTableColumnHeader } from "@/components/DataTableHeader";
 import { Checkbox } from "@/components/ui/checkbox";
 import { User } from "@/types";
 

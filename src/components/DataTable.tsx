@@ -26,7 +26,7 @@ import Loader from "@/components/shared/Loader";
 import Tooltip from "@/components/shared/Tooltip";
 import { DataTableViewOptions } from "./DataTableViewOptions";
 // import { DataTablePagination } from "./DataTablePagination";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 import { Download } from "lucide-react";
 
 
