@@ -4,7 +4,7 @@ import { Trash2, UserPlus2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
-import CustomPagination from "@/components/shared/CustomPagination";
+import CustomPagination from "@/components/CustomPagination";
 import { toastConfig } from "@/constants";
 import toast from "react-hot-toast";
 import { Heading } from "@/components/Heading";
@@ -12,8 +12,8 @@ import ModalUser from "@/components/ModalUser";
 import { useModalConfirmIsOpen, useModalIsOpen } from "@/components/ToggleProvider";
 
 import { columns } from "@/_panel/pages/User/Columns";
-import { DataTable } from "@/components/shared/DataTable";
-import ModalConfirm from "@/components/shared/ModalConfirm";
+import { DataTable } from "@/components/DataTable";
+import ModalConfirm from "@/components/ModalConfirm";
 import useDebounce from "@/hooks/useDebounce";
 import Tooltip from "@/components/shared/Tooltip";
 

@@ -17,8 +17,8 @@ const Unauthorized = () => {
   }, [location.pathname]);
 
   return (
-		<div className="m-5 p-10 max-w-[650px] border border-red-700 shadow-lg rounded-lg">
-			<h2 className="mb-5 text-2xl font-extrabold text-red-700">401</h2>
+		<div className="m-5 p-10 max-w-[650px] border border-danger shadow-lg rounded-lg bg-indigo-50 dark:bg-slate-900">
+			<h2 className="mb-5 text-2xl font-extrabold text-danger">401 - Unauthorized</h2>
 			You do not have the right access to view the page you want to visit. Please contact your administrator if you believe this is an error.
 			<div className="mt-10">
 				<Button size="sm" onClick={handleBackToDashboard}>
