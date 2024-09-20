@@ -37,6 +37,10 @@ const Users = () => {
     }
   }, [modalConfirmIsOpen]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [pageSize]);
+
   const isFetching = isfetchingUsersData || isfetchingUsersCount;
   
   const data = usersData as User[] || [];
