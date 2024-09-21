@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
 
-import { User } from "@/types";
+import { SubMenuItem, User } from "@/types";
 import { getCurrentUser } from "@/lib/api/UserApi";
 import { getJwt, getJwtPayload, matchRoute } from '@/lib/utils';
 import { signOut } from "@/lib/api/AuthApi";
@@ -103,24 +103,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (isAuthenticated) {
       const currentRoute = window.location.pathname;
-      
-      const currentNavLink = navLinks.find(link => matchRoute(link.route, currentRoute)); 
+      const mainLinks = navLinks;
+      const subLinks: SubMenuItem[] = [];
+
+      mainLinks.forEach(route => {
+        if (route.subMenu && route.subMenu.length > 0) {
+          subLinks.push(...route.subMenu);
+        }
+      });
+
+      const currentNavLink = mainLinks.find(link => matchRoute(link.route, currentRoute)); 
+      const currentSubNavLink = subLinks.find(subLink => matchRoute(subLink.route, currentRoute)); 
+
       const ipWhitelist = user.ipWhitelist
       
       if (currentNavLink) {
         const allowedRoles = currentNavLink.restrictions;
         
-        const hasAccess = 
+        const allowedMainLink = 
           user.role === "super" || 
           allowedRoles.length === 0 || 
-          allowedRoles.includes(user.role); 
+          allowedRoles.includes(user.role);
+
+        const allowedSubLink = currentNavLink?.route === "*"
+          ? !!currentSubNavLink 
+          : true;
 
         const isIpAllowed = 
           !ipWhitelist || 
           ipWhitelist.length === 0 || 
           ipWhitelist.includes(user.ip);
 
-        if (!hasAccess) {
+        if (!allowedMainLink || !allowedSubLink) {
           navigate("/unauthorized");
         } else if (
           !user.active || 
