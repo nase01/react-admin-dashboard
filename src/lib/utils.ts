@@ -78,6 +78,7 @@ export const updatePageTitle = (location: Location) => {
 
 export const getNavLinks = () => {
   const jwtPayload = getJwtPayload();
+  const role = jwtPayload?.role;
 
   return navLinks.filter((link) => {
     if (link.hidden) return false;
@@ -85,15 +86,37 @@ export const getNavLinks = () => {
 
     if (!jwtPayload) return false;
 
-    const { role } = jwtPayload;
     const { restrictions } = link;
 
     if (role === "super") return true;
 
     if (restrictions.length === 0) return true;
-    if (restrictions.includes(role)) return true;
+    if (role && restrictions.includes(role)) return true;
 
     return false;
+  }).map((link) => {
+    // Filter the subMenu if it exists
+    if (link.subMenu) {
+      link.subMenu = link.subMenu.filter((subLink) => {
+        const { restrictions: subRestrictions } = subLink;
+
+        if (role === "super") return true;
+
+        if (subRestrictions.length === 0) return true;
+        if (role && subRestrictions.includes(role)) return true;
+
+        return false;
+      });
+    }
+
+    return link;
+  })
+  .filter((link) => {
+    // If the link has a subMenu, only include it if the submenu is not empty
+    if (link.subMenu && link.subMenu.length === 0) {
+      return false;
+    }
+    return true;
   });
 };
 

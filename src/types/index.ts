@@ -9,9 +9,10 @@ export type NavLink = {
 };
 
 export type SubMenuItem = {
+	icon?: React.ComponentType;
 	label: string;
 	route: string;
-	icon?: React.ComponentType;
+	restrictions: string[];
 };
 
 export type User = {
