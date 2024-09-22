@@ -103,50 +103,62 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (isAuthenticated) {
       const currentRoute = window.location.pathname;
-      const mainLinks = navLinks;
-      const subLinks: SubMenuItem[] = [];
-
-      mainLinks.forEach(route => {
+      
+      const mainRoutes = navLinks;
+      const subRoutes: SubMenuItem[] = [];
+  
+      mainRoutes.forEach(route => {
         if (route.subMenu && route.subMenu.length > 0) {
-          subLinks.push(...route.subMenu);
+          subRoutes.push(...route.subMenu);
         }
       });
-
-      const currentNavLink = mainLinks.find(link => matchRoute(link.route, currentRoute)); 
-      const currentSubNavLink = subLinks.find(subLink => matchRoute(subLink.route, currentRoute)); 
-
-      const ipWhitelist = user.ipWhitelist
-      
-      if (currentNavLink) {
-        const allowedRoles = currentNavLink.restrictions;
-        
-        const allowedMainLink = 
-          user.role === "super" || 
-          allowedRoles.length === 0 || 
-          allowedRoles.includes(user.role);
-
-        const allowedSubLink = currentNavLink?.route === "*"
-          ? !!currentSubNavLink 
-          : true;
-
-        const isIpAllowed = 
-          !ipWhitelist || 
-          ipWhitelist.length === 0 || 
-          ipWhitelist.includes(user.ip);
-
-        if (!allowedMainLink || !allowedSubLink) {
+  
+      const matchedRoute = mainRoutes.find(item => matchRoute(item.route, currentRoute));
+      const matchedSubRoute = subRoutes.find(item => matchRoute(item.route, currentRoute));
+  
+      const ipWhitelist = user.ipWhitelist;
+  
+      // If a main route exists, check if the user has permission to access it
+      if (matchedRoute) {
+        const allowedMainLink =
+          user.role === "super" ||
+          matchedRoute.restrictions.length === 0 ||
+          matchedRoute.restrictions.includes(user.role);
+  
+        // Navigate to /unauthorized if not allowed to access main link
+        if (!allowedMainLink) {
           navigate("/unauthorized");
-        } else if (
-          !user.active || 
-          jwtPayload?.role != user.role || 
-          !isIpAllowed) {
-            signOut();
-            setIsAuthenticated(false);
-            setUser(INITIAL_USER);
-            navigate("/sign-in");
-        } else if (user.pwForceChange) {
-          navigate("/panel/settings/pwchange");
+          return;
         }
+      }
+  
+      // If a sub route exists, check if the user has permission to access it
+      if (matchedSubRoute) {
+        const allowedSubLink =
+          user.role === "super" ||
+          matchedSubRoute.restrictions.length === 0 ||
+          matchedSubRoute.restrictions.includes(user.role);
+  
+        // Navigate to /unauthorized if not allowed to access sub link
+        if (!allowedSubLink) {
+          navigate("/unauthorized");
+          return;
+        }
+      }
+  
+      // Check IP whitelist and other conditions
+      const isIpAllowed =
+        !ipWhitelist ||
+        ipWhitelist.length === 0 ||
+        ipWhitelist.includes(user.ip);
+  
+      if (!user.active || jwtPayload?.role !== user.role || !isIpAllowed) {
+        signOut();
+        setIsAuthenticated(false);
+        setUser(INITIAL_USER);
+        navigate("/sign-in");
+      } else if (user.pwForceChange) {
+        navigate("/panel/settings/pwchange");
       }
     }
   }, [isAuthenticated, user, navigate]);

@@ -3,15 +3,14 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { useSidebarExpanded, useActiveSubMenu } from "@/components/ToggleProvider";
 import { useEffect } from "react";
-import { getNavLinks, updatePageTitle } from "@/lib/utils";
-
+import { getAllowedLinks, updatePageTitle } from "@/lib/utils";
 
 const Sidebar = () => {
 	const navigate = useNavigate();
   const location = useLocation();
 	const { sidebarExpanded } = useSidebarExpanded();
   const { activeSubMenu, setActiveSubMenu } = useActiveSubMenu();
-  const navLinks = getNavLinks();
+  const navLinks = getAllowedLinks();
   
 	const toggleSubMenu = (item: any) => {
     if (activeSubMenu === item.label) {
