@@ -9,10 +9,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+// Get jwt value stored on local storate
 export const getJwt = (): string | null => {
 	return localStorage.getItem('jwt');
 };
 
+// Decode JWT values
 export const getJwtPayload = (): JwtPayload | null => {
   const token = getJwt();
 
@@ -29,6 +31,7 @@ export const getJwtPayload = (): JwtPayload | null => {
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+// Update page title by concatinating navLink's label and app title
 export const updatePageTitle = (location: Location) => {
   let title = "RPanel";
 
@@ -76,27 +79,57 @@ export const updatePageTitle = (location: Location) => {
   document.title = title;
 };
 
-export const getNavLinks = () => {
+// Filter allowed links on navLInks base on user role
+export const getAllowedLinks = (): NavLink[] => {
   const jwtPayload = getJwtPayload();
+  const role = jwtPayload?.role;
 
-  return navLinks.filter((link) => {
-    if (link.hidden) return false;
-    if (!link.requiresAuth) return true;
+  // Filter for subMenu items of type SubMenuItem
+  const filterSubMenu = (subMenu: SubMenuItem[]): SubMenuItem[] => {
+    return subMenu.filter((item) => {
+      if (!jwtPayload) return false; // SubMenu items require authentication
+      const { restrictions } = item;
 
-    if (!jwtPayload) return false;
+      if (role === "super") return true;
+      if (restrictions.length === 0) return true;
+      if (role && restrictions.includes(role)) return true;
 
-    const { role } = jwtPayload;
-    const { restrictions } = link;
+      return false;
+    });
+  };
 
-    if (role === "super") return true;
+  // Filter for top-level NavLink items
+  const filterLinks = (links: NavLink[]): NavLink[] => {
+    return links
+      .filter((link) => {
+        if (link.hidden) return false;
+        if (!link.requiresAuth) return true;
+        if (!jwtPayload) return false;
 
-    if (restrictions.length === 0) return true;
-    if (restrictions.includes(role)) return true;
+        const { restrictions } = link;
 
-    return false;
-  });
+        if (role === "super") return true;
+        if (restrictions.length === 0) return true;
+        if (role && restrictions.includes(role)) return true;
+
+        return false;
+      })
+      .map((link) => {
+        // If the link has a subMenu, apply the SubMenu-specific filtering
+        if (link.subMenu) {
+          return {
+            ...link,
+            subMenu: filterSubMenu(link.subMenu), // Filter subMenu using filterSubMenu
+          };
+        }
+        return link;
+      });
+  };
+
+  return filterLinks(navLinks);
 };
 
+// Check current route if exist on navLinks
 export const matchRoute = (routePattern: string, path: string): boolean => {
   const pattern = routePattern
     .replace(/:[^\s/]+/g, '[^/]+') 
@@ -105,6 +138,7 @@ export const matchRoute = (routePattern: string, path: string): boolean => {
   return regex.test(path);
 };
 
+// Convert string of ipWhitelist seperated with line breaks in to array strings
 export const parseIPWhitelist = (ipWhitelist?: string): string[] => {
   return ipWhitelist
     ? ipWhitelist
@@ -114,6 +148,7 @@ export const parseIPWhitelist = (ipWhitelist?: string): string[] => {
     : [];                           
 };
 
+// Capitalize first character of each word
 export const ucFirst = (word: string) => {
   if (!word) return '';
   return word.charAt(0).toUpperCase() + word.slice(1);

@@ -16,12 +16,16 @@ import {
     > ["super"] = Allowed super users only
     > subMenu: [
       { 
+        icon: icon,
         route: "/item1", 
         label: "Item 1",
+        restrictions: []
       },
       { 
+        icon: icon,
         route: "/item2", 
         label: "Item 2",
+        restrictions: []
       },
     ]
         
@@ -64,11 +68,13 @@ export const navLinks: NavLink[] = [
         route: "/panel/settings/account", 
         label: "Account Settings",
         icon: UserCog,
+        restrictions: []
       },
       { 
         route: "/panel/settings/pwchange", 
         label: "Password Change",
-        icon: LockKeyhole
+        icon: LockKeyhole,
+        restrictions: []
       }
     ]
   },
