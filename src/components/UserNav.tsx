@@ -36,12 +36,14 @@ const UserNav = () => {
     updatePageTitle(location); 
   }, [location.pathname]);
  
+  const defaultAvatar = "/assets/avatars/default-avatar.png";
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="rounded-full dark:hover:border-gray-600" size="icon">
-          <Avatar className="w-8 h-8" >
-            <AvatarImage src="/assets/default-avatar.png" />
+          <Avatar className="w-9 h-9" >
+            <AvatarImage src={defaultAvatar} />
             <AvatarFallback>
               <div className="skeleton-loader w-full h-full rounded-full"></div>
             </AvatarFallback>
