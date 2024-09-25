@@ -23,7 +23,7 @@ const UserNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { setUser, setIsAuthenticated } = useUserContext();
-  const { data: currentUser } = useGetCurrentUser();
+  const { data: currentUser, isLoading } = useGetCurrentUser();
 
   const handleSignOut = async () => {
     signOut();
@@ -36,21 +36,23 @@ const UserNav = () => {
     updatePageTitle(location); 
   }, [location.pathname]);
  
-  const defaultAvatar = "/assets/avatars/default-avatar.png";
-
+  const defaultAvatar =  "/assets/avatars/default-avatar.png";
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="rounded-full dark:hover:border-gray-600" size="icon">
           <Avatar className="w-9 h-9" >
-            <AvatarImage src={defaultAvatar} />
+            <AvatarImage src={isLoading ? "" : currentUser.imageUrl?.trim() || defaultAvatar}  />
             <AvatarFallback>
-              <div className="skeleton-loader w-full h-full rounded-full"></div>
+              {isLoading && (
+                <div className="skeleton-loader w-full h-full rounded-full"></div>
+              )} 
             </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 " align="end" forceMount>
+      <DropdownMenuContent className="w-full " align="end" forceMount>
         {!currentUser ? <div className="p-5"><Loader /></div>: (
           <>
             <DropdownMenuLabel className="font-normal p-2">

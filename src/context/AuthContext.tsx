@@ -17,6 +17,7 @@ export const INITIAL_USER = {
   pwForceChange: false,
   ip: "",
   ipWhitelist: [],
+  imageUrl: "",
 };
 
 const INITIAL_STATE = {
@@ -56,6 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if(jwt) {
         const currentAdmin = await getCurrentUser();
         if (currentAdmin) {
+          console.log(currentAdmin)
           setUser({
             id: currentAdmin.$id,
             name: currentAdmin.name,
@@ -66,6 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             pwForceChange: currentAdmin.pwForceChange,
             ip: currentAdmin.ip,
             ipWhitelist: currentAdmin.ipWhitelist,
+            imageUrl: currentAdmin.imageUrl
           });
 
           setIsAuthenticated(true);
