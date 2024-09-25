@@ -25,6 +25,7 @@ export type User = {
 	pwForceChange: boolean;
 	ip: string;
 	ipWhitelist: string[];
+	imageUrl: string;
 };
 
 export type UserDTO = Omit<User, "id" | "accountType" | "ip"> & {
