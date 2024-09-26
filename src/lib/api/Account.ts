@@ -12,7 +12,7 @@ export async function accountUpdate(userData: any) {
 			...userData,
 			ipWhitelist: ipWhitelistArray,
 		};
-
+		
 		const response = await fetch(`${API_BASE_URL}/admin/account/update`, {
 			method: "PUT",
 			headers: {
