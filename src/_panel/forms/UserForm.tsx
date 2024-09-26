@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/select";
 import { UserFormProps } from "@/types";
 import toast from "react-hot-toast";
-import { toastConfig } from "@/constants";
+import { presetAvatars, toastConfig } from "@/constants";
 import { Icons } from "@/components/ui/icons";
 import { useModalIsOpen, useModalIsLoading } from "@/components/ToggleProvider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "user-create" }) => {
   const navigate = useNavigate();
@@ -32,6 +32,9 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
   const { mutateAsync: accountUpdate, isPending: isUpdatingAccount } = useAccountUpdate();
   const { setModalIsOpen } = useModalIsOpen();
   const { setModalIsLoading } = useModalIsLoading();
+  const [selectedAvatar, setSelectedAvatar] = useState<string>(
+    userData?.imageUrl || "/assets/avatars/default-avatar.png"
+  );
 
   const isProcessing = isCreatingUser || isUpdatingUser || isUpdatingAccount;
   
@@ -58,11 +61,15 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
   });
 
   const handleSubmitAction = async (formData: z.infer<typeof UserValidation>) => {
-    
+    const formDataWithAvatar = {
+      ...formData,
+      imageUrl: selectedAvatar, // Always submit the selected avatar
+    };
+
     const response = userAction === "account-edit"
-    ? await accountUpdate(formData) : userId 
-    ? await editUser({ id: userId, user: formData })
-    : await createUser(formData);
+    ? await accountUpdate(formDataWithAvatar) : userId 
+    ? await editUser({ id: userId, user: formDataWithAvatar })
+    : await createUser(formDataWithAvatar);
 
     if (response?.errors) {
       toast.error(response.errors[0].detail, toastConfig);
@@ -84,6 +91,10 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
   const handleCancel = () => {
     setModalIsOpen(false);
   }
+
+  const handleAvatarClick = (path: string | "") => {
+    setSelectedAvatar(path); // Set selected avatar path or null for 'None'
+  };
 
   useEffect(() => {
     setModalIsLoading(isProcessing);
@@ -206,6 +217,25 @@ const UserForm: React.FC<UserFormProps> = ({ userId, userData, userAction = "use
             </FormItem>
           )}
         />
+
+        <div>
+          <FormLabel className="shad-form_label">Avatar:</FormLabel>
+          <div className="overflow-x-auto w-full">
+            <div className="flex items-center gap-2 py-2">
+              {presetAvatars.map((avatar) => (
+                <div
+                  key={avatar.fileName}
+                  className={`cursor-pointer shrink-0 p-2 border-2 rounded-md transition-transform duration-300 ease-in-out ${
+                    selectedAvatar === avatar.path ? "border-main -translate-y-1 shadow-sm" : "border-gray-300 dark:border-slate-800"
+                  }`}
+                  onClick={() => handleAvatarClick(avatar.path)}
+                >
+                  <img src={avatar.path} alt={avatar.fileName} className="w-12 h-12 rounded-full" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {userAction !== "account-edit"  && (
           <div className="max-w-[50%]">

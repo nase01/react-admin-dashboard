@@ -1,4 +1,4 @@
-import { NavLink } from "@/types";
+import { NavLink, PresetAvatars } from "@/types";
 import {
   LayoutDashboard,
   LockKeyhole,
@@ -103,3 +103,34 @@ export const toastConfig = {
     color: "#fff",
   }
 };
+
+export const presetAvatars: PresetAvatars[] = [
+  { 
+    fileName: "default-avatar.png",
+    path: "/assets/avatars/default-avatar.png"
+  },
+  { 
+    fileName: "preset-avatar-female-01.png",
+    path: "/assets/avatars/preset-avatar-female-01.png"
+  },
+  { 
+    fileName: "preset-avatar-female-02.png",
+    path: "/assets/avatars/preset-avatar-female-02.png"
+  },
+  { 
+    fileName: "preset-avatar-female-03.png",
+    path: "/assets/avatars/preset-avatar-female-03.png"
+  },
+  { 
+    fileName: "preset-avatar-male-01.png",
+    path: "/assets/avatars/preset-avatar-male-01.png"
+  },
+  { 
+    fileName: "preset-avatar-male-02.png",
+    path: "/assets/avatars/preset-avatar-male-02.png"
+  },
+  { 
+    fileName: "preset-avatar-male-03.png",
+    path: "/assets/avatars/preset-avatar-male-03.png"
+  },
+]

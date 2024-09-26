@@ -49,3 +49,8 @@ export type JwtPayload = {
   iat: number;
   exp: number;
 }
+
+export type PresetAvatars = {
+	fileName: string;
+	path: string;
+};

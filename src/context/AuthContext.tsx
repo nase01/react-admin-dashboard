@@ -57,7 +57,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if(jwt) {
         const currentAdmin = await getCurrentUser();
         if (currentAdmin) {
-          console.log(currentAdmin)
           setUser({
             id: currentAdmin.$id,
             name: currentAdmin.name,
