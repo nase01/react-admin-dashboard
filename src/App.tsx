@@ -9,7 +9,7 @@ import PanelLayout from "@/_panel/PanelLayout";
 import Dashboard from "@/_panel/pages/Dashboard/Dashboard";
 import Users from "@/_panel/pages/User/Users";
 import AccountSettings from "@/_panel/pages/Settings/AccountSettings";
-import UserLogs from "@/_panel/pages/Reports/UserLog/UserLogs";
+import AdminLogs from "@/_panel/pages/Reports/AdminLogs/AdminLogs";
 import AccountPWChange from "@/_panel/pages/Settings/AccountPWChange";
 
 import ErrorLayout from "@/_error/ErrorLayout";
@@ -30,7 +30,7 @@ const App = () => {
         <Route element={<PanelLayout />}>
           <Route path="/panel/dashboard" element={<Dashboard />} />
           <Route path="/panel/users" element={<Users />} />
-          <Route path="/panel/reports/user-logs" element={<UserLogs />} />
+          <Route path="/panel/reports/admin/logs" element={<AdminLogs />} />
           <Route path="/panel/settings/account" element={<AccountSettings />} />
           <Route path="/panel/settings/pwchange" element={<AccountPWChange />} />
         </Route>

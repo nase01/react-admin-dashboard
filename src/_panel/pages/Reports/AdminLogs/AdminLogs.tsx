@@ -2,16 +2,16 @@
 import { Heading } from "@/components/Heading";
 import { BookUser } from "lucide-react";
 
-const Dashboard = () => {
+const AdminLogs = () => {
   return (
     <div>
       <Heading
-        title="User Logs"
-        description="Monitor user's activity"
+        title="Admin Logs"
+        description="List of user admin activities"
         icon={BookUser}
       />
     </div>
   )
 }
 
-export default Dashboard
+export default AdminLogs

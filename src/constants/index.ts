@@ -66,8 +66,8 @@ export const navLinks: NavLink[] = [
     hidden: false,
     subMenu: [
       { 
-        route: "/panel/reports/user-logs", 
-        label: "User Logs",
+        route: "/panel/reports/admin/logs", 
+        label: "Admin Logs",
         icon: BarChartHorizontal,
         restrictions: ["super"]
       },
