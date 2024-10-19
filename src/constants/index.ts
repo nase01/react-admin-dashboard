@@ -62,7 +62,7 @@ export const navLinks: NavLink[] = [
     label: "Reports",
     icon: BarChartHorizontal,
     requiresAuth: true,
-    restrictions: [],
+    restrictions: ["super"],
     hidden: false,
     subMenu: [
       { 
