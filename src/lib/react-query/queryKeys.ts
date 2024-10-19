@@ -11,5 +11,8 @@ export enum QUERY_KEYS {
 	// ACCOUNT KEYS
 	ACCOUNT_UPDATE = "accountUpdate",
 	ACCOUNT_PW_CHANGE = "accountPWChange",
+
+	// ADMIN LOGS KEYS
+	GET_ADMIN_LOGS = "getAdminLogs",
+	GET_ADMIN_LOGS_COUNT = "getAdminLogsCount",
 }
-  
