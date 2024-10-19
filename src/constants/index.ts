@@ -5,6 +5,7 @@ import {
   Settings,
   UserCog,
   Users2,
+  BarChartHorizontal
 } from "lucide-react";
 
 /*
@@ -55,6 +56,22 @@ export const navLinks: NavLink[] = [
     requiresAuth: true,
     restrictions: ["super"],
     hidden: false
+  },
+  { 
+    route: "/panel/reports", 
+    label: "Reports",
+    icon: BarChartHorizontal,
+    requiresAuth: true,
+    restrictions: ["super"],
+    hidden: false,
+    subMenu: [
+      { 
+        route: "/panel/reports/admin/logs", 
+        label: "Admin Logs",
+        icon: BarChartHorizontal,
+        restrictions: ["super"]
+      },
+    ]
   },
   { 
     route: "/panel/settings", 

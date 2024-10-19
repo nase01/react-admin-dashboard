@@ -34,7 +34,7 @@ import { Download } from "lucide-react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
-  checkedRows: String[],
+  checkedRows?: String[],
   search: string; 
   setSearch: (value: string) => void;
   isLoading: Boolean;
@@ -112,7 +112,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={checkedRows.includes((row.original as { id: string }).id ) ? "selected" : undefined }
+                  data-state={checkedRows && checkedRows.includes((row.original as { id: string }).id ) ? "selected" : undefined }
                   data-row-index={row.id}
                 >
                   {row.getVisibleCells().map((cell) => (

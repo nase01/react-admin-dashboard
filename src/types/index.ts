@@ -54,3 +54,8 @@ export type PresetAvatars = {
 	fileName: string;
 	path: string;
 };
+
+export type Logs = {
+	info: string;
+	createdAt: Date;
+};
