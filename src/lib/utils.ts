@@ -153,3 +153,10 @@ export const ucFirst = (word: string) => {
   if (!word) return '';
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
+
+// Function to format date
+export function numberFormat(value: number, withComma = true) {
+  return withComma 
+  ? value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  : value.toFixed(2);
+}

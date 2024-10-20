@@ -26,6 +26,7 @@ export type User = {
 	ip: string;
 	ipWhitelist: string[];
 	imageUrl: string;
+	createdAt: Date;
 };
 
 export type UserDTO = Omit<User, "id" | "accountType" | "ip"> & {
