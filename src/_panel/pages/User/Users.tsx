@@ -16,6 +16,7 @@ import { DataTable } from "@/components/DataTable";
 import ModalConfirm from "@/components/ModalConfirm";
 import useDebounce from "@/hooks/useDebounce";
 import Tooltip from "@/components/shared/Tooltip";
+import { generateUsersExcel } from "@/lib/exporter/excel";
 
 const Users = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -91,6 +92,19 @@ const Users = () => {
     }
   }
 
+  const handleExportData = (type: string) => {
+    if(usersData) {
+      
+      let title = "RPanel - Users"; 
+
+      if(type === "excel") {
+        generateUsersExcel(title, usersData)
+      } else {
+        // generateUsersPdf(title, usersData)
+      }
+    }
+  }
+
   return (
     <>
       <div className="flex justify-between items-start">
@@ -125,6 +139,7 @@ const Users = () => {
           search={search}
           setSearch={setSearch}
           isLoading={isFetching}
+          exportData={handleExportData}
         />
         <div className="flex items-center justify-between px-2 mt-4">
           <div className="flex-1 text-sm text-muted-foreground">

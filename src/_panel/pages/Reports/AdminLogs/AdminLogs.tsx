@@ -10,6 +10,7 @@ import { BookUser } from "lucide-react";
 import CustomPagination from "@/components/CustomPagination";
 import { columns } from "@/_panel/pages/Reports/AdminLogs/Columns";
 import { DataTable } from "@/components/DataTable";
+import { generateLogsExcel } from "@/lib/exporter/excel";
 
 const AdminLogs = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -25,6 +26,19 @@ const AdminLogs = () => {
   const data = logsData as Logs[] || [];
   const totalLogsCount = logsCount?.count || 0;
   const totalPages = Math.ceil(totalLogsCount / pageSize);
+
+  const handleExportData = (type: string) => {
+    if(logsData) {
+      
+      let title = "RPanel - Admin Logs"; 
+
+      if(type === "excel") {
+        generateLogsExcel(title, logsData)
+      } else {
+        // generateUsersPdf(title, usersData)
+      }
+    }
+  }
   
   return (
     <div>
@@ -40,6 +54,7 @@ const AdminLogs = () => {
           search={search}
           setSearch={setSearch}
           isLoading={isFetching}
+          exportData={handleExportData}
         />
         <div className="flex items-center justify-between px-2 mt-4">
           <div className="flex-1 text-sm text-muted-foreground">
