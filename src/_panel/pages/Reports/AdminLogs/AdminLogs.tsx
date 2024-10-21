@@ -6,11 +6,11 @@ import { useGetAdminLogs, useGetAdminLogsCount } from "@/lib/react-query/queries
 import { Logs } from "@/types";
 import { BookUser } from "lucide-react";
 
-
 import CustomPagination from "@/components/CustomPagination";
 import { columns } from "@/_panel/pages/Reports/AdminLogs/Columns";
 import { DataTable } from "@/components/DataTable";
 import { generateLogsExcel } from "@/lib/exporter/excel";
+import { generateLogsPdf } from "@/lib/exporter/pdf";
 
 const AdminLogs = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -35,7 +35,7 @@ const AdminLogs = () => {
       if(type === "excel") {
         generateLogsExcel(title, logsData)
       } else {
-        // generateUsersPdf(title, usersData)
+        generateLogsPdf(title, logsData)
       }
     }
   }

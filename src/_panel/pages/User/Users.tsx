@@ -17,6 +17,7 @@ import ModalConfirm from "@/components/ModalConfirm";
 import useDebounce from "@/hooks/useDebounce";
 import Tooltip from "@/components/shared/Tooltip";
 import { generateUsersExcel } from "@/lib/exporter/excel";
+import { generateUsersPdf } from "@/lib/exporter/pdf";
 
 const Users = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -100,7 +101,7 @@ const Users = () => {
       if(type === "excel") {
         generateUsersExcel(title, usersData)
       } else {
-        // generateUsersPdf(title, usersData)
+        generateUsersPdf(title, usersData)
       }
     }
   }
