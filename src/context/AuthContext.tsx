@@ -18,6 +18,7 @@ export const INITIAL_USER = {
   ip: "",
   ipWhitelist: [],
   imageUrl: "",
+  createdAt: new Date()
 };
 
 const INITIAL_STATE = {
@@ -67,7 +68,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             pwForceChange: currentAdmin.pwForceChange,
             ip: currentAdmin.ip,
             ipWhitelist: currentAdmin.ipWhitelist,
-            imageUrl: currentAdmin.imageUrl
+            imageUrl: currentAdmin.imageUrl,
+            createdAt: currentAdmin.createdAt
           });
 
           setIsAuthenticated(true);

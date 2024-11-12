@@ -154,9 +154,9 @@ export const ucFirst = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
-// Makes number into amount
+// Function to format date
 export function numberFormat(value: number, withComma = true) {
   return withComma 
-    ? value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    : value.toFixed(2);
+  ? value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  : value.toFixed(2);
 }

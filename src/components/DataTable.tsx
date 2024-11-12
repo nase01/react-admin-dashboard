@@ -23,21 +23,20 @@ import {
 
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/shared/Loader";
-import Tooltip from "@/components/shared/Tooltip";
-import { DataTableViewOptions } from "./DataTableViewOptions";
+import { DataTableViewOptions } from "@/components/DataTableViewOptions";
 // import { DataTablePagination } from "./DataTablePagination";
-import { Button } from "./ui/button";
-import { Download } from "lucide-react";
+import { DataTableExport } from "@/components/DataTableExport";
 
 
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
-  checkedRows: String[],
+  checkedRows?: String[],
   search: string; 
   setSearch: (value: string) => void;
   isLoading: Boolean;
+  exportData?: (type: string) => void; 
 }
 
 export function DataTable<TData, TValue>({
@@ -46,7 +45,8 @@ export function DataTable<TData, TValue>({
   checkedRows,
   search,
   setSearch,
-  isLoading
+  isLoading,
+  exportData
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -81,11 +81,7 @@ export function DataTable<TData, TValue>({
           />
         </div>
         <DataTableViewOptions table={table} />
-        <Tooltip message="Export Data">
-          <Button  variant="ghost" size="sm"  className="ml-auto h-8 lg:flex">
-            <Download className="h-4 w-4" />
-          </Button>
-        </Tooltip>
+        <DataTableExport exportData={exportData}/>
       </div>
       <div className="rounded-lg border">
         <Table>
@@ -112,7 +108,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={checkedRows.includes((row.original as { id: string }).id ) ? "selected" : undefined }
+                  data-state={checkedRows && checkedRows.includes((row.original as { id: string }).id ) ? "selected" : undefined }
                   data-row-index={row.id}
                 >
                   {row.getVisibleCells().map((cell) => (
