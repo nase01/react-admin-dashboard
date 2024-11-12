@@ -5,7 +5,6 @@ import { Card } from "./ui/card"
 import Tooltip from "./shared/Tooltip"
 import { useGetCurrentUser } from "@/lib/react-query/queries";
 import { ucFirst } from "@/lib/utils";
-import moment from "moment";
 
 const UserInfo = () => {
 	const navigate = useNavigate();
