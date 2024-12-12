@@ -1,10 +1,11 @@
-import { NavLink } from "@/types";
+import { NavLink, PresetAvatars } from "@/types";
 import {
   LayoutDashboard,
   LockKeyhole,
   Settings,
   UserCog,
   Users2,
+  BarChartHorizontal
 } from "lucide-react";
 
 /*
@@ -16,12 +17,16 @@ import {
     > ["super"] = Allowed super users only
     > subMenu: [
       { 
+        icon: icon,
         route: "/item1", 
         label: "Item 1",
+        restrictions: []
       },
       { 
+        icon: icon,
         route: "/item2", 
         label: "Item 2",
+        restrictions: []
       },
     ]
         
@@ -53,6 +58,22 @@ export const navLinks: NavLink[] = [
     hidden: false
   },
   { 
+    route: "/panel/reports", 
+    label: "Reports",
+    icon: BarChartHorizontal,
+    requiresAuth: true,
+    restrictions: ["super"],
+    hidden: false,
+    subMenu: [
+      { 
+        route: "/panel/reports/admin/logs", 
+        label: "Admin Logs",
+        icon: BarChartHorizontal,
+        restrictions: ["super"]
+      },
+    ]
+  },
+  { 
     route: "/panel/settings", 
     label: "Settings",
     icon: Settings,
@@ -64,11 +85,13 @@ export const navLinks: NavLink[] = [
         route: "/panel/settings/account", 
         label: "Account Settings",
         icon: UserCog,
+        restrictions: []
       },
       { 
         route: "/panel/settings/pwchange", 
         label: "Password Change",
-        icon: LockKeyhole
+        icon: LockKeyhole,
+        restrictions: []
       }
     ]
   },
@@ -97,3 +120,34 @@ export const toastConfig = {
     color: "#fff",
   }
 };
+
+export const presetAvatars: PresetAvatars[] = [
+  { 
+    fileName: "default-avatar.png",
+    path: "/assets/avatars/default-avatar.png"
+  },
+  { 
+    fileName: "preset-avatar-female-01.png",
+    path: "/assets/avatars/preset-avatar-female-01.png"
+  },
+  { 
+    fileName: "preset-avatar-female-02.png",
+    path: "/assets/avatars/preset-avatar-female-02.png"
+  },
+  { 
+    fileName: "preset-avatar-female-03.png",
+    path: "/assets/avatars/preset-avatar-female-03.png"
+  },
+  { 
+    fileName: "preset-avatar-male-01.png",
+    path: "/assets/avatars/preset-avatar-male-01.png"
+  },
+  { 
+    fileName: "preset-avatar-male-02.png",
+    path: "/assets/avatars/preset-avatar-male-02.png"
+  },
+  { 
+    fileName: "preset-avatar-male-03.png",
+    path: "/assets/avatars/preset-avatar-male-03.png"
+  },
+]

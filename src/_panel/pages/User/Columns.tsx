@@ -1,8 +1,5 @@
-"use client";
-
 import { ColumnDef } from "@tanstack/react-table";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,9 +8,10 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-import { DataTableColumnHeader } from "@/components/shared/DataTableHeader";
+import { DataTableColumnHeader } from "@/components/DataTableHeader";
 import { Checkbox } from "@/components/ui/checkbox";
 import { User } from "@/types";
+import moment from "moment";
 
 export const columns = (
   openModal: (user?: User) => void,
@@ -91,6 +89,9 @@ export const columns = (
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="CreatedAt" />
     ),
+    cell: ({ row }) => {
+      return moment(row.original.createdAt).format("YYYY-MM-DD HH:mm:ss");
+    },
     enableSorting: true,
     enableHiding: true
   },

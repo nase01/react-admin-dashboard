@@ -9,9 +9,10 @@ export type NavLink = {
 };
 
 export type SubMenuItem = {
+	icon?: React.ComponentType;
 	label: string;
 	route: string;
-	icon?: React.ComponentType;
+	restrictions: string[];
 };
 
 export type User = {
@@ -24,6 +25,8 @@ export type User = {
 	pwForceChange: boolean;
 	ip: string;
 	ipWhitelist: string[];
+	imageUrl: string;
+	createdAt: Date;
 };
 
 export type UserDTO = Omit<User, "id" | "accountType" | "ip"> & {
@@ -47,3 +50,13 @@ export type JwtPayload = {
   iat: number;
   exp: number;
 }
+
+export type PresetAvatars = {
+	fileName: string;
+	path: string;
+};
+
+export type Logs = {
+	info: string;
+	createdAt: Date;
+};

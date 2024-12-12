@@ -3,12 +3,12 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { ChevronRight, XCircle } from "lucide-react";
 import { useMobileMenuToggle, useActiveSubMenu } from "@/components/ToggleProvider";
 import { Button } from "@/components/ui/button";
-import { getNavLinks } from "@/lib/utils";
+import { getAllowedLinks } from "@/lib/utils";
 
 const SidebarMobile = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const navLinks = getNavLinks();
+  const navLinks = getAllowedLinks();
   const { mobileMenuToggle, setMobileMenuToggle } = useMobileMenuToggle();
   const { activeSubMenu, setActiveSubMenu } = useActiveSubMenu();
 

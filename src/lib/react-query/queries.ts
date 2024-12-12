@@ -7,7 +7,7 @@ import {
 import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/AuthApi"
 import { createUser, deleteUsers, editUser, getCurrentUser, getUserById, getUsers, getUsersCount} from "@/lib/api/UserApi";
 import { accountPWChange, accountUpdate } from "@/lib/api/Account";
-
+import { getAdminLogs, getAdminLogsCount } from "@/lib//api/AdminLogs";
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 
 
@@ -145,5 +145,24 @@ export const useAccountPWChange = () => {
 					queryKey: [QUERY_KEYS.GET_CURRENT_USER], /* Refetch updated user data */
 				});
 			}
+	});
+};
+
+
+// ============================================================
+// ADMIN LOGS QUERIES
+// ============================================================
+
+export const useGetAdminLogsCount = (search?: any) => {
+	return useQuery({
+		queryKey: [QUERY_KEYS.GET_ADMIN_LOGS_COUNT, search],
+		queryFn:  () => getAdminLogsCount(search),
+	});
+};
+
+export const useGetAdminLogs = (pageSize: number, currentPage: number, search?: any) => {
+	return useQuery({
+		queryKey: [QUERY_KEYS.GET_ADMIN_LOGS, pageSize, currentPage, search],
+		queryFn: () => getAdminLogs(pageSize, currentPage, search)
 	});
 };

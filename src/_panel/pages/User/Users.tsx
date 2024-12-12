@@ -4,7 +4,7 @@ import { Trash2, UserPlus2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUsers, useGetUsersCount, useDeleteUsers } from "@/lib/react-query/queries";
 
-import CustomPagination from "@/components/shared/CustomPagination";
+import CustomPagination from "@/components/CustomPagination";
 import { toastConfig } from "@/constants";
 import toast from "react-hot-toast";
 import { Heading } from "@/components/Heading";
@@ -12,10 +12,12 @@ import ModalUser from "@/components/ModalUser";
 import { useModalConfirmIsOpen, useModalIsOpen } from "@/components/ToggleProvider";
 
 import { columns } from "@/_panel/pages/User/Columns";
-import { DataTable } from "@/components/shared/DataTable";
-import ModalConfirm from "@/components/shared/ModalConfirm";
+import { DataTable } from "@/components/DataTable";
+import ModalConfirm from "@/components/ModalConfirm";
 import useDebounce from "@/hooks/useDebounce";
 import Tooltip from "@/components/shared/Tooltip";
+import { generateUsersExcel } from "@/lib/exporter/excel";
+import { generateUsersPdf } from "@/lib/exporter/pdf";
 
 const Users = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -91,6 +93,19 @@ const Users = () => {
     }
   }
 
+  const handleExportData = (type: string) => {
+    if(usersData) {
+      
+      let title = "RPanel - Users"; 
+
+      if(type === "excel") {
+        generateUsersExcel(title, usersData)
+      } else {
+        generateUsersPdf(title, usersData)
+      }
+    }
+  }
+
   return (
     <>
       <div className="flex justify-between items-start">
@@ -125,6 +140,7 @@ const Users = () => {
           search={search}
           setSearch={setSearch}
           isLoading={isFetching}
+          exportData={handleExportData}
         />
         <div className="flex items-center justify-between px-2 mt-4">
           <div className="flex-1 text-sm text-muted-foreground">
