@@ -8,6 +8,7 @@ import { signIn, signOut, sendPWResetToken, passwordReset } from "@/lib/api/Auth
 import { createUser, deleteUsers, editUser, getCurrentUser, getUserById, getUsers, getUsersCount} from "@/lib/api/UserApi";
 import { accountPWChange, accountUpdate } from "@/lib/api/Account";
 import { getAdminLogs, getAdminLogsCount } from "@/lib//api/AdminLogs";
+import { uploadFile } from "@/lib/api/FileServiceApi";
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 
 
@@ -164,5 +165,14 @@ export const useGetAdminLogs = (pageSize: number, currentPage: number, search?: 
 	return useQuery({
 		queryKey: [QUERY_KEYS.GET_ADMIN_LOGS, pageSize, currentPage, search],
 		queryFn: () => getAdminLogs(pageSize, currentPage, search)
+	});
+};
+
+// ============================================================
+// FILE SERVICE QUERIES
+// ============================================================
+export const useUploadFile = () => {
+	return useMutation({
+		mutationFn: (file: File) => uploadFile(file),
 	});
 };
