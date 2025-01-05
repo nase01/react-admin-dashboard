@@ -4,6 +4,7 @@ import { ChevronRight, XCircle } from "lucide-react";
 import { useMobileMenuToggle, useActiveSubMenu } from "@/components/ToggleProvider";
 import { Button } from "@/components/ui/button";
 import { getAllowedLinks } from "@/lib/utils";
+import Version from "@/components/shared/Version";
 
 const SidebarMobile = () => {
   const navigate = useNavigate();
@@ -112,6 +113,9 @@ const SidebarMobile = () => {
               ))}
             </ul>
           </div>
+					<div className="fixed bottom-0 left-0 py-2 bg-white dark:bg-slate-950 w-72 text-center ">
+						<Version />
+					</div>
         </nav>
       </div>
     </div>
