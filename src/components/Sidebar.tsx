@@ -118,7 +118,7 @@ const Sidebar = () => {
 								))}
 							</ul>
 					</div>
-					<div className="fixed bottom-0 left-0 py-2 bg-white dark:bg-slate-950 w-72 text-center ">
+					<div className={`fixed bottom-0 left-0 py-2 bg-white dark:bg-slate-950 text-center ${sidebarExpanded ? "w-72" : "w-16 "} `}>
 						<Version />
 					</div>
 				</nav>
