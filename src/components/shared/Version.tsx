@@ -13,7 +13,7 @@ const Version = () => {
   }, [tag]);
 
   return (
-		<Link to="/about/releases" className="shad-link">
+		<Link to="/about/releases" className="shad-link font-bold">
 			{latestVersion}
 		</Link>
   )
