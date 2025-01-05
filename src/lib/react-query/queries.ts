@@ -9,6 +9,7 @@ import { createUser, deleteUsers, editUser, getCurrentUser, getUserById, getUser
 import { accountPWChange, accountUpdate } from "@/lib/api/Account";
 import { getAdminLogs, getAdminLogsCount } from "@/lib//api/AdminLogs";
 import { uploadFile } from "@/lib/api/FileServiceApi";
+import { getLatestVersion, getReleases } from "@/lib/api/GithubApi";
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 
 
@@ -174,5 +175,22 @@ export const useGetAdminLogs = (pageSize: number, currentPage: number, search?: 
 export const useUploadFile = () => {
 	return useMutation({
 		mutationFn: (file: File) => uploadFile(file),
+	});
+};
+
+// ============================================================
+// GITHUB QUERIES
+// ============================================================
+export const useGetLatestVersion = (repo: string) => {
+	return useQuery({
+		queryKey: [QUERY_KEYS.GET_LATEST_VERSION, repo],
+		queryFn: () => getLatestVersion(repo)
+	});
+};
+
+export const useGetReleases = (repo: string, tag?: string) => {
+	return useQuery({
+		queryKey: [QUERY_KEYS.GET_LATEST_VERSION, repo, tag],
+		queryFn: () => getReleases(repo, tag)
 	});
 };

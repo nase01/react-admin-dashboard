@@ -32,6 +32,8 @@ export const getJwtPayload = (): JwtPayload | null => {
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const FILEUPLOAD_API_BASE_URL= import.meta.env.VITE_FILEUPLOAD_API_BASE_URL;
 export const FILEUPLOAD_API_KEY= import.meta.env.VITE_FILEUPLOAD_API_KEY;
+export const GITHUB_CLIENT_REPO= import.meta.env.VITE_GITHUB_CLIENT_REPO;
+export const GITHUB_SERVER_REPO= import.meta.env.VITE_GITHUB_SERVER_REPO;
 
 // Update page title by concatinating navLink's label and app title
 export const updatePageTitle = (location: Location) => {

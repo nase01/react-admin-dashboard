@@ -15,4 +15,8 @@ export enum QUERY_KEYS {
 	// ADMIN LOGS KEYS
 	GET_ADMIN_LOGS = "getAdminLogs",
 	GET_ADMIN_LOGS_COUNT = "getAdminLogsCount",
+
+	// GITHUB KEYS
+	GET_LATEST_VERSION="getLatestVersion",
+	GET_RELEASES = "getReleases"
 }
