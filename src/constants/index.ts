@@ -5,7 +5,8 @@ import {
   Settings,
   UserCog,
   Users2,
-  BarChartHorizontal
+  BarChartHorizontal,
+  Info
 } from "lucide-react";
 
 /*
@@ -94,6 +95,14 @@ export const navLinks: NavLink[] = [
         restrictions: []
       }
     ]
+  },
+  { 
+    route: "/about/releases", 
+    label: "Version Releases",
+    icon: Info,
+    requiresAuth: false,
+    restrictions: [],
+    hidden: true
   },
   { 
     route: "/unauthorized", 

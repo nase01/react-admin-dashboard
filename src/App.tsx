@@ -12,6 +12,9 @@ import AccountSettings from "@/_panel/pages/Settings/AccountSettings";
 import AdminLogs from "@/_panel/pages/Reports/AdminLogs/AdminLogs";
 import AccountPWChange from "@/_panel/pages/Settings/AccountPWChange";
 
+import AboutLayout from "@/_about/AboutLayout";
+import Releases from "@/_about/pages/releases";
+
 import ErrorLayout from "@/_error/ErrorLayout";
 import Unauthorized from "@/_error/pages/Unauthorized";
 import NotFound from "@/_error/pages/NotFound";
@@ -34,12 +37,14 @@ const App = () => {
           <Route path="/panel/settings/account" element={<AccountSettings />} />
           <Route path="/panel/settings/pwchange" element={<AccountPWChange />} />
         </Route>
+        <Route element={<AboutLayout />}>
+          <Route path="/about/releases" element={<Releases />} />
+        </Route>
         <Route element={<ErrorLayout />}>
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-
       <Toaster />
     </main>
   )
