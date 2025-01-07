@@ -13,7 +13,7 @@ import AdminLogs from "@/_panel/pages/Reports/AdminLogs/AdminLogs";
 import AccountPWChange from "@/_panel/pages/Settings/AccountPWChange";
 
 import AboutLayout from "@/_about/AboutLayout";
-import Releases from "@/_about/pages/releases";
+import Releases from "@/_about/pages/Releases";
 
 import ErrorLayout from "@/_error/ErrorLayout";
 import Unauthorized from "@/_error/pages/Unauthorized";

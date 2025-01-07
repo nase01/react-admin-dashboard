@@ -60,3 +60,11 @@ export type Logs = {
 	info: string;
 	createdAt: Date;
 };
+
+export type Release = {
+	tag: string;
+	name: string;
+	body: string;
+	created_at: string;
+	published_at: string;
+}
